@@ -1,4 +1,4 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.album;
 
 public enum AlbumType {
 

@@ -6,8 +6,9 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.TestUtil;
 import com.wrapper.spotify.models.Page;
-import com.wrapper.spotify.models.SimpleAlbum;
 import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.album.SimpleAlbum;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

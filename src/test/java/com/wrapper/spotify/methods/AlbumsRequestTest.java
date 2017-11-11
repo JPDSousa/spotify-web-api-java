@@ -6,6 +6,11 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.TestUtil;
 import com.wrapper.spotify.models.*;
+import com.wrapper.spotify.models.album.Album;
+import com.wrapper.spotify.models.album.AlbumType;
+import com.wrapper.spotify.models.artist.SimpleArtist;
+import com.wrapper.spotify.models.track.SimpleTrack;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

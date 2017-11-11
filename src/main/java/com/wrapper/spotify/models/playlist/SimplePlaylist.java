@@ -1,20 +1,23 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.playlist;
 
 import java.util.List;
 
-public class Playlist {
+import com.wrapper.spotify.models.ExternalUrls;
+import com.wrapper.spotify.models.Image;
+import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.user.User;
+
+public class SimplePlaylist {
 
   private boolean collaborative;
-  private String description;
   private ExternalUrls externalUrls;
-  private Followers followers;
   private String href;
   private String id;
   private List<Image> images;
-  private String name;
   private User owner;
+  private String name;
   private boolean publicAccess;
-  private Page<PlaylistTrack> tracks;
+  private PlaylistTracksInformation tracks;
   private SpotifyEntityType type = SpotifyEntityType.PLAYLIST;
   private String uri;
 
@@ -26,28 +29,12 @@ public class Playlist {
     this.collaborative = collaborative;
   }
 
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
   public ExternalUrls getExternalUrls() {
     return externalUrls;
   }
 
   public void setExternalUrls(ExternalUrls externalUrls) {
     this.externalUrls = externalUrls;
-  }
-
-  public Followers getFollowers() {
-    return followers;
-  }
-
-  public void setFollowers(Followers followers) {
-    this.followers = followers;
   }
 
   public String getHref() {
@@ -66,14 +53,6 @@ public class Playlist {
     this.id = id;
   }
 
-  public List<Image> getImages() {
-    return images;
-  }
-
-  public void setImages(List<Image> images) {
-    this.images = images;
-  }
-
   public User getOwner() {
     return owner;
   }
@@ -88,6 +67,22 @@ public class Playlist {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isPublicAccess() {
+    return publicAccess;
+  }
+
+  public void setPublicAccess(boolean publicAccess) {
+    this.publicAccess = publicAccess;
+  }
+
+  public PlaylistTracksInformation getTracks() {
+    return tracks;
+  }
+
+  public void setTracks(PlaylistTracksInformation tracks) {
+    this.tracks = tracks;
   }
 
   public SpotifyEntityType getType() {
@@ -106,19 +101,11 @@ public class Playlist {
     this.uri = uri;
   }
 
-  public boolean isPublicAccess() {
-    return publicAccess;
+  public List<Image> getImages() {
+    return images;
   }
 
-  public void setPublicAccess(boolean publicAccess) {
-    this.publicAccess = publicAccess;
-  }
-
-  public Page<PlaylistTrack> getTracks() {
-    return tracks;
-  }
-
-  public void setTracks(Page<PlaylistTrack> tracks) {
-    this.tracks = tracks;
+  public void setImages(List<Image> images) {
+    this.images = images;
   }
 }

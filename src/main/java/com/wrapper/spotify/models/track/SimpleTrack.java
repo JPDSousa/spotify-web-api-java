@@ -1,6 +1,10 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.track;
 
 import java.util.List;
+
+import com.wrapper.spotify.models.ExternalUrls;
+import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.artist.SimpleArtist;
 
 public class SimpleTrack {
   private List<SimpleArtist> artists;

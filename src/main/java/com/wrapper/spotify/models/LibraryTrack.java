@@ -5,6 +5,8 @@ package com.wrapper.spotify.models;
 
 import java.util.Date;
 
+import com.wrapper.spotify.models.track.Track;
+
 public class LibraryTrack {
 
   private Date addedAt;

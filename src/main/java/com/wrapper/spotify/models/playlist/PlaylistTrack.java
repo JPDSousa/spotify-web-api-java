@@ -1,6 +1,9 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.playlist;
 
 import java.util.Date;
+
+import com.wrapper.spotify.models.track.Track;
+import com.wrapper.spotify.models.user.User;
 
 public class PlaylistTrack {
 

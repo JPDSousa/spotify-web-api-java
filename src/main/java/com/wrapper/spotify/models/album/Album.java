@@ -1,6 +1,15 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.album;
 
 import java.util.List;
+
+import com.wrapper.spotify.models.Copyright;
+import com.wrapper.spotify.models.ExternalIds;
+import com.wrapper.spotify.models.ExternalUrls;
+import com.wrapper.spotify.models.Image;
+import com.wrapper.spotify.models.Page;
+import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.artist.SimpleArtist;
+import com.wrapper.spotify.models.track.SimpleTrack;
 
 public class Album {
 

@@ -3,7 +3,8 @@ package com.wrapper.spotify.methods;
 import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.JsonUtil;
 import com.wrapper.spotify.exceptions.WebApiException;
-import com.wrapper.spotify.models.User;
+import com.wrapper.spotify.models.user.User;
+
 import net.sf.json.JSONObject;
 
 import java.io.IOException;

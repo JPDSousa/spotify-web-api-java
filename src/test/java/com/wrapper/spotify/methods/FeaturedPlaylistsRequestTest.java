@@ -10,7 +10,8 @@ import com.wrapper.spotify.Api;
 import com.wrapper.spotify.TestUtil;
 import com.wrapper.spotify.models.FeaturedPlaylists;
 import com.wrapper.spotify.models.Page;
-import com.wrapper.spotify.models.SimplePlaylist;
+import com.wrapper.spotify.models.playlist.SimplePlaylist;
+
 import org.junit.Test;
 
 import java.util.Calendar;

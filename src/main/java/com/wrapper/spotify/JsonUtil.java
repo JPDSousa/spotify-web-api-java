@@ -1,6 +1,19 @@
 package com.wrapper.spotify;
 
 import com.wrapper.spotify.models.*;
+import com.wrapper.spotify.models.album.Album;
+import com.wrapper.spotify.models.album.AlbumType;
+import com.wrapper.spotify.models.album.SimpleAlbum;
+import com.wrapper.spotify.models.artist.Artist;
+import com.wrapper.spotify.models.artist.SimpleArtist;
+import com.wrapper.spotify.models.playlist.Playlist;
+import com.wrapper.spotify.models.playlist.PlaylistTrack;
+import com.wrapper.spotify.models.playlist.PlaylistTracksInformation;
+import com.wrapper.spotify.models.playlist.SimplePlaylist;
+import com.wrapper.spotify.models.track.SimpleTrack;
+import com.wrapper.spotify.models.track.Track;
+import com.wrapper.spotify.models.user.User;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONNull;

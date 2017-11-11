@@ -1,8 +1,9 @@
 package com.wrapper.spotify;
 
-import com.wrapper.spotify.models.Album;
-import com.wrapper.spotify.models.Artist;
-import com.wrapper.spotify.models.Track;
+import com.wrapper.spotify.models.album.Album;
+import com.wrapper.spotify.models.artist.Artist;
+import com.wrapper.spotify.models.track.Track;
+
 import org.junit.Test;
 
 import java.net.URI;

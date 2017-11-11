@@ -1,4 +1,7 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.artist;
+
+import com.wrapper.spotify.models.ExternalUrls;
+import com.wrapper.spotify.models.SpotifyEntityType;
 
 public class SimpleArtist {
 

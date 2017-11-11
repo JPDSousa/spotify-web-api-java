@@ -1,6 +1,11 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.artist;
 
 import java.util.List;
+
+import com.wrapper.spotify.models.ExternalUrls;
+import com.wrapper.spotify.models.Followers;
+import com.wrapper.spotify.models.Image;
+import com.wrapper.spotify.models.SpotifyEntityType;
 
 public class Artist {
 
