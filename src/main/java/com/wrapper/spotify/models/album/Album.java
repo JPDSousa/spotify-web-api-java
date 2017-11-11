@@ -4,166 +4,87 @@ import java.util.List;
 
 import com.wrapper.spotify.models.Copyright;
 import com.wrapper.spotify.models.ExternalIds;
-import com.wrapper.spotify.models.ExternalUrls;
-import com.wrapper.spotify.models.Image;
 import com.wrapper.spotify.models.Page;
-import com.wrapper.spotify.models.SpotifyEntityType;
 import com.wrapper.spotify.models.artist.SimpleArtist;
 import com.wrapper.spotify.models.track.SimpleTrack;
 
-public class Album {
+@SuppressWarnings("javadoc")
+public class Album extends SimpleAlbum{
 
-  private AlbumType albumType;
-  private List<SimpleArtist> artists;
-  private List<String> availableMarkets;
-  private List<Copyright> copyrights;
-  private ExternalIds externalIds;
-  private ExternalUrls externalUrls;
-  private List<String> genres;
-  private String href;
-  private String id;
-  private List<Image> images;
-  private String name;
-  private int popularity;
-  private String releaseDate;
-  private String releaseDatePrecision;
-  private Page<SimpleTrack> tracks;
-  private SpotifyEntityType type = SpotifyEntityType.ALBUM;
-  private String uri;
+	private List<SimpleArtist> artists;
+	private List<Copyright> copyrights;
+	private ExternalIds externalIds;
+	private List<String> genres;
+	private int popularity;
+	private String releaseDate;
+	private String releaseDatePrecision;
+	private Page<SimpleTrack> tracks;
 
-  public AlbumType getAlbumType() {
-    return albumType;
-  }
+	public Album(String id) {
+		super(id);
+	}
 
-  public void setAlbumType(AlbumType albumType) {
-    this.albumType = albumType;
-  }
+	public List<SimpleArtist> getArtists() {
+		return artists;
+	}
 
-  public List<SimpleArtist> getArtists() {
-    return artists;
-  }
+	public void setArtists(List<SimpleArtist> artists) {
+		this.artists = artists;
+	}
 
-  public void setArtists(List<SimpleArtist> artists) {
-    this.artists = artists;
-  }
+	public List<Copyright> getCopyrights() {
+		return copyrights;
+	}
 
-  public List<String> getAvailableMarkets() {
-    return availableMarkets;
-  }
+	public void setCopyrights(List<Copyright> copyrights) {
+		this.copyrights = copyrights;
+	}
 
-  public void setAvailableMarkets(List<String> availableMarkets) {
-    this.availableMarkets = availableMarkets;
-  }
+	public ExternalIds getExternalIds() {
+		return externalIds;
+	}
 
-  public List<Copyright> getCopyrights() {
-    return copyrights;
-  }
+	public void setExternalIds(ExternalIds externalIds) {
+		this.externalIds = externalIds;
+	}
 
-  public void setCopyrights(List<Copyright> copyrights) {
-    this.copyrights = copyrights;
-  }
+	public List<String> getGenres() {
+		return genres;
+	}
 
-  public ExternalIds getExternalIds() {
-    return externalIds;
-  }
+	public void setGenres(List<String> genres) {
+		this.genres = genres;
+	}
 
-  public void setExternalIds(ExternalIds externalIds) {
-    this.externalIds = externalIds;
-  }
+	public int getPopularity() {
+		return popularity;
+	}
 
-  public ExternalUrls getExternalUrls() {
-    return externalUrls;
-  }
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
 
-  public void setExternalUrls(ExternalUrls externalUrls) {
-    this.externalUrls = externalUrls;
-  }
+	public Page<SimpleTrack> getTracks() {
+		return tracks;
+	}
 
-  public List<String> getGenres() {
-    return genres;
-  }
+	public void setTracks(Page<SimpleTrack> tracks) {
+		this.tracks = tracks;
+	}
 
-  public void setGenres(List<String> genres) {
-    this.genres = genres;
-  }
+	public String getReleaseDatePrecision() {
+		return releaseDatePrecision;
+	}
 
-  public String getHref() {
-    return href;
-  }
+	public void setReleaseDatePrecision(String releaseDatePrecision) {
+		this.releaseDatePrecision = releaseDatePrecision;
+	}
 
-  public void setHref(String href) {
-    this.href = href;
-  }
+	public String getReleaseDate() {
+		return releaseDate;
+	}
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public List<Image> getImages() {
-    return images;
-  }
-
-  public void setImages(List<Image> images) {
-    this.images = images;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public int getPopularity() {
-    return popularity;
-  }
-
-  public void setPopularity(int popularity) {
-    this.popularity = popularity;
-  }
-
-  public Page<SimpleTrack> getTracks() {
-    return tracks;
-  }
-
-  public void setTracks(Page<SimpleTrack> tracks) {
-    this.tracks = tracks;
-  }
-
-  public SpotifyEntityType getType() {
-    return type;
-  }
-
-  public void setType(SpotifyEntityType type) {
-    this.type = type;
-  }
-
-  public String getUri() {
-    return uri;
-  }
-
-  public void setUri(String uri) {
-    this.uri = uri;
-  }
-
-  public String getReleaseDatePrecision() {
-    return releaseDatePrecision;
-  }
-
-  public void setReleaseDatePrecision(String releaseDatePrecision) {
-    this.releaseDatePrecision = releaseDatePrecision;
-  }
-
-  public String getReleaseDate() {
-    return releaseDate;
-  }
-
-  public void setReleaseDate(String releaseDate) {
-    this.releaseDate = releaseDate;
-  }
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
 }

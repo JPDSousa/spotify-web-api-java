@@ -1,131 +1,79 @@
 package com.wrapper.spotify.models.playlist;
 
-import java.util.List;
-
-import com.wrapper.spotify.models.ExternalUrls;
 import com.wrapper.spotify.models.Followers;
-import com.wrapper.spotify.models.Image;
 import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.image.DefaultImageHolder;
 import com.wrapper.spotify.models.user.User;
 
-public class Playlist {
+@SuppressWarnings("javadoc")
+public class Playlist extends DefaultImageHolder {
 
-  private boolean collaborative;
-  private String description;
-  private ExternalUrls externalUrls;
-  private Followers followers;
-  private String href;
-  private String id;
-  private List<Image> images;
-  private String name;
-  private User owner;
-  private boolean publicAccess;
-  private Page<PlaylistTrack> tracks;
-  private SpotifyEntityType type = SpotifyEntityType.PLAYLIST;
-  private String uri;
+	private boolean collaborative;
+	private String description;
+	private Followers followers;
+	private String name;
+	private User owner;
+	private boolean publicAccess;
+	private Page<PlaylistTrack> tracks;
 
-  public boolean isCollaborative() {
-    return collaborative;
-  }
+	public Playlist(String id) {
+		super(SpotifyEntityType.PLAYLIST, id);
+	}
 
-  public void setCollaborative(boolean collaborative) {
-    this.collaborative = collaborative;
-  }
+	public boolean isCollaborative() {
+		return collaborative;
+	}
 
-  public String getDescription() {
-    return description;
-  }
+	public void setCollaborative(boolean collaborative) {
+		this.collaborative = collaborative;
+	}
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+	public String getDescription() {
+		return description;
+	}
 
-  public ExternalUrls getExternalUrls() {
-    return externalUrls;
-  }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-  public void setExternalUrls(ExternalUrls externalUrls) {
-    this.externalUrls = externalUrls;
-  }
+	public Followers getFollowers() {
+		return followers;
+	}
 
-  public Followers getFollowers() {
-    return followers;
-  }
+	public void setFollowers(Followers followers) {
+		this.followers = followers;
+	}
 
-  public void setFollowers(Followers followers) {
-    this.followers = followers;
-  }
+	public User getOwner() {
+		return owner;
+	}
 
-  public String getHref() {
-    return href;
-  }
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
 
-  public void setHref(String href) {
-    this.href = href;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public String getId() {
-    return id;
-  }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-  public void setId(String id) {
-    this.id = id;
-  }
+	public boolean isPublicAccess() {
+		return publicAccess;
+	}
 
-  public List<Image> getImages() {
-    return images;
-  }
+	public void setPublicAccess(boolean publicAccess) {
+		this.publicAccess = publicAccess;
+	}
 
-  public void setImages(List<Image> images) {
-    this.images = images;
-  }
+	public Page<PlaylistTrack> getTracks() {
+		return tracks;
+	}
 
-  public User getOwner() {
-    return owner;
-  }
-
-  public void setOwner(User owner) {
-    this.owner = owner;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public SpotifyEntityType getType() {
-    return type;
-  }
-
-  public void setType(SpotifyEntityType type) {
-    this.type = type;
-  }
-
-  public String getUri() {
-    return uri;
-  }
-
-  public void setUri(String uri) {
-    this.uri = uri;
-  }
-
-  public boolean isPublicAccess() {
-    return publicAccess;
-  }
-
-  public void setPublicAccess(boolean publicAccess) {
-    this.publicAccess = publicAccess;
-  }
-
-  public Page<PlaylistTrack> getTracks() {
-    return tracks;
-  }
-
-  public void setTracks(Page<PlaylistTrack> tracks) {
-    this.tracks = tracks;
-  }
+	public void setTracks(Page<PlaylistTrack> tracks) {
+		this.tracks = tracks;
+	}
 }

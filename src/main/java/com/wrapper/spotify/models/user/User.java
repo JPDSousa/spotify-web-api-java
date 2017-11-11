@@ -1,121 +1,69 @@
 package com.wrapper.spotify.models.user;
 
-import java.util.List;
-
-import com.wrapper.spotify.models.ExternalUrls;
 import com.wrapper.spotify.models.Followers;
-import com.wrapper.spotify.models.Image;
 import com.wrapper.spotify.models.Product;
 import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.image.DefaultImageHolder;
 
-public class User {
+@SuppressWarnings("javadoc")
+public class User extends DefaultImageHolder {
 
-  private String displayName;
-  private String email;
-  private ExternalUrls externalUrls;
-  private Followers followers;
-  private String href;
-  private String id;
-  private String country;
-  private List<Image> images;
-  private Product product;
-  private SpotifyEntityType type = SpotifyEntityType.USER;
-  private String uri;
-  private String birthdate;
+	private String displayName;
+	private String email;
+	private Followers followers;
+	private String country;
+	private Product product;
+	private String birthdate;
 
-  public String getDisplayName() {
-    return displayName;
-  }
+	public User(String id) {
+		super(SpotifyEntityType.USER, id);
+	}
 
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
-  }
+	public String getDisplayName() {
+		return displayName;
+	}
 
-  public String getEmail() {
-    return email;
-  }
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+	public String getEmail() {
+		return email;
+	}
 
-  public ExternalUrls getExternalUrls() {
-    return externalUrls;
-  }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-  public void setExternalUrls(ExternalUrls externalUrls) {
-    this.externalUrls = externalUrls;
-  }
+	public Product getProduct() {
+		return product;
+	}
 
-  public String getHref() {
-    return href;
-  }
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 
-  public void setHref(String href) {
-    this.href = href;
-  }
+	public String getCountry() {
+		return country;
+	}
 
-  public String getId() {
-    return id;
-  }
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
-  public void setId(String id) {
-    this.id = id;
-  }
+	public Followers getFollowers() {
+		return followers;
+	}
 
-  public List<Image> getImages() {
-    return images;
-  }
+	public void setFollowers(Followers followers) {
+		this.followers = followers;
+	}
 
-  public void setImages(List<Image> images) {
-    this.images = images;
-  }
+	public String getBirthdate() {
+		return birthdate;
+	}
 
-  public Product getProduct() {
-    return product;
-  }
-
-  public void setProduct(Product product) {
-    this.product = product;
-  }
-
-  public SpotifyEntityType getType() {
-    return type;
-  }
-
-  public void setType(SpotifyEntityType type) {
-    this.type = type;
-  }
-
-  public String getUri() {
-    return uri;
-  }
-
-  public void setUri(String uri) {
-    this.uri = uri;
-  }
-
-  public String getCountry() {
-    return country;
-  }
-
-  public void setCountry(String country) {
-    this.country = country;
-  }
-
-  public Followers getFollowers() {
-    return followers;
-  }
-
-  public void setFollowers(Followers followers) {
-    this.followers = followers;
-  }
-
-  public String getBirthdate() {
-    return birthdate;
-  }
-
-  public void setBirthdate(String birthdate) {
-    this.birthdate = birthdate;
-  }
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
+	}
 }

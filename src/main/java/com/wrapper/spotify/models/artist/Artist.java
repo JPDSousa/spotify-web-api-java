@@ -2,103 +2,55 @@ package com.wrapper.spotify.models.artist;
 
 import java.util.List;
 
-import com.wrapper.spotify.models.ExternalUrls;
 import com.wrapper.spotify.models.Followers;
 import com.wrapper.spotify.models.Image;
-import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.image.ImageHolder;
 
-public class Artist {
+@SuppressWarnings("javadoc")
+public class Artist extends SimpleArtist implements ImageHolder {
 
-  private ExternalUrls externalUrls;
-  private List<String> genres;
-  private String href;
-  private String id;
-  private List<Image> images;
-  private String name;
-  private int popularity;
-  private SpotifyEntityType type = SpotifyEntityType.ARTIST;
-  private String uri;
+	private List<String> genres;
+	private List<Image> images;
+	private int popularity;
 
-  public Followers getFollowers() {
-    return followers;
-  }
+	private Followers followers;
 
-  public void setFollowers(Followers followers) {
-    this.followers = followers;
-  }
+	public Artist(String id) {
+		super(id);
+	}
 
-  private Followers followers;
+	public Followers getFollowers() {
+		return followers;
+	}
 
-  public ExternalUrls getExternalUrls() {
-    return externalUrls;
-  }
+	public void setFollowers(Followers followers) {
+		this.followers = followers;
+	}
 
-  public void setExternalUrls(ExternalUrls externalUrls) {
-    this.externalUrls = externalUrls;
-  }
+	public List<String> getGenres() {
+		return genres;
+	}
 
-  public List<String> getGenres() {
-    return genres;
-  }
+	public void setGenres(List<String> genres) {
+		this.genres = genres;
+	}
 
-  public void setGenres(List<String> genres) {
-    this.genres = genres;
-  }
+	@Override
+	public List<Image> getImages() {
+		return images;
+	}
 
-  public String getHref() {
-    return href;
-  }
+	@Override
+	public void setImages(List<Image> images) {
+		this.images = images;
+	}
 
-  public void setHref(String href) {
-    this.href = href;
-  }
+	public int getPopularity() {
+		return popularity;
+	}
 
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public List<Image> getImages() {
-    return images;
-  }
-
-  public void setImages(List<Image> images) {
-    this.images = images;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public int getPopularity() {
-    return popularity;
-  }
-
-  public void setPopularity(int popularity) {
-    this.popularity = popularity;
-  }
-
-  public SpotifyEntityType getType() {
-    return type;
-  }
-
-  public void setType(SpotifyEntityType type) {
-    this.type = type;
-  }
-
-  public String getUri() {
-    return uri;
-  }
-
-  public void setUri(String uri) {
-    this.uri = uri;
-  }
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
 
 }
