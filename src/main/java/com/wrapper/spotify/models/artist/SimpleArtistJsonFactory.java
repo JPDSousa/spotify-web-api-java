@@ -1,6 +1,6 @@
 package com.wrapper.spotify.models.artist;
 
-import com.wrapper.spotify.models.json.SpotifyModelJsonFactory;
+import com.wrapper.spotify.json.SpotifyModelJsonFactory;
 
 import net.sf.json.JSONObject;
 

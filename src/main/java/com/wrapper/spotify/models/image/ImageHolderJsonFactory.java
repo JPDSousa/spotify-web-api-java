@@ -3,8 +3,8 @@ package com.wrapper.spotify.models.image;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wrapper.spotify.json.SpotifyModelJsonFactory;
 import com.wrapper.spotify.models.Image;
-import com.wrapper.spotify.models.json.SpotifyModelJsonFactory;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONNull;

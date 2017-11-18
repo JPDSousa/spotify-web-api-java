@@ -3,7 +3,7 @@ package com.wrapper.spotify.models.artist;
 import static com.wrapper.spotify.models.image.ImageHolderJsonFactory.*;
 
 import com.wrapper.spotify.models.Followers;
-import com.wrapper.spotify.models.json.SpotifyModelJsonFactory;
+import com.wrapper.spotify.json.SpotifyModelJsonFactory;
 
 import net.sf.json.JSONObject;
 

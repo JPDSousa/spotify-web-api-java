@@ -1,4 +1,4 @@
-package com.wrapper.spotify.models.json;
+package com.wrapper.spotify.json;
 
 import java.util.ArrayList;
 import java.util.List;
