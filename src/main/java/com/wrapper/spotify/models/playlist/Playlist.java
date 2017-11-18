@@ -1,6 +1,6 @@
 package com.wrapper.spotify.models.playlist;
 
-import com.wrapper.spotify.models.Followers;
+import com.wrapper.spotify.models.followers.Followers;
 import com.wrapper.spotify.models.page.Page;
 
 @SuppressWarnings("javadoc")

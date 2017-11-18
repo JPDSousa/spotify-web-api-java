@@ -1,5 +1,7 @@
 package com.wrapper.spotify.models;
 
+import com.wrapper.spotify.models.external.ExternalUrls;
+
 @SuppressWarnings("javadoc")
 public abstract class SpotifyModel {
 

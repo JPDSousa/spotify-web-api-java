@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wrapper.spotify.models.Copyright;
-import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.artist.SimpleArtist;
 import com.wrapper.spotify.models.artist.SimpleArtistJsonFactory;
 import com.wrapper.spotify.models.image.ImageHolderJsonFactory;
+import com.wrapper.spotify.models.page.Page;
+import com.wrapper.spotify.models.page.PageJsonFactory;
 import com.wrapper.spotify.models.track.SimpleTrack;
 import com.wrapper.spotify.models.track.SimpleTrackJsonFactory;
 
@@ -28,11 +29,13 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 	private final SimpleAlbumJsonFactory innerFactory;
 	private final SimpleTrackJsonFactory trackFactory;
 	private final SimpleArtistJsonFactory artistFactory;
+	private final PageJsonFactory<SimpleTrack> pageFactory;
 	
 	public AlbumJsonFactory() {
 		innerFactory = new SimpleAlbumJsonFactory();
 		trackFactory = new SimpleTrackJsonFactory();
 		artistFactory = new SimpleArtistJsonFactory();
+		pageFactory = new PageJsonFactory<>();
 	}
 	
 	@Override
@@ -74,23 +77,8 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 	}
 	
 	private Page<SimpleTrack> createSimpleTrackPage(JSONObject jsonObject) {
-		final Page<SimpleTrack> page = createItemlessSimpleTrackPage(jsonObject);
+		final Page<SimpleTrack> page = pageFactory.fromJson(jsonObject);
 		page.setItems(trackFactory.fromJson(jsonObject.getJSONArray(ITEMS)));
-		return page;
-	}
-	
-	private Page<SimpleTrack> createItemlessSimpleTrackPage(JSONObject pageJson) {
-		final Page<SimpleTrack> page = new Page<>();
-		page.setHref(pageJson.getString("href"));
-		page.setLimit(pageJson.getInt("limit"));
-		if (existsAndNotNull("next", pageJson)) {
-			page.setNext(pageJson.getString("next"));
-		}
-		page.setOffset(pageJson.getInt("offset"));
-		if (existsAndNotNull("previous", pageJson)) {
-			page.setPrevious(pageJson.getString("previous"));
-		}
-		page.setTotal(pageJson.getInt("total"));
 		return page;
 	}
 

@@ -2,7 +2,7 @@ package com.wrapper.spotify.models.artist;
 
 import java.util.List;
 
-import com.wrapper.spotify.models.Followers;
+import com.wrapper.spotify.models.followers.Followers;
 import com.wrapper.spotify.models.image.Image;
 import com.wrapper.spotify.models.image.ImageHolder;
 

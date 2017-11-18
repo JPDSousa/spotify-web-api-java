@@ -1,8 +1,8 @@
 package com.wrapper.spotify.models.user;
 
-import com.wrapper.spotify.models.Followers;
 import com.wrapper.spotify.models.Product;
 import com.wrapper.spotify.models.SpotifyEntityType;
+import com.wrapper.spotify.models.followers.Followers;
 import com.wrapper.spotify.models.image.DefaultImageHolder;
 
 @SuppressWarnings("javadoc")
