@@ -1,60 +1,33 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.albums;
 
-import com.google.common.base.Joiner;
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import static com.wrapper.spotify.methods.Paths.ALBUMS;
+
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.IdsBuilder;
 import com.wrapper.spotify.models.album.Album;
+import com.wrapper.spotify.models.album.AlbumJsonFactory;
 
 import net.sf.json.JSONObject;
 
-import java.io.IOException;
 import java.util.List;
 
-public class AlbumsRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class AlbumsRequest extends AbstractRequest<List<Album>> {
 
-  public AlbumsRequest(Builder builder) {
-    super(builder);
-  }
+	public static IdsBuilder<Album> builder() {
+		return new IdsBuilder<>(ALBUMS, AlbumsRequest::new);
+	}
+	
+	private final JsonFactory<Album> jsonFactory;
 
-  public SettableFuture<List<Album>> getAsync() {
-    SettableFuture<List<Album>> albumsFuture = SettableFuture.create();
+	public AlbumsRequest(IdsBuilder<Album> builder) {
+		super(builder);
+		jsonFactory = new AlbumJsonFactory();
+	}
 
-    try {
-      String jsonString = getJson();
-      JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-      albumsFuture.set(JsonUtil.createAlbums(jsonString));
-    } catch (Exception e) {
-      albumsFuture.setException(e);
-    }
-
-    return albumsFuture;
-  }
-
-  public List<Album> get() throws IOException, WebApiException {
-    String jsonString = getJson();
-    JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-    return JsonUtil.createAlbums(jsonString);
-  }
-
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder id(List<String> ids) {
-      assert (ids != null);
-      String idsParameter = Joiner.on(",").join(ids);
-      path("/v1/albums");
-      return parameter("ids", idsParameter);
-    }
-
-    public AlbumsRequest build() {
-      return new AlbumsRequest(this);
-    }
-
-  }
+	@Override
+	protected List<Album> fromJson(JSONObject jsonObject) {
+		return jsonFactory.fromJson(jsonObject.getJSONArray("albums"));
+	}
 }

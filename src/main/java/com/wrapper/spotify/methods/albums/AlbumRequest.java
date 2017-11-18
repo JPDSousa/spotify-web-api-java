@@ -1,43 +1,32 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.albums;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import static com.wrapper.spotify.methods.Paths.ALBUMS;
+
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.IdBuilder;
 import com.wrapper.spotify.models.album.Album;
+import com.wrapper.spotify.models.album.AlbumJsonFactory;
 
 import net.sf.json.JSONObject;
-
-import java.io.IOException;
 
 @SuppressWarnings("javadoc")
 public class AlbumRequest extends AbstractRequest<Album> {
 
-	public AlbumRequest(Builder builder) {
+	public static IdBuilder<Album> builder() {
+		return new IdBuilder<>(ALBUMS + "/%s", AlbumRequest::new);
+	}
+	
+	private final JsonFactory<Album> albumFactory;
+
+	public AlbumRequest(IdBuilder<Album> builder) {
 		super(builder);
+		albumFactory = new AlbumJsonFactory();
 	}
 
-	public static Builder builder() {
-		return new Builder();
-	}
-
-	public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-		/**
-		 * The album with the given id.
-		 *
-		 * @param id The id for the album.
-		 * @return AlbumRequest
-		 */
-		public Builder id(String id) {
-			assert (id != null);
-			return path(String.format("/v1/albums/%s", id));
-		}
-
-		@Override
-		public AlbumRequest build() {
-			return new AlbumRequest(this);
-		}
-
+	@Override
+	protected Album fromJson(JSONObject jsonObject) {
+		return albumFactory.fromJson(jsonObject);
 	}
 
 }
