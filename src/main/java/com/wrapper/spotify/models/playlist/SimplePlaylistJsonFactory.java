@@ -5,8 +5,13 @@ import net.sf.json.JSONObject;
 @SuppressWarnings("javadoc")
 public class SimplePlaylistJsonFactory extends AbstractPlaylistJsonFactory<SimplePlaylist> {
 
-	private static final String TOTAL = "total";
 	private static final String TRACKS = "tracks";
+	
+	private final PlaylistTracksInformationJsonFactory tracksFactory;
+	
+	public SimplePlaylistJsonFactory() {
+		tracksFactory = new PlaylistTracksInformationJsonFactory();
+	}
 
 	@Override
 	public SimplePlaylist fromJson(JSONObject jsonObject) {
@@ -18,15 +23,7 @@ public class SimplePlaylistJsonFactory extends AbstractPlaylistJsonFactory<Simpl
 	@Override
 	protected void fillObject(SimplePlaylist baseObject, JSONObject jsonObject) {
 		super.fillObject(baseObject, jsonObject);
-		baseObject.setTracks(createPlaylistTracksInformation(jsonObject.getJSONObject(TRACKS)));
+		baseObject.setTracks(tracksFactory.fromJson(jsonObject.getJSONObject(TRACKS)));
 	}
 	
-	private static PlaylistTracksInformation createPlaylistTracksInformation(JSONObject tracksInformationJson) {
-		final PlaylistTracksInformation playlistTracksInformation = new PlaylistTracksInformation();
-		playlistTracksInformation.setHref(tracksInformationJson.getString(HREF));
-		playlistTracksInformation.setTotal(tracksInformationJson.getInt(TOTAL));
-		
-		return playlistTracksInformation;
-	}
-
 }

@@ -7,7 +7,6 @@ import com.wrapper.spotify.models.Copyright;
 import com.wrapper.spotify.models.artist.SimpleArtist;
 import com.wrapper.spotify.models.artist.SimpleArtistJsonFactory;
 import com.wrapper.spotify.models.image.ImageHolderJsonFactory;
-import com.wrapper.spotify.models.page.Page;
 import com.wrapper.spotify.models.page.PageJsonFactory;
 import com.wrapper.spotify.models.track.SimpleTrack;
 import com.wrapper.spotify.models.track.SimpleTrackJsonFactory;
@@ -18,7 +17,6 @@ import net.sf.json.JSONObject;
 @SuppressWarnings("javadoc")
 public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 
-	private static final String ITEMS = "items";
 	private static final String TRACKS = "tracks";
 	private static final String RELEASE_DATE_PRECISION = "release_date_precision";
 	private static final String RELEASE_DATE = "release_date";
@@ -35,7 +33,7 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 		innerFactory = new SimpleAlbumJsonFactory();
 		trackFactory = new SimpleTrackJsonFactory();
 		artistFactory = new SimpleArtistJsonFactory();
-		pageFactory = new PageJsonFactory<>();
+		pageFactory = new PageJsonFactory<>(trackFactory);
 	}
 	
 	@Override
@@ -57,7 +55,7 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 		baseObject.setPopularity(jsonObject.getInt(POPULARITY));
 		baseObject.setReleaseDate(jsonObject.getString(RELEASE_DATE));
 		baseObject.setReleaseDatePrecision(jsonObject.getString(RELEASE_DATE_PRECISION));
-		baseObject.setTracks(createSimpleTrackPage(jsonObject.getJSONObject(TRACKS)));
+		baseObject.setTracks(pageFactory.fromJson(jsonObject.getJSONObject(TRACKS)));
 	}
 	
 	private List<Copyright> createCopyrights(JSONArray copyrightsJson) {
@@ -74,12 +72,6 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 			copyrights.add(copyright);
 		}
 		return copyrights;
-	}
-	
-	private Page<SimpleTrack> createSimpleTrackPage(JSONObject jsonObject) {
-		final Page<SimpleTrack> page = pageFactory.fromJson(jsonObject);
-		page.setItems(trackFactory.fromJson(jsonObject.getJSONArray(ITEMS)));
-		return page;
 	}
 
 }

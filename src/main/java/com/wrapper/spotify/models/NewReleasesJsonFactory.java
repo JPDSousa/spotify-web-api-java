@@ -2,6 +2,7 @@ package com.wrapper.spotify.models;
 
 import com.wrapper.spotify.json.AbstractJsonFactory;
 import com.wrapper.spotify.models.album.SimpleAlbum;
+import com.wrapper.spotify.models.album.SimpleAlbumJsonFactory;
 import com.wrapper.spotify.models.page.PageJsonFactory;
 
 import net.sf.json.JSONObject;
@@ -14,7 +15,7 @@ public class NewReleasesJsonFactory extends AbstractJsonFactory<NewReleases> {
 	private final PageJsonFactory<SimpleAlbum> pageJsonFactory;
 	
 	public NewReleasesJsonFactory() {
-		pageJsonFactory = new PageJsonFactory<>();
+		pageJsonFactory = new PageJsonFactory<>(new SimpleAlbumJsonFactory());
 	}
 
 	@Override
