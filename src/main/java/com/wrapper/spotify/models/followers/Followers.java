@@ -1,4 +1,4 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.followers;
 
 @SuppressWarnings("javadoc")
 public class Followers {
