@@ -2,31 +2,16 @@ package com.wrapper.spotify.models.playlist;
 
 import com.wrapper.spotify.models.Followers;
 import com.wrapper.spotify.models.Page;
-import com.wrapper.spotify.models.SpotifyEntityType;
-import com.wrapper.spotify.models.image.DefaultImageHolder;
-import com.wrapper.spotify.models.user.User;
 
 @SuppressWarnings("javadoc")
-public class Playlist extends DefaultImageHolder {
+public class Playlist extends AbstractPlaylist {
 
-	private boolean collaborative;
 	private String description;
 	private Followers followers;
-	private String name;
-	private User owner;
-	private boolean publicAccess;
 	private Page<PlaylistTrack> tracks;
 
 	public Playlist(String id) {
-		super(SpotifyEntityType.PLAYLIST, id);
-	}
-
-	public boolean isCollaborative() {
-		return collaborative;
-	}
-
-	public void setCollaborative(boolean collaborative) {
-		this.collaborative = collaborative;
+		super(id);
 	}
 
 	public String getDescription() {
@@ -43,30 +28,6 @@ public class Playlist extends DefaultImageHolder {
 
 	public void setFollowers(Followers followers) {
 		this.followers = followers;
-	}
-
-	public User getOwner() {
-		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isPublicAccess() {
-		return publicAccess;
-	}
-
-	public void setPublicAccess(boolean publicAccess) {
-		this.publicAccess = publicAccess;
 	}
 
 	public Page<PlaylistTrack> getTracks() {
