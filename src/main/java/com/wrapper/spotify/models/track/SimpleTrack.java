@@ -21,6 +21,7 @@ public class SimpleTrack extends SpotifyModel {
 	private List<String> availableMarkets;
 
 	private String previewUrl;
+	
 	public SimpleTrack(String id) {
 		super(SpotifyEntityType.TRACK, id);
 	}
