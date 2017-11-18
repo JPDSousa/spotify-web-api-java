@@ -1,76 +1,67 @@
 package com.wrapper.spotify.methods.authentication;
 
-import com.google.common.base.Joiner;
-import com.google.common.util.concurrent.SettableFuture;
+import static com.wrapper.spotify.methods.Paths.TOKEN;
+
 import com.wrapper.spotify.Api;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
-import com.wrapper.spotify.models.ClientCredentials;
+import com.wrapper.spotify.models.authentication.ClientCredentials;
+import com.wrapper.spotify.models.authentication.ClientCredentialsJsonFactory;
+
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.IOException;
 import java.util.List;
 
-public class ClientCredentialsGrantRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class ClientCredentialsGrantRequest extends AbstractRequest<ClientCredentials> {
 
-  public ClientCredentialsGrantRequest(Builder builder) {
-    super(builder);
-  }
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	public static final class Builder extends AbstractBuilder<Builder, ClientCredentials> {
 
-  public static Builder builder() {
-    return new Builder();
-  }
+		protected Builder() {
+			super(ClientCredentialsGrantRequest::new);
+			host(Api.DEFAULT_AUTHENTICATION_HOST);
+			port(Api.DEFAULT_AUTHENTICATION_PORT);
+			scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
 
-  public SettableFuture<ClientCredentials> getAsync() {
-    final SettableFuture<ClientCredentials> future = SettableFuture.create();
+			path(TOKEN);
+		}
 
-    try {
-      JSONObject jsonObject = JSONObject.fromObject(postJson());
+		public Builder basicAuthorizationHeader(String clientId, String clientSecret) {
+			assert (clientId != null);
+			assert (clientSecret != null);
 
-      future.set(JsonUtil.createApplicationAuthenticationToken(jsonObject));
-    } catch (Exception e) {
-      future.setException(e);
-    }
+			final String idSecret = String.join(":", clientId, clientSecret);
+			String idSecretEncoded = new String(Base64.encodeBase64(idSecret.getBytes()));
 
-    return future;
-  }
+			return header("Authorization", "Basic " + idSecretEncoded);
+		}
 
-  public ClientCredentials get() throws IOException, WebApiException {
-    JSONObject jsonObject = JSONObject.fromObject(postJson());
+		public Builder grantType(String grantType) {
+			assert (grantType != null);
+			return body("grant_type", grantType);
+		}
 
-    return JsonUtil.createApplicationAuthenticationToken(jsonObject);
-  }
+		public Builder scopes(List<String> scopes) {
+			return body("scope", String.join(" ", scopes));
+		}
 
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
+	}
+	
+	private final JsonFactory<ClientCredentials> jsonFactory;
+	
+	public ClientCredentialsGrantRequest(Builder builder) {
+		super(builder);
+		jsonFactory = new ClientCredentialsJsonFactory();
+	}
 
-    public Builder basicAuthorizationHeader(String clientId, String clientSecret) {
-      assert (clientId != null);
-      assert (clientSecret != null);
-
-      String idSecret = clientId + ":" + clientSecret;
-      String idSecretEncoded = new String(Base64.encodeBase64(idSecret.getBytes()));
-
-      return header("Authorization", "Basic " + idSecretEncoded);
-    }
-
-    public Builder grantType(String grantType) {
-      assert (grantType != null);
-      return body("grant_type", grantType);
-    }
-
-    public Builder scopes(List<String> scopes) {
-      return body("scope", Joiner.on(" ").join(scopes));
-    }
-
-    public ClientCredentialsGrantRequest build() {
-      host(Api.DEFAULT_AUTHENTICATION_HOST);
-      port(Api.DEFAULT_AUTHENTICATION_PORT);
-      scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
-
-      path("/api/token");
-      return new ClientCredentialsGrantRequest(this);
-    }
-  }
+	@Override
+	protected ClientCredentials fromJson(JSONObject json) {
+		return jsonFactory.fromJson(json);
+	}
 }

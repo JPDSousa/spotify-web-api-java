@@ -1,84 +1,72 @@
 package com.wrapper.spotify.methods.authentication;
 
-import com.google.common.util.concurrent.SettableFuture;
+import static com.wrapper.spotify.methods.Paths.TOKEN;
+
 import com.wrapper.spotify.Api;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
-import com.wrapper.spotify.models.AuthorizationCodeCredentials;
+import com.wrapper.spotify.models.authentication.AuthorizationCodeCredentials;
+import com.wrapper.spotify.models.authentication.AuthorizationCodeCredentialsJsonFactory;
+
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.IOException;
+@SuppressWarnings("javadoc")
+public class AuthorizationCodeGrantRequest extends AbstractRequest<AuthorizationCodeCredentials> {
 
-public class AuthorizationCodeGrantRequest extends AbstractRequest {
+	public static final class Builder extends AbstractBuilder<Builder, AuthorizationCodeCredentials> {
 
-  protected AuthorizationCodeGrantRequest(Builder builder) {
-    super(builder);
-  }
+		protected Builder() {
+			super(AuthorizationCodeGrantRequest::new);
+			host(Api.DEFAULT_AUTHENTICATION_HOST);
+			port(Api.DEFAULT_AUTHENTICATION_PORT);
+			scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
 
-  public static Builder builder() {
-    return new Builder();
-  }
+			path(TOKEN);
+		}
 
-  public SettableFuture<AuthorizationCodeCredentials> getAsync() {
-    final SettableFuture<AuthorizationCodeCredentials> future = SettableFuture.create();
+		public Builder grantType(String grantType) {
+			assert (grantType != null);
+			return body("grant_type", grantType);
+		}
 
-    try {
-      final String jsonString = postJson();
-      final JSONObject jsonObject = JSONObject.fromObject(jsonString);
+		public Builder code(String code) {
+			assert (code != null);
+			return body("code", code);
+		}
 
-      future.set(JsonUtil.createTokenResponse(jsonObject));
-    } catch (Exception e) {
-      future.setException(e);
-    }
+		public Builder redirectUri(String redirectUri) {
+			assert (redirectUri != null);
+			return body("redirect_uri", redirectUri);
+		}
 
-    return future;
-  }
+		public Builder basicAuthorizationHeader(String clientId, String clientSecret) {
+			assert (clientId != null);
+			assert (clientSecret != null);
 
-  public AuthorizationCodeCredentials get() throws IOException, WebApiException {
-    final String json = postJson();
-    final JSONObject jsonObject = JSONObject.fromObject(json);
+			String idSecret = clientId + ":" + clientSecret;
+			String idSecretEncoded = new String(Base64.encodeBase64(idSecret.getBytes()));
 
-    return JsonUtil.createTokenResponse(jsonObject);
-  }
+			return header("Authorization", "Basic " + idSecretEncoded);
+		}
 
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
+	}
+	
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	private final JsonFactory<AuthorizationCodeCredentials> jsonFactory;
+	
+	public AuthorizationCodeGrantRequest(Builder builder) {
+		super(builder);
+		jsonFactory = new AuthorizationCodeCredentialsJsonFactory();
+	}
 
-    public Builder grantType(String grantType) {
-      assert (grantType != null);
-      return body("grant_type", grantType);
-    }
+	@Override
+	protected AuthorizationCodeCredentials fromJson(JSONObject json) {
+		return jsonFactory.fromJson(json);
+	}
 
-    public Builder code(String code) {
-      assert (code != null);
-      return body("code", code);
-    }
-
-    public Builder redirectUri(String redirectUri) {
-      assert (redirectUri != null);
-      return body("redirect_uri", redirectUri);
-    }
-
-    public Builder basicAuthorizationHeader(String clientId, String clientSecret) {
-      assert (clientId != null);
-      assert (clientSecret != null);
-
-      String idSecret = clientId + ":" + clientSecret;
-      String idSecretEncoded = new String(Base64.encodeBase64(idSecret.getBytes()));
-
-      return header("Authorization", "Basic " + idSecretEncoded);
-    }
-
-    public AuthorizationCodeGrantRequest build() {
-      host(Api.DEFAULT_AUTHENTICATION_HOST);
-      port(Api.DEFAULT_AUTHENTICATION_PORT);
-      scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
-
-      path("/api/token");
-
-      return new AuthorizationCodeGrantRequest(this);
-    }
-
-  }
 }

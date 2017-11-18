@@ -1,55 +1,67 @@
 package com.wrapper.spotify.methods.authentication;
 
+import static com.wrapper.spotify.methods.Paths.AUTHORIZATION;
+
 import com.google.common.base.Joiner;
 import com.wrapper.spotify.Api;
+import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
+
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
-public class AuthorizationURLRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class AuthorizationURLRequest extends AbstractRequest<Void> {
 
-  public AuthorizationURLRequest(Builder builder) {
-    super(builder);
-  }
+	public static AuthorizationURLRequest.Builder builder() {
+		return new Builder();
+	}
 
-  public static AuthorizationURLRequest.Builder builder() {
-    return new Builder();
-  }
+	public static final class Builder extends AbstractBuilder<Builder, Void> {
 
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
+		protected Builder() {
+			super(AuthorizationURLRequest::new);
+			host(Api.DEFAULT_AUTHENTICATION_HOST);
+			port(Api.DEFAULT_AUTHENTICATION_PORT);
+			scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
 
-    public Builder scopes(List<String> scopes) {
-      return parameter("scope", Joiner.on(" ").join(scopes));
-    }
+			path(AUTHORIZATION);
+		}
 
-    public Builder state(String state) {
-      return parameter("state", state);
-    }
+		public Builder scopes(List<String> scopes) {
+			return parameter("scope", Joiner.on(" ").join(scopes));
+		}
 
-    public Builder responseType(String responseType) {
-      return parameter("response_type", responseType);
-    }
+		public Builder state(String state) {
+			return parameter("state", state);
+		}
 
-    public Builder clientId(String clientId) {
-      return parameter("client_id", clientId);
-    }
+		public Builder responseType(String responseType) {
+			return parameter("response_type", responseType);
+		}
 
-    public Builder redirectURI(String redirectURI) {
-      return parameter("redirect_uri", redirectURI);
-    }
+		public Builder clientId(String clientId) {
+			return parameter("client_id", clientId);
+		}
 
-    public Builder showDialog(boolean showDialog) {
-      return parameter("show_dialog", String.valueOf(showDialog));
-    }
+		public Builder redirectURI(String redirectURI) {
+			return parameter("redirect_uri", redirectURI);
+		}
 
-    public AuthorizationURLRequest build() {
-      host(Api.DEFAULT_AUTHENTICATION_HOST);
-      port(Api.DEFAULT_AUTHENTICATION_PORT);
-      scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
+		public Builder showDialog(boolean showDialog) {
+			return parameter("show_dialog", String.valueOf(showDialog));
+		}
+		
+	}
+	
+	public AuthorizationURLRequest(Builder builder) {
+		super(builder);
+	}
 
-      path("/authorize");
-      return new AuthorizationURLRequest(this);
-    }
-  }
+	@Override
+	protected Void fromJson(JSONObject json) {
+		return null;
+	}
 
 }
