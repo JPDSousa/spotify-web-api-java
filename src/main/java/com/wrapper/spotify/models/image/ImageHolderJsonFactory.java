@@ -24,7 +24,7 @@ public abstract class ImageHolderJsonFactory<T extends DefaultImageHolder> exten
 		baseObject.setImages(createImages(jsonObject.getJSONArray(IMAGES)));
 	}
 	
-	private List<Image> createImages(JSONArray images) {
+	public static List<Image> createImages(JSONArray images) {
 		final List<Image> returnedImages = new ArrayList<Image>();
 		for (int i = 0; i < images.size(); i++) {
 			returnedImages.add(createImage(images.getJSONObject(i)));
@@ -32,7 +32,7 @@ public abstract class ImageHolderJsonFactory<T extends DefaultImageHolder> exten
 		return returnedImages;
 	}
 	
-	private Image createImage(JSONObject image) {
+	public static Image createImage(JSONObject image) {
 		if (JSONNull.getInstance().equals(image)) {
 			return null;
 		}
