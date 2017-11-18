@@ -7,7 +7,8 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.JsonUtil;
 import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.models.LibraryTrack;
-import com.wrapper.spotify.models.Page;
+import com.wrapper.spotify.models.page.Page;
+
 import net.sf.json.JSONObject;
 
 import java.io.IOException;

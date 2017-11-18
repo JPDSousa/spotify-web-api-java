@@ -1,7 +1,7 @@
 package com.wrapper.spotify.models.playlist;
 
 import com.wrapper.spotify.models.Followers;
-import com.wrapper.spotify.models.Page;
+import com.wrapper.spotify.models.page.Page;
 
 @SuppressWarnings("javadoc")
 public class Playlist extends AbstractPlaylist {

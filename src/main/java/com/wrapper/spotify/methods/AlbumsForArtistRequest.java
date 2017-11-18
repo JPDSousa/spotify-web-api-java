@@ -4,9 +4,9 @@ import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.JsonUtil;
 import com.wrapper.spotify.exceptions.WebApiException;
-import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.album.AlbumType;
 import com.wrapper.spotify.models.album.SimpleAlbum;
+import com.wrapper.spotify.models.page.Page;
 
 import net.sf.json.JSONObject;
 

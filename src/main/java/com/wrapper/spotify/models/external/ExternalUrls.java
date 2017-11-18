@@ -1,4 +1,4 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.external;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.wrapper.spotify.json.SpotifyModelJsonFactory;
-import com.wrapper.spotify.models.Image;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONNull;

@@ -1,6 +1,7 @@
 package com.wrapper.spotify.models;
 
 import com.wrapper.spotify.models.album.SimpleAlbum;
+import com.wrapper.spotify.models.page.Page;
 
 public class NewReleases {
   private Page<SimpleAlbum> albums;

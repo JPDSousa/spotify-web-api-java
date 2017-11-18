@@ -3,9 +3,9 @@ package com.wrapper.spotify.models.album;
 import java.util.List;
 
 import com.wrapper.spotify.models.Copyright;
-import com.wrapper.spotify.models.ExternalIds;
-import com.wrapper.spotify.models.Page;
 import com.wrapper.spotify.models.artist.SimpleArtist;
+import com.wrapper.spotify.models.external.ExternalIds;
+import com.wrapper.spotify.models.page.Page;
 import com.wrapper.spotify.models.track.SimpleTrack;
 
 @SuppressWarnings("javadoc")

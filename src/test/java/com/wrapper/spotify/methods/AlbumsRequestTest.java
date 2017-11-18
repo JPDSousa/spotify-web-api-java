@@ -9,6 +9,7 @@ import com.wrapper.spotify.models.*;
 import com.wrapper.spotify.models.album.Album;
 import com.wrapper.spotify.models.album.AlbumType;
 import com.wrapper.spotify.models.artist.SimpleArtist;
+import com.wrapper.spotify.models.page.Page;
 import com.wrapper.spotify.models.track.SimpleTrack;
 
 import org.junit.Test;

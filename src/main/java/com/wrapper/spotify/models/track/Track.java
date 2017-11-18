@@ -1,7 +1,7 @@
 package com.wrapper.spotify.models.track;
 
-import com.wrapper.spotify.models.ExternalIds;
 import com.wrapper.spotify.models.album.SimpleAlbum;
+import com.wrapper.spotify.models.external.ExternalIds;
 
 @SuppressWarnings("javadoc")
 public class Track extends SimpleTrack {

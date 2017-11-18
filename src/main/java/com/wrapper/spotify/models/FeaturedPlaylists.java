@@ -1,5 +1,6 @@
 package com.wrapper.spotify.models;
 
+import com.wrapper.spotify.models.page.Page;
 import com.wrapper.spotify.models.playlist.SimplePlaylist;
 
 public class FeaturedPlaylists {
