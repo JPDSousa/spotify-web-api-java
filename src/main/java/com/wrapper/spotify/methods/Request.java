@@ -10,11 +10,11 @@ import com.wrapper.spotify.exceptions.WebApiException;
 @SuppressWarnings("javadoc")
 public interface Request<T> {
 
-	interface Builder<E, T> {
-		Builder<E, T> httpManager(HttpManager httpManager);
-		Builder<E, T> host(String host);
-		Builder<E, T> port(int port);
-		Builder<E, T> scheme(Url.Scheme scheme);
+	interface Builder<B, T> {
+		Builder<B, T> httpManager(HttpManager httpManager);
+		Builder<B, T> host(String host);
+		Builder<B, T> port(int port);
+		Builder<B, T> scheme(Url.Scheme scheme);
 		Request<T> build();
 	}
 
