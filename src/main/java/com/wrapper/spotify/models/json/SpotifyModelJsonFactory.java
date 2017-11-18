@@ -17,7 +17,7 @@ public abstract class SpotifyModelJsonFactory<T extends SpotifyModel> extends Ab
 	private static final String ID = "id";
 	private static final String EXTERNAL_URLS = "external_urls";
 	private static final String URI = "uri";
-	private static final String HREF = "href";
+	protected static final String HREF = "href";
 	
 	private static final String EXTERNAL_IDS = "external_ids";
 	private static final String AVAILABLE_MARKETS = "available_markets";
