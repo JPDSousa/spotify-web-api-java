@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.TestUtil;
+import com.wrapper.spotify.methods.search.TrackSearchRequest;
 import com.wrapper.spotify.models.page.Page;
 import com.wrapper.spotify.models.track.Track;
 

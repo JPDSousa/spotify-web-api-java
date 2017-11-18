@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.TestUtil;
+import com.wrapper.spotify.methods.tracks.TracksRequest;
 import com.wrapper.spotify.models.track.Track;
 
 import org.junit.Test;

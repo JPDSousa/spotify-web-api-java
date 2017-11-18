@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.TestUtil;
+import com.wrapper.spotify.methods.search.ArtistSearchRequest;
 import com.wrapper.spotify.models.SpotifyEntityType;
 import com.wrapper.spotify.models.artist.Artist;
 import com.wrapper.spotify.models.page.Page;
