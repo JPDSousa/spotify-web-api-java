@@ -2,12 +2,13 @@ package com.wrapper.spotify.json;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import com.wrapper.spotify.models.ExternalIds;
-import com.wrapper.spotify.models.ExternalUrls;
-import com.wrapper.spotify.models.Followers;
 import com.wrapper.spotify.models.SpotifyModel;
+import com.wrapper.spotify.models.external.ExternalIds;
+import com.wrapper.spotify.models.external.ExternalIdsJsonFactory;
+import com.wrapper.spotify.models.external.ExternalUrlsJsonFactory;
+import com.wrapper.spotify.models.followers.Followers;
+import com.wrapper.spotify.models.followers.FollowersJsonFactory;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -24,21 +25,21 @@ public abstract class SpotifyModelJsonFactory<T extends SpotifyModel> extends Ab
 	private static final String EXTERNAL_IDS = "external_ids";
 	private static final String AVAILABLE_MARKETS = "available_markets";
 	private static final String GENRES = "genres";
+	
+	private final ExternalIdsJsonFactory externalIdsJsonFactory;
+	private final ExternalUrlsJsonFactory externalUrlsJsonFactory;
+	private final FollowersJsonFactory followersJsonFactory;
+	
+	public SpotifyModelJsonFactory() {
+		externalIdsJsonFactory = new ExternalIdsJsonFactory();
+		externalUrlsJsonFactory = new ExternalUrlsJsonFactory();
+		followersJsonFactory = new FollowersJsonFactory();
+	}
 
 	protected void fillObject(T baseObject, JSONObject jsonObject) {
 		baseObject.setHref(jsonObject.getString(HREF));
 		baseObject.setUri(jsonObject.getString(URI));
-		baseObject.setExternalUrls(createExternalUrls(jsonObject.getJSONObject(EXTERNAL_URLS)));
-	}
-	
-	private ExternalUrls createExternalUrls(JSONObject externalUrls) {
-		final ExternalUrls returnedExternalUrls = new ExternalUrls();
-		final Map<String,String> addedExternalUrls = returnedExternalUrls.getExternalUrls();
-		for (Object keyObject : externalUrls.keySet()) {
-			final String key = (String) keyObject;
-			addedExternalUrls.put(key, externalUrls.getString(key));
-		}
-		return returnedExternalUrls;
+		baseObject.setExternalUrls(externalUrlsJsonFactory.fromJson(jsonObject.getJSONObject(EXTERNAL_URLS)));
 	}
 	
 	protected final String getId(JSONObject jsonObject) {
@@ -58,19 +59,7 @@ public abstract class SpotifyModelJsonFactory<T extends SpotifyModel> extends Ab
 	}
 	
 	protected final ExternalIds getExternalIds(JSONObject jsonObject) {
-		return createExternalIds(jsonObject.getJSONObject(EXTERNAL_IDS));
-	}
-	
-	private final ExternalIds createExternalIds(JSONObject externalIds) {
-		final ExternalIds returnedExternalIds = new ExternalIds();
-		final Map<String,String> addedIds = returnedExternalIds.getExternalIds();
-
-		for (Object keyObject : externalIds.keySet()) {
-			final String key = (String) keyObject;
-			addedIds.put(key, externalIds.getString(key));
-		}
-
-		return returnedExternalIds;
+		return externalIdsJsonFactory.fromJson(jsonObject.getJSONObject(EXTERNAL_IDS));
 	}
 	
 	protected List<String> getGenres(JSONObject jsonObject) {
@@ -85,19 +74,8 @@ public abstract class SpotifyModelJsonFactory<T extends SpotifyModel> extends Ab
 		return returnedGenres;
 	}
 	
-	protected static Followers getFollowers(JSONObject jsonObject) {
-		return createFollowers(jsonObject.getJSONObject(FOLLOWERS));
-	}
-	
-	private static Followers createFollowers(JSONObject followers) {
-		final Followers returnedFollowers = new Followers();
-		if (existsAndNotNull(HREF, followers)) {
-			returnedFollowers.setHref(followers.getString("href"));
-		}
-		if (existsAndNotNull("total", followers)) {
-			returnedFollowers.setTotal(followers.getInt("total"));
-		}
-		return returnedFollowers;
+	protected Followers getFollowers(JSONObject jsonObject) {
+		return followersJsonFactory.fromJson(jsonObject.getJSONObject(FOLLOWERS));
 	}
 
 }
