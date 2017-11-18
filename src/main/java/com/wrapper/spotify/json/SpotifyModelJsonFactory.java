@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.wrapper.spotify.models.ExternalIds;
 import com.wrapper.spotify.models.ExternalUrls;
+import com.wrapper.spotify.models.Followers;
 import com.wrapper.spotify.models.SpotifyModel;
 
 import net.sf.json.JSONArray;
@@ -14,10 +15,11 @@ import net.sf.json.JSONObject;
 @SuppressWarnings("javadoc")
 public abstract class SpotifyModelJsonFactory<T extends SpotifyModel> extends AbstractJsonFactory<T> {
 
+	private static final String FOLLOWERS = "followers";
 	private static final String ID = "id";
 	private static final String EXTERNAL_URLS = "external_urls";
 	private static final String URI = "uri";
-	protected static final String HREF = "href";
+	private static final String HREF = "href";
 	
 	private static final String EXTERNAL_IDS = "external_ids";
 	private static final String AVAILABLE_MARKETS = "available_markets";
@@ -81,6 +83,21 @@ public abstract class SpotifyModelJsonFactory<T extends SpotifyModel> extends Ab
 			returnedGenres.add(genres.getString(i));
 		}
 		return returnedGenres;
+	}
+	
+	protected static Followers getFollowers(JSONObject jsonObject) {
+		return createFollowers(jsonObject.getJSONObject(FOLLOWERS));
+	}
+	
+	private static Followers createFollowers(JSONObject followers) {
+		final Followers returnedFollowers = new Followers();
+		if (existsAndNotNull(HREF, followers)) {
+			returnedFollowers.setHref(followers.getString("href"));
+		}
+		if (existsAndNotNull("total", followers)) {
+			returnedFollowers.setTotal(followers.getInt("total"));
+		}
+		return returnedFollowers;
 	}
 
 }
