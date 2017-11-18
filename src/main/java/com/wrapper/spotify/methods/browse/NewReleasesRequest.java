@@ -1,60 +1,55 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.browse;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import static com.wrapper.spotify.methods.Paths.NEW_RELEASES;
+
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractBuilder;
+import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.NewReleases;
+import com.wrapper.spotify.models.NewReleasesJsonFactory;
+
 import net.sf.json.JSONObject;
 
-import java.io.IOException;
+@SuppressWarnings("javadoc")
+public class NewReleasesRequest extends AbstractRequest<NewReleases> {
 
-public class NewReleasesRequest extends AbstractRequest {
+	public static final class Builder extends AbstractBuilder<Builder, NewReleases> {
 
-  protected NewReleasesRequest(Builder builder) {
-    super(builder);
-  }
+		protected Builder() {
+			super(NewReleasesRequest::new);
+			path(NEW_RELEASES);
+		}
 
-  public static Builder builder() { return new Builder(); }
+		public Builder limit(int limit) {
+			assert (limit > 0);
+			return parameter("limit", String.valueOf(limit));
+		}
 
-  public SettableFuture<NewReleases> getAsync() {
-    final SettableFuture<NewReleases> newReleasesFuture = SettableFuture.create();
+		public Builder offset(int offset) {
+			assert (offset >= 0);
+			return parameter("offset", String.valueOf(offset));
+		}
 
-    try {
-      final String jsonString = getJson();
-      newReleasesFuture.set(JsonUtil.createNewReleases(JSONObject.fromObject(jsonString)));
-    } catch (Exception e) {
-      newReleasesFuture.setException(e);
-    }
+		public Builder country(String countryCode) {
+			assert (countryCode != null);
+			return parameter("country", countryCode);
+		}
 
-    return newReleasesFuture;
-  }
+	}
+	
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	private final JsonFactory<NewReleases> jsonFactory;
+	
+	public NewReleasesRequest(Builder builder) {
+		super(builder);
+		jsonFactory = new NewReleasesJsonFactory();
+	}
 
-  public NewReleases get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-    return JsonUtil.createNewReleases(JSONObject.fromObject(jsonString));
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder limit(int limit) {
-      assert (limit > 0);
-      return parameter("limit", String.valueOf(limit));
-    }
-
-    public Builder offset(int offset) {
-      assert (offset >= 0);
-      return parameter("offset", String.valueOf(offset));
-    }
-
-    public Builder country(String countryCode) {
-      assert (countryCode != null);
-      return parameter("country", countryCode);
-    }
-
-    public NewReleasesRequest build() {
-      path("/v1/browse/new-releases");
-      return new NewReleasesRequest(this);
-    }
-
-  }
+	@Override
+	protected NewReleases fromJson(JSONObject json) {
+		return jsonFactory.fromJson(json);
+	}
 }
