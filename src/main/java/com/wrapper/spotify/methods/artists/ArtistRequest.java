@@ -1,50 +1,32 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.artists;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import static com.wrapper.spotify.methods.Paths.ARTISTS;
+
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.IdBuilder;
 import com.wrapper.spotify.models.artist.Artist;
+import com.wrapper.spotify.models.artist.ArtistJsonFactory;
 
 import net.sf.json.JSONObject;
 
-import java.io.IOException;
+@SuppressWarnings("javadoc")
+public class ArtistRequest extends AbstractRequest<Artist> {
 
-public class ArtistRequest extends AbstractRequest {
+	public static IdBuilder<Artist> builder() {
+		return new IdBuilder<>(ARTISTS + "/%s", ArtistRequest::new);
+	}
+	
+	private final JsonFactory<Artist> artistFactory;
 
-  protected ArtistRequest(Builder builder) {
-    super(builder);
-  }
+	protected ArtistRequest(IdBuilder<Artist> builder) {
+		super(builder);
+		artistFactory = new ArtistJsonFactory();
+	}
 
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  public SettableFuture<Artist> getAsync() {
-    SettableFuture<Artist> artistFuture = SettableFuture.create();
-
-    try {
-      final String jsonString = getJson();
-      final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-      artistFuture.set(JsonUtil.createArtist(jsonObject));
-    } catch (Exception e) {
-      artistFuture.setException(e);
-    }
-
-    return artistFuture;
-  }
-
-  public Artist get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-
-    return JsonUtil.createArtist(JSONObject.fromObject(jsonString));
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public ArtistRequest build() {
-      return new ArtistRequest(this);
-    }
-
-  }
+	@Override
+	protected Artist fromJson(JSONObject jsonObject) {
+		return artistFactory.fromJson(jsonObject);
+	}
+	
 }

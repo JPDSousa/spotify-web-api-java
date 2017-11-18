@@ -1,61 +1,48 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.artists;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import static com.wrapper.spotify.methods.Paths.ARTISTS;
+
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.IdBuilder;
 import com.wrapper.spotify.models.track.Track;
+import com.wrapper.spotify.models.track.TrackJsonFactory;
 
 import net.sf.json.JSONObject;
 
-import java.io.IOException;
 import java.util.List;
 
-public class TopTracksRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class TopTracksRequest extends AbstractRequest<List<Track>> {
 
-  public TopTracksRequest(Builder builder) {
-    super(builder);
-  }
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	public static final class Builder extends IdBuilder<List<Track>> {
 
-  public SettableFuture<List<Track>> getAsync() {
-    SettableFuture<List<Track>> tracksFuture = SettableFuture.create();
+		public Builder() {
+			super(ARTISTS + "/%s/toptracks", TopTracksRequest::new);
+		}
 
-    try {
-      final String jsonString = getJson();
-      final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-      tracksFuture.set(JsonUtil.createTracks(jsonObject));
-    } catch (Exception e) {
-      tracksFuture.setException(e);
-    }
+		public Builder countryCode(String countryCode) {
+			assert (countryCode != null);
+			parameter("country", countryCode);
+			return this;
+		}
 
-    return tracksFuture;
-  }
+	}
+	
+	private final JsonFactory<Track> trackFactory;
+	
+	public TopTracksRequest(IdBuilder<List<Track>> builder) {
+		super(builder);
+		trackFactory = new TrackJsonFactory();
+	}
 
-  public List<Track> get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-    final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-    return JsonUtil.createTracks(jsonObject);
-  }
-
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder id(String id) {
-      assert (id != null);
-      return path(String.format("/v1/artists/%s/toptracks", id));
-    }
-
-    public Builder countryCode(String countryCode) {
-      assert (countryCode != null);
-      return parameter("country", countryCode);
-    }
-
-    public TopTracksRequest build() {
-      return new TopTracksRequest(this);
-    }
-
-  }
+	@Override
+	protected List<Track> fromJson(JSONObject json) {
+		return trackFactory.fromJson(json.getJSONArray("tracks"));
+	}
 
 }

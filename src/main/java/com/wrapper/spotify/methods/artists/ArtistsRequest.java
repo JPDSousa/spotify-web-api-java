@@ -1,54 +1,33 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.artists;
 
-import com.google.common.base.Joiner;
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import static com.wrapper.spotify.methods.Paths.ARTISTS;
+
+import com.wrapper.spotify.json.JsonFactory;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.IdsBuilder;
 import com.wrapper.spotify.models.artist.Artist;
+import com.wrapper.spotify.models.artist.ArtistJsonFactory;
 
-import java.io.IOException;
+import net.sf.json.JSONObject;
+
 import java.util.List;
 
-public class ArtistsRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class ArtistsRequest extends AbstractRequest<List<Artist>> {
 
-  protected ArtistsRequest(Builder builder) {
-    super(builder);
-  }
+	public static IdsBuilder<Artist> builder() {
+		return new IdsBuilder<>(ARTISTS, ArtistsRequest::new);
+	}
 
-  public static Builder builder() {
-    return new Builder();
-  }
+	private final JsonFactory<Artist> artistFactory;
+	
+	public ArtistsRequest(IdsBuilder<Artist> builder) {
+		super(builder);
+		artistFactory = new ArtistJsonFactory();
+	}
 
-  public SettableFuture<List<Artist>> getAsync() {
-    SettableFuture<List<Artist>> artistsFuture = SettableFuture.create();
-
-    try {
-      final String jsonString = getJson();
-      artistsFuture.set(JsonUtil.createArtists(jsonString));
-    } catch (Exception e) {
-      artistsFuture.setException(e);
-    }
-
-    return artistsFuture;
-  }
-
-  public List<Artist> get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-    return JsonUtil.createArtists(jsonString);
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder id(List<String> ids) {
-      assert (ids != null);
-      String idsParameter = Joiner.on(",").join(ids);
-      path("/v1/artists");
-      return parameter("ids", idsParameter);
-    }
-
-    public ArtistsRequest build() {
-      return new ArtistsRequest(this);
-    }
-
-  }
+	@Override
+	protected List<Artist> fromJson(JSONObject jsonObject) {
+		return artistFactory.fromJson(jsonObject.getJSONArray("artists"));
+	}
 }
