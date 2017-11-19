@@ -5,11 +5,8 @@ import java.util.function.Function;
 @SuppressWarnings("javadoc")
 public class IdBuilder<T> extends AbstractBuilder<IdBuilder<T>, T> {
 
-	private final String path;
-	
 	public IdBuilder(String path, Function<IdBuilder<T>, Request<T>> builder) {
-		super(builder);
-		this.path = path;
+		super(path, builder);
 	}
 
 	public IdBuilder<T> id(String id) {

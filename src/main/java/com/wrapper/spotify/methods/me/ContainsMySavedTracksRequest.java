@@ -1,59 +1,44 @@
 /**
  * Copyright (C) 2017 Spotify AB
  */
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.me;
 
-import com.google.common.base.Joiner;
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
+import com.google.common.collect.Lists;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.IdsBuilder;
+
+import net.sf.json.JSONArray;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ContainsMySavedTracksRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class ContainsMySavedTracksRequest extends AbstractRequest<List<Boolean>> {
 
-  public ContainsMySavedTracksRequest(Builder builder) {
-    super(builder);
-  }
+	public static IdsBuilder<List<Boolean>> builder() {
+		return new IdsBuilder<>(ME_TRACKS_CONTAINS, b -> {
+			b.header("Content-Type", "application/json");
+			return new ContainsMySavedTracksRequest(b);
+		});
+	}
+	
+	public ContainsMySavedTracksRequest(IdsBuilder<List<Boolean>> builder) {
+		super(null, builder);
+	}
 
-  public SettableFuture<List<Boolean>> getAsync() {
-    final SettableFuture<List<Boolean>> containsTracksFuture = SettableFuture.create();
+	@Override
+	public List<Boolean> exec() throws IOException, WebApiException {
+		return createBooleans(getJson());
+	}
+	
+	private static List<Boolean> createBooleans(String response) {
+		final JSONArray jsonArray = JSONArray.fromObject(response);
+		final List<Boolean> returnedArray = Lists.newArrayListWithCapacity(jsonArray.size());
+		for (Object item : jsonArray) {
+			returnedArray.add(Boolean.valueOf(String.valueOf(item)));
+		}
+		return returnedArray;
+	}
 
-    final String response;
-    try {
-      response = getJson();
-      List<Boolean> containedTracks = JsonUtil.createBooleans(response);
-      containsTracksFuture.set(containedTracks);
-    } catch (IOException e) {
-      containsTracksFuture.setException(e);
-    } catch (WebApiException e) {
-      containsTracksFuture.setException(e);
-    }
-
-    return containsTracksFuture;
-  }
-
-  public List<Boolean> get() throws IOException, WebApiException {
-    return JsonUtil.createBooleans(getJson());
-  }
-
-  public static ContainsMySavedTracksRequest.Builder builder() {
-    return new Builder();
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder>  {
-
-    public Builder tracks(List<String> trackIds) {
-      String idsParameter = Joiner.on(",").join(trackIds);
-      parameter("ids", idsParameter);
-      return this;
-    }
-
-    public ContainsMySavedTracksRequest build() {
-      header("Content-Type", "application/json");
-      return new ContainsMySavedTracksRequest(this);
-    }
-
-  }
 }

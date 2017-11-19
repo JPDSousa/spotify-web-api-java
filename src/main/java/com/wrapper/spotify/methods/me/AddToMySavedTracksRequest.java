@@ -1,55 +1,44 @@
 /**
  * Copyright (C) 2017 Spotify AB
  */
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.me;
 
-import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.AbstractBuilder;
+import com.wrapper.spotify.methods.AbstractRequest;
+
 import net.sf.json.JSONArray;
 
 import java.io.IOException;
 import java.util.List;
 
-public class AddToMySavedTracksRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class AddToMySavedTracksRequest extends AbstractRequest<String> {
 
-  public AddToMySavedTracksRequest(Builder builder) {
-    super(builder);
-  }
+	public static AddToMySavedTracksRequest.Builder builder() {
+		return new Builder();
+	}
 
-  public SettableFuture<String> getAsync() {
-    final SettableFuture<String> addToSavedTracksFuture = SettableFuture.create();
+	public static class Builder extends AbstractBuilder<Builder, String> {
 
-    final String response;
-    try {
-      response = putJson();
-      addToSavedTracksFuture.set(response);
-    } catch (IOException e) {
-      addToSavedTracksFuture.setException(e);
-    } catch (WebApiException e) {
-      addToSavedTracksFuture.setException(e);
-    }
+		protected Builder() {
+			super(ME_TRACKS, AddToMySavedTracksRequest::new);
+		}
 
-    return addToSavedTracksFuture;
-  }
+		public Builder ids(List<String> trackIds) {
+			body(JSONArray.fromObject(trackIds));
+			return this;
+		}
 
-  public String get() throws IOException, WebApiException {
-    return putJson();
-  }
+	}
+	
+	public AddToMySavedTracksRequest(Builder builder) {
+		super(null, builder);
+	}
+	
+	@Override
+	public String exec() throws IOException, WebApiException {
+		return putJson();
+	}
 
-  public static AddToMySavedTracksRequest.Builder builder() {
-    return new Builder();
-  }
-
-  public static class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder tracks(List<String> trackIds) {
-      body(JSONArray.fromObject(trackIds));
-      return this;
-    }
-
-    @Override
-    public AddToMySavedTracksRequest build() {
-      return new AddToMySavedTracksRequest(this);
-    }
-  }
 }

@@ -1,15 +1,11 @@
 package com.wrapper.spotify.methods.authentication;
 
-import static com.wrapper.spotify.methods.Paths.TOKEN;
-
 import com.wrapper.spotify.Api;
-import com.wrapper.spotify.json.JsonFactory;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.authentication.ClientCredentials;
 import com.wrapper.spotify.models.authentication.ClientCredentialsJsonFactory;
 
-import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
 
 import java.util.List;
@@ -24,12 +20,10 @@ public class ClientCredentialsGrantRequest extends AbstractRequest<ClientCredent
 	public static final class Builder extends AbstractBuilder<Builder, ClientCredentials> {
 
 		protected Builder() {
-			super(ClientCredentialsGrantRequest::new);
+			super(TOKEN, ClientCredentialsGrantRequest::new);
 			host(Api.DEFAULT_AUTHENTICATION_HOST);
 			port(Api.DEFAULT_AUTHENTICATION_PORT);
 			scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
-
-			path(TOKEN);
 		}
 
 		public Builder basicAuthorizationHeader(String clientId, String clientSecret) {
@@ -53,15 +47,8 @@ public class ClientCredentialsGrantRequest extends AbstractRequest<ClientCredent
 
 	}
 	
-	private final JsonFactory<ClientCredentials> jsonFactory;
-	
 	public ClientCredentialsGrantRequest(Builder builder) {
-		super(builder);
-		jsonFactory = new ClientCredentialsJsonFactory();
+		super(new ClientCredentialsJsonFactory(), builder);
 	}
-
-	@Override
-	protected ClientCredentials fromJson(JSONObject json) {
-		return jsonFactory.fromJson(json);
-	}
+	
 }

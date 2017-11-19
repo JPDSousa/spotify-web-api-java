@@ -3,9 +3,11 @@ package com.wrapper.spotify.methods;
 import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
+import com.wrapper.spotify.HttpManager.Method;
 import com.wrapper.spotify.UrlUtil;
 import com.wrapper.spotify.UtilProtos.Url;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.json.JsonFactory;
 
 import net.sf.json.JSONObject;
 
@@ -16,9 +18,15 @@ public abstract class AbstractRequest<T> implements Request<T> {
 
 	private Url url;
 
-	private HttpManager httpManager;
+	private final HttpManager httpManager;
+	private final Method method;
+	private final JsonFactory<T> jsonFactory;
 
-	public AbstractRequest(AbstractBuilder<?, T> builder) {
+	public AbstractRequest(JsonFactory<T> jsonFactory, AbstractBuilder<?, T> builder) {
+		this(jsonFactory, Method.GET, builder);
+	}
+	
+	public AbstractRequest(JsonFactory<T> jsonFactory, Method method, AbstractBuilder<?, T> builder) {
 		assert (builder.path != null);
 		assert (builder.host != null);
 		assert (builder.port > 0);
@@ -28,6 +36,8 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		assert (builder.bodyParameters != null);
 		assert (builder.headerParameters != null);
 
+		this.method = method;
+		this.jsonFactory = jsonFactory;
 		if (builder.httpManager == null) {
 			httpManager = Api.DEFAULT_HTTP_MANAGER;
 		} else {
@@ -61,6 +71,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		return UrlUtil.assemble(url);
 	}
 
+	@Override
 	public String toStringWithQueryParameters() {
 		return UrlUtil.assembleWithQueryParameters(url);
 	}
@@ -81,22 +92,34 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		return httpManager.delete(url);
 	}
 	
-	@Override
-	public T get() throws IOException, WebApiException {
-		return fromJson(JSONObject.fromObject(getJson()));
+	private String execMethod() throws IOException, WebApiException {
+		switch(method) {
+		case DELETE:
+			return deleteJson();
+		case GET:
+			return getJson();
+		case POST:
+			return postJson();
+		case PUT:
+			return putJson();
+		}
+		return null;
 	}
 	
 	@Override
-	public SettableFuture<T> getAsync() {
+	public T exec() throws IOException, WebApiException {
+		return jsonFactory.fromJson(JSONObject.fromObject(execMethod()));
+	}
+	
+	@Override
+	public SettableFuture<T> execAsync() {
 		SettableFuture<T> settableFuture = SettableFuture.create();
 		try {
-			settableFuture.set(get());
+			settableFuture.set(exec());
 		} catch (Exception e) {
 			settableFuture.setException(e);
 		}
 		return settableFuture;
 	}
-	
-	protected abstract T fromJson(JSONObject json);
 
 }

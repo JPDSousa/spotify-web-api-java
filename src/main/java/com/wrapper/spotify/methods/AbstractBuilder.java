@@ -17,7 +17,7 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	protected Url.Scheme scheme = Api.DEFAULT_SCHEME;
 	protected String host = Api.DEFAULT_HOST;
 	protected int port = Api.DEFAULT_PORT;
-	protected String path = null;
+	protected String path;
 	protected HttpManager httpManager;
 	protected JSON jsonBody;
 	protected List<Url.Parameter> parameters = new ArrayList<Url.Parameter>();
@@ -27,9 +27,10 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	
 	private final Function<B, Request<T>> builder;
 	
-	protected AbstractBuilder(Function<B, Request<T>> builder) {
+	protected AbstractBuilder(String path, Function<B, Request<T>> builder) {
 		super();
 		this.builder = builder;
+		this.path = path;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -109,17 +110,17 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 
 		return (B) this;
 	}
+	
+	@SuppressWarnings("unchecked")
+	protected B path(String path) {
+		this.path = path;
+		return (B) this;
+	}
 
 	@SuppressWarnings("unchecked")
 	public B part(Url.Part part) {
 		assert (part != null);
 		parts.add(part);
-		return (B) this;
-	}
-
-	@SuppressWarnings("unchecked")
-	public B path(String path) {
-		this.path = path;
 		return (B) this;
 	}
 

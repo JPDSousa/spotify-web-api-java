@@ -1,13 +1,9 @@
 package com.wrapper.spotify.methods.authentication;
 
-import static com.wrapper.spotify.methods.Paths.AUTHORIZATION;
-
 import com.google.common.base.Joiner;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
-
-import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -21,12 +17,10 @@ public class AuthorizationURLRequest extends AbstractRequest<Void> {
 	public static final class Builder extends AbstractBuilder<Builder, Void> {
 
 		protected Builder() {
-			super(AuthorizationURLRequest::new);
+			super(AUTHORIZATION, AuthorizationURLRequest::new);
 			host(Api.DEFAULT_AUTHENTICATION_HOST);
 			port(Api.DEFAULT_AUTHENTICATION_PORT);
 			scheme(Api.DEFAULT_AUTHENTICATION_SCHEME);
-
-			path(AUTHORIZATION);
 		}
 
 		public Builder scopes(List<String> scopes) {
@@ -56,12 +50,7 @@ public class AuthorizationURLRequest extends AbstractRequest<Void> {
 	}
 	
 	public AuthorizationURLRequest(Builder builder) {
-		super(builder);
-	}
-
-	@Override
-	protected Void fromJson(JSONObject json) {
-		return null;
+		super(null, builder);
 	}
 
 }
