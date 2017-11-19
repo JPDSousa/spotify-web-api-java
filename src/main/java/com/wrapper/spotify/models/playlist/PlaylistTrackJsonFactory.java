@@ -1,9 +1,7 @@
 package com.wrapper.spotify.models.playlist;
 
+import static com.wrapper.spotify.JsonUtil.createDate;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 
 import com.wrapper.spotify.json.AbstractJsonFactory;
 import com.wrapper.spotify.json.JsonFactory;
@@ -22,15 +20,10 @@ public class PlaylistTrackJsonFactory extends AbstractJsonFactory<PlaylistTrack>
 	private static final String ADDED_BY = "added_by";
 	private static final String TRACK = "track";
 	
-	private final String dateFormat;
-	private final TimeZone timeZone;
-	
 	private final JsonFactory<Track> trackFactory;
 	private final JsonFactory<User> userFactory;
 	
 	public PlaylistTrackJsonFactory() {
-		dateFormat = "yyyy-MM-dd'T'hh:mm:ss";
-		timeZone = TimeZone.getTimeZone("GMT");
 		trackFactory = new TrackJsonFactory();
 		userFactory = new UserJsonFactory();
 	}
@@ -52,12 +45,6 @@ public class PlaylistTrackJsonFactory extends AbstractJsonFactory<PlaylistTrack>
 		final Track track = trackFactory.fromJson(jsonObject.getJSONObject(TRACK));
 		returnedPlaylistTrack.setTrack(track);
 		return returnedPlaylistTrack;
-	}
-	
-	private Date createDate(String dateString) throws ParseException {
-		final SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-		formatter.setTimeZone(timeZone);
-		return formatter.parse(dateString);
 	}
 
 }
