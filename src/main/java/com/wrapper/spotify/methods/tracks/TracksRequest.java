@@ -1,61 +1,22 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.tracks;
 
-import com.google.common.base.Joiner;
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.IdsBuilder;
+import com.wrapper.spotify.models.ListJsonFactory;
 import com.wrapper.spotify.models.track.Track;
+import com.wrapper.spotify.models.track.TrackJsonFactory;
 
-import net.sf.json.JSONObject;
-
-import java.io.IOException;
 import java.util.List;
 
-public class TracksRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class TracksRequest extends AbstractRequest<List<Track>> {
 
-  public TracksRequest(Builder builder) {
-    super(builder);
-  }
-
-  public SettableFuture<List<Track>> getAsync() {
-    SettableFuture<List<Track>> tracksFuture = SettableFuture.create();
-
-    try {
-      final String jsonString = getJson();
-      final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-      tracksFuture.set(JsonUtil.createTracks(jsonObject));
-    } catch (Exception e) {
-      tracksFuture.setException(e);
-    }
-
-    return tracksFuture;
-  }
-
-  public List<Track> get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-    final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-    return JsonUtil.createTracks(jsonObject);
-  }
-
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder id(List<String> ids) {
-      assert (ids != null);
-      String idsParameter = Joiner.on(",").join(ids);
-      path("/v1/tracks");
-      return parameter("ids", idsParameter);
-    }
-
-    public TracksRequest build() {
-      return new TracksRequest(this);
-    }
-
-  }
+	public static IdsBuilder<List<Track>> builder() {
+		return new IdsBuilder<>(TRACKS, TracksRequest::new);
+	}
+	
+	public TracksRequest(IdsBuilder<List<Track>> builder) {
+		super(new ListJsonFactory<>("tracks", new TrackJsonFactory()), builder);
+	}
 
 }
