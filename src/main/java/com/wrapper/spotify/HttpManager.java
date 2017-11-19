@@ -9,6 +9,13 @@ import java.io.IOException;
  * A simple HTTP connection interface.
  */
 public interface HttpManager {
+	
+	public enum Method {
+		PUT,
+		GET,
+		POST,
+		DELETE
+	}
 
 	/**
 	 * Perform an HTTP GET request to the specified URL.
