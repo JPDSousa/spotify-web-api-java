@@ -2,7 +2,7 @@ package com.wrapper.spotify.methods.artists;
 
 import com.google.common.base.Joiner;
 import com.wrapper.spotify.methods.AbstractRequest;
-import com.wrapper.spotify.methods.IdBuilder;
+import com.wrapper.spotify.methods.DefaultBuilder;
 import com.wrapper.spotify.models.album.AlbumType;
 import com.wrapper.spotify.models.album.SimpleAlbum;
 import com.wrapper.spotify.models.album.SimpleAlbumJsonFactory;
@@ -12,14 +12,14 @@ import com.wrapper.spotify.models.page.PageJsonFactory;
 @SuppressWarnings("javadoc")
 public class AlbumsForArtistRequest extends AbstractRequest<Page<SimpleAlbum>> {
 
-	public static Builder builder() {
-		return new Builder();
+	public static Builder builder(String artistId) {
+		return new Builder(artistId);
 	}
 
-	public static class Builder extends IdBuilder<Page<SimpleAlbum>> {
+	public static class Builder extends DefaultBuilder<Page<SimpleAlbum>> {
 
-		public Builder() {
-			super(ARTISTS + "/%s/albums", AlbumsForArtistRequest::new);
+		public Builder(String artistId) {
+			super(joinPath(ARTISTS, artistId, "albums"), AlbumsForArtistRequest::new);
 		}
 
 		public Builder types(AlbumType... types) {
@@ -50,7 +50,7 @@ public class AlbumsForArtistRequest extends AbstractRequest<Page<SimpleAlbum>> {
 
 	}
 	
-	public AlbumsForArtistRequest(IdBuilder<Page<SimpleAlbum>> builder) {
+	public AlbumsForArtistRequest(DefaultBuilder<Page<SimpleAlbum>> builder) {
 		super(new PageJsonFactory<>(new SimpleAlbumJsonFactory()), builder);
 	}
 

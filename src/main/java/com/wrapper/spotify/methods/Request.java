@@ -23,6 +23,8 @@ public interface Request<T> {
 	public static final String NEW_RELEASES = BROWSE + "/new-releases";
 	public static final String FEATURED_PLAYLISTS = BROWSE + "/featured-playlists";
 	
+	public static final String USERS = "/v1/users";
+	
 	public static final String ME = "/v1/me";
 	public static final String ME_TRACKS = ME + "/tracks";
 	public static final String ME_TRACKS_CONTAINS = ME_TRACKS + "/contains";

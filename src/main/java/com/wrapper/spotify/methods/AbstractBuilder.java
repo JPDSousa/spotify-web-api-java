@@ -13,11 +13,11 @@ import net.sf.json.JSON;
 
 @SuppressWarnings("javadoc")
 public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Request.Builder<B, T> {
-
+	
 	protected Url.Scheme scheme = Api.DEFAULT_SCHEME;
 	protected String host = Api.DEFAULT_HOST;
 	protected int port = Api.DEFAULT_PORT;
-	protected String path;
+	protected final String path;
 	protected HttpManager httpManager;
 	protected JSON jsonBody;
 	protected List<Url.Parameter> parameters = new ArrayList<Url.Parameter>();
@@ -108,12 +108,6 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 				.setValue(value).build();
 		headerParameters.add(parameter);
 
-		return (B) this;
-	}
-	
-	@SuppressWarnings("unchecked")
-	protected B path(String path) {
-		this.path = path;
 		return (B) this;
 	}
 

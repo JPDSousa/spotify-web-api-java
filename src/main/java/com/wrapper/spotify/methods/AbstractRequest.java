@@ -16,6 +16,10 @@ import java.io.IOException;
 @SuppressWarnings("javadoc")
 public abstract class AbstractRequest<T> implements Request<T> {
 
+	protected static String joinPath(String... elements) {
+		return String.join("/", elements);
+	}
+	
 	private Url url;
 
 	private final HttpManager httpManager;
