@@ -1,67 +1,57 @@
 /**
  * Copyright (C) 2017 Spotify AB
  */
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.users;
 
 import com.google.common.collect.Maps;
-import com.google.common.util.concurrent.SettableFuture;
+import com.wrapper.spotify.HttpManager.Method;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.AbstractBuilder;
+import com.wrapper.spotify.methods.AbstractRequest;
+
 import net.sf.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class ChangePlaylistDetailsRequest extends AbstractRequest {
+@SuppressWarnings("javadoc")
+public class ChangePlaylistDetailsRequest extends AbstractRequest<String> {
 
-  public ChangePlaylistDetailsRequest(Builder builder) {
-    super(builder);
-  }
+	public static Builder builder(String userId, String playlistId) {
+		return new Builder(userId, playlistId);
+	}
 
-  public SettableFuture<String> getAsync() {
-    final SettableFuture<String> changeDetailsFuture = SettableFuture.create();
+	public static final class Builder extends AbstractBuilder<Builder, String> {
 
-    final String response;
-    try {
-      response = putJson();
-      changeDetailsFuture.set(response);
-    } catch (IOException e) {
-      changeDetailsFuture.setException(e);
-    } catch (WebApiException e) {
-      changeDetailsFuture.setException(e);
-    }
+		private final Map<String, Object> properties;
+		
+		protected Builder(String userId, String playlistId) {
+			super(joinPath(USERS, userId, "playlists", playlistId), ChangePlaylistDetailsRequest::new);
+			this.properties = Maps.newHashMap();
+			header("Content-Type", "application/json");
+			body(JSONObject.fromObject(properties));
+		}
 
-    return changeDetailsFuture;
-  }
+		public Builder name(String name) {
+			assert (name != null);
+			properties.put("name", name);
+			return this;
+		}
 
-  public String get() throws IOException, WebApiException {
-    return putJson();
-  }
+		public Builder publicAccess(boolean isPublic) {
+			properties.put("public", isPublic);
+			return this;
+		}
 
-  public static Builder builder() {
-    return new Builder();
-  }
+	}
+	
+	public ChangePlaylistDetailsRequest(Builder builder) {
+		super(null, Method.PUT, builder);
+	}
 
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    final private Map<String,Object> properties = Maps.newHashMap();
-
-    public Builder name(String name) {
-      assert (name != null);
-      properties.put("name", name);
-      return this;
-    }
-
-    public Builder publicAccess(boolean isPublic) {
-      properties.put("public", isPublic);
-      return this;
-    }
-
-    public ChangePlaylistDetailsRequest build() {
-      header("Content-Type", "application/json");
-      body(JSONObject.fromObject(properties));
-      return new ChangePlaylistDetailsRequest(this);
-    }
-
-  }
+	@Override
+	public String exec() throws IOException, WebApiException {
+		return putJson();
+	}
 
 }

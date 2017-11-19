@@ -1,67 +1,34 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.users;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.PageBuilder;
 import com.wrapper.spotify.models.page.Page;
+import com.wrapper.spotify.models.page.PageJsonFactory;
 import com.wrapper.spotify.models.playlist.PlaylistTrack;
+import com.wrapper.spotify.models.playlist.PlaylistTrackJsonFactory;
 
-import net.sf.json.JSONObject;
+@SuppressWarnings("javadoc")
+public class PlaylistTracksRequest extends AbstractRequest<Page<PlaylistTrack>> {
 
-import java.io.IOException;
+	public static final class Builder extends PageBuilder<Builder, Page<PlaylistTrack>> {
 
-public class PlaylistTracksRequest extends AbstractRequest {
+		protected Builder(String userId, String playlistId) {
+			super(String.join("/", USERS, userId, "playlists", playlistId, "tracks"), PlaylistTracksRequest::new);
+		}
 
-  public PlaylistTracksRequest(Builder builder) {
-    super(builder);
-  }
+		public Builder fields(String fields) {
+			assert (fields != null);
+			return parameter("fields", fields);
+		}
 
-  public static Builder builder() {
-    return new Builder();
-  }
+	}
+	
+	public PlaylistTracksRequest(Builder builder) {
+		super(new PageJsonFactory<>(new PlaylistTrackJsonFactory()), builder);
+	}
 
-  public SettableFuture<Page<PlaylistTrack>> getAsync() {
-    SettableFuture<Page<PlaylistTrack>> playlistFuture = SettableFuture.create();
-
-    try {
-      final String jsonString = getJson();
-      final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-      playlistFuture.set(JsonUtil.createPlaylistTrackPage(jsonObject));
-    } catch (Exception e) {
-      playlistFuture.setException(e);
-    }
-
-    return playlistFuture;
-  }
-
-  public Page<PlaylistTrack> get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-    final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-    return JsonUtil.createPlaylistTrackPage(jsonObject);
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder fields(String fields) {
-      assert (fields != null);
-      return parameter("fields", fields);
-    }
-
-    public Builder limit(int limit) {
-      assert (limit > 0);
-      return parameter("limit", String.valueOf(limit));
-    }
-
-    public Builder offset(int offset) {
-      assert (offset >= 0);
-      return parameter("offset", String.valueOf(offset));
-    }
-
-    public PlaylistTracksRequest build() {
-      return new PlaylistTracksRequest(this);
-    }
-
-  }
+	public static Builder builder(String userId, String playlistId) {
+		return new Builder(userId, playlistId);
+	}
+	
 }

@@ -1,69 +1,50 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.users;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.HttpManager.Method;
+import com.wrapper.spotify.methods.AbstractBuilder;
+import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.playlist.Playlist;
+import com.wrapper.spotify.models.playlist.PlaylistJsonFactory;
 
 import net.sf.json.JSONObject;
 
-import java.io.IOException;
+@SuppressWarnings("javadoc")
+public class PlaylistCreationRequest extends AbstractRequest<Playlist> {
 
-public class PlaylistCreationRequest extends AbstractRequest {
+	public static Builder builder(String userId) {
+		return new Builder(userId);
+	}
+	
+	public static final class Builder extends AbstractBuilder<Builder, Playlist> {
 
-  public PlaylistCreationRequest(Builder builder) {
-    super(builder);
-  }
+		protected Builder(String userId) {
+			super(joinPath(USERS, userId, "playlist"), PlaylistCreationRequest::new);
+		}
 
-  public static Builder builder() {
-    return new Builder();
-  }
+		private JSONObject jsonBody;
 
-  public SettableFuture<Playlist> getAsync() {
-    SettableFuture<Playlist> playlistFuture = SettableFuture.create();
+		public Builder publicAccess(boolean publicAccess) {
+			if (jsonBody == null) {
+				jsonBody = new JSONObject();
+			}
+			jsonBody.put("public",String.valueOf(publicAccess));
+			
+			return body(jsonBody);
+		}
 
-    try {
-      final JSONObject jsonObject = JSONObject.fromObject(postJson());
+		public Builder title(String title) {
+			if (jsonBody == null) {
+				jsonBody = new JSONObject();
+			}
+			jsonBody.put("name", String.valueOf(title));
+			
+			return body(jsonBody);
+		}
 
-      playlistFuture.set(JsonUtil.createPlaylist(jsonObject));
-    } catch (Exception e) {
-      playlistFuture.setException(e);
-    }
-
-    return playlistFuture;
-  }
-
-  public Playlist get() throws IOException, WebApiException {
-    final JSONObject jsonObject = JSONObject.fromObject(postJson());
-
-    return JsonUtil.createPlaylist(jsonObject);
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    private JSONObject jsonBody;
-
-    public Builder publicAccess(boolean publicAccess) {
-      if (jsonBody == null) {
-        jsonBody = new JSONObject();
-      }
-      jsonBody.put("public",String.valueOf(publicAccess));
-      return body(jsonBody);
-    }
-
-    public Builder title(String title) {
-      if (jsonBody == null) {
-        jsonBody = new JSONObject();
-      }
-      jsonBody.put("name",String.valueOf(title));
-      return body(jsonBody);
-    }
-
-    public PlaylistCreationRequest build() {
-      header("Content-Type", "application/json");
-      return new PlaylistCreationRequest(this);
-    }
-
-  }
+	}
+	
+	public PlaylistCreationRequest(Builder builder) {
+		super(new PlaylistJsonFactory(), Method.POST, builder);
+	}
 
 }

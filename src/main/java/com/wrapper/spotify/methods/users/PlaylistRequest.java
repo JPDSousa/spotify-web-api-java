@@ -1,58 +1,32 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.users;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.AbstractBuilder;
+import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.playlist.Playlist;
+import com.wrapper.spotify.models.playlist.PlaylistJsonFactory;
 
-import net.sf.json.JSONObject;
+@SuppressWarnings("javadoc")
+public class PlaylistRequest extends AbstractRequest<Playlist> {
 
-import java.io.IOException;
+	public static Builder builder(String userId, String playlistId) {
+		return new Builder(userId, playlistId);
+	}
 
-public class PlaylistRequest extends AbstractRequest {
+	public static final class Builder extends AbstractBuilder<Builder, Playlist> {
 
-  public PlaylistRequest(Builder builder) {
-    super(builder);
-  }
+		protected Builder(String userId, String playlistId) {
+			super(joinPath(USERS, userId, "playlists", playlistId), PlaylistRequest::new);
+		}
 
-  public static Builder builder() {
-    return new Builder();
-  }
+		public Builder fields(String fields) {
+			assert (fields != null);
+			return parameter("fields", fields);
+		}
 
-  public SettableFuture<Playlist> getAsync() {
-    SettableFuture<Playlist> playlistFuture = SettableFuture.create();
-
-    try {
-      final String jsonString = getJson();
-      final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-      playlistFuture.set(JsonUtil.createPlaylist(jsonObject));
-    } catch (Exception e) {
-      playlistFuture.setException(e);
-    }
-
-    return playlistFuture;
-  }
-
-  public Playlist get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-    final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-    return JsonUtil.createPlaylist(jsonObject);
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder fields(String fields) {
-      assert (fields != null);
-      return parameter("fields", fields);
-    }
-
-    public PlaylistRequest build() {
-
-      return new PlaylistRequest(this);
-    }
-
-  }
+	}
+	
+	public PlaylistRequest(Builder builder) {
+		super(new PlaylistJsonFactory(), builder);
+	}
 
 }

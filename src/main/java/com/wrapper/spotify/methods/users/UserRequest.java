@@ -1,56 +1,21 @@
-package com.wrapper.spotify.methods;
+package com.wrapper.spotify.methods.users;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.wrapper.spotify.JsonUtil;
-import com.wrapper.spotify.exceptions.WebApiException;
+import javax.swing.JOptionPane;
+
+import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.DefaultBuilder;
 import com.wrapper.spotify.models.user.User;
+import com.wrapper.spotify.models.user.UserJsonFactory;
 
-import net.sf.json.JSONObject;
+@SuppressWarnings("javadoc")
+public class UserRequest extends AbstractRequest<User> {
 
-import java.io.IOException;
-
-public class UserRequest extends AbstractRequest {
-
-  public UserRequest(Builder builder) {
-    super(builder);
-  }
-
-  public static Builder builder() {
-    return new Builder();
-  }
-
-  public SettableFuture<User> getAsync() {
-    final SettableFuture<User> userFuture = SettableFuture.create();
-
-    try {
-      final String jsonString = getJson();
-      final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-      userFuture.set(JsonUtil.createUser(jsonString));
-    } catch (Exception e) {
-      userFuture.setException(e);
-    }
-
-    return userFuture;
-  }
-
-  public User get() throws IOException, WebApiException {
-    final String jsonString = getJson();
-    final JSONObject jsonObject = JSONObject.fromObject(jsonString);
-
-    return JsonUtil.createUser(jsonString);
-  }
-
-  public static final class Builder extends AbstractRequest.Builder<Builder> {
-
-    public Builder username(String username) {
-      assert (username!= null);
-      return path(String.format("/v1/users/%s", username));
-    }
-
-    public UserRequest build() {
-      return new UserRequest(this);
-    }
-
-  }
+	public static DefaultBuilder<User> builder(String userId) {
+		return new DefaultBuilder<>(joinPath(USERS, userId), UserRequest::new);
+	}
+	
+	public UserRequest(DefaultBuilder<User> builder) {
+		super(new UserJsonFactory(), builder);
+	}
+	
 }
