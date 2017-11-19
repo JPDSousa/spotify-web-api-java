@@ -1,12 +1,15 @@
 package com.wrapper.spotify.exceptions;
 
+@SuppressWarnings("javadoc")
 public class EmptyResponseException extends WebApiException {
 
-  public EmptyResponseException() {
-    super();
-  }
+	private static final long serialVersionUID = 1L;
 
-  public EmptyResponseException(String message) {
-    super(message);
-  }
+	public EmptyResponseException() {
+		super();
+	}
+
+	public EmptyResponseException(String message) {
+		super(message);
+	}
 }

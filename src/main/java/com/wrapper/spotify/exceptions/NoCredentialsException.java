@@ -1,8 +1,11 @@
 package com.wrapper.spotify.exceptions;
 
+@SuppressWarnings("javadoc")
 public class NoCredentialsException extends WebApiException {
 
-  public NoCredentialsException() {
-    super();
-  }
+	private static final long serialVersionUID = 1L;
+
+	public NoCredentialsException() {
+		super();
+	}
 }
