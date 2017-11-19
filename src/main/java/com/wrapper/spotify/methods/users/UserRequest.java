@@ -1,7 +1,5 @@
 package com.wrapper.spotify.methods.users;
 
-import javax.swing.JOptionPane;
-
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.methods.DefaultBuilder;
 import com.wrapper.spotify.models.user.User;
