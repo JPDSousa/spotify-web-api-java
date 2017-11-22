@@ -3,6 +3,7 @@
  */
 package com.wrapper.spotify.models;
 
+@SuppressWarnings("javadoc")
 public class SnapshotResult {
 
   public String snapshotId;

@@ -7,24 +7,25 @@ import java.util.Date;
 
 import com.wrapper.spotify.models.track.Track;
 
+@SuppressWarnings("javadoc")
 public class LibraryTrack {
 
-  private Date addedAt;
-  private Track track;
+	private Date addedAt;
+	private Track track;
 
-  public Date getAddedAt() {
-    return addedAt;
-  }
+	public Date getAddedAt() {
+		return addedAt;
+	}
 
-  public void setAddedAt(Date addedAt) {
-    this.addedAt = addedAt;
-  }
+	public void setAddedAt(Date addedAt) {
+		this.addedAt = addedAt;
+	}
 
-  public Track getTrack() {
-    return track;
-  }
+	public Track getTrack() {
+		return track;
+	}
 
-  public void setTrack(Track track) {
-    this.track = track;
-  }
+	public void setTrack(Track track) {
+		this.track = track;
+	}
 }
