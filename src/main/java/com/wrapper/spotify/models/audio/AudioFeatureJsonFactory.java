@@ -1,4 +1,4 @@
-package com.wrapper.spotify.models;
+package com.wrapper.spotify.models.audio;
 
 import com.wrapper.spotify.json.AbstractJsonFactory;
 
