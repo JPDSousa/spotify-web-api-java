@@ -1,7 +1,11 @@
 package com.wrapper.spotify.methods.browse;
 
+import com.neovisionaries.i18n.CountryCode;
+import com.neovisionaries.i18n.LanguageCode;
+import com.wrapper.spotify.methods.AbstractPageBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
-import com.wrapper.spotify.methods.PageBuilder;
+import com.wrapper.spotify.methods.BuilderUtils;
+import com.wrapper.spotify.methods.CountryBuilder;
 import com.wrapper.spotify.models.FeaturedPlaylists;
 import com.wrapper.spotify.models.playlist.FeaturedPlaylistsJsonFactory;
 
@@ -16,30 +20,31 @@ public class FeaturedPlaylistsRequest extends AbstractRequest<FeaturedPlaylists>
 		return new Builder();
 	}
 
-	public static final class Builder extends PageBuilder<Builder, FeaturedPlaylists> {
+	public static final class Builder extends AbstractPageBuilder<Builder, FeaturedPlaylists> implements CountryBuilder<Builder> {
 
 		protected Builder() {
 			super(FEATURED_PLAYLISTS, FeaturedPlaylistsRequest::new);
 		}
 
-		public Builder country(String countryCode) {
-			assert (countryCode != null);
-			return parameter("country", countryCode);
-		}
-
-		public Builder locale(String locale) {
-			assert (locale != null);
-			return parameter("locale", locale);
+		public Builder locale(LanguageCode language, CountryCode country) {
+			assert (language != null && country != null);
+			return parameter("locale", String.join("_", language.name(), country.name()));
 		}
 
 		public Builder timestamp(Date timestamp) {
 			assert (timestamp != null);
+			
 			final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 			return parameter("timestamp", format.format(timestamp));
 		}
 
 		public Builder accessToken(String accessToken) {
 			return header("Authorization", "Bearer " + accessToken);
+		}
+
+		@Override
+		public Builder country(CountryCode code) {
+			return BuilderUtils.country(this, code);
 		}
 
 	}

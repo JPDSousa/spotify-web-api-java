@@ -14,7 +14,7 @@ import java.io.IOException;
 public class RemoveFromMySavedTracksRequest extends AbstractRequest<String> {
 
 	public static IdsBuilder<String> builder() {
-		return new IdsBuilder<>(ME_TRACKS, RemoveFromMySavedTracksRequest::new);
+		return new IdsBuilder<>(50, ME_TRACKS, RemoveFromMySavedTracksRequest::new);
 	}
 	
 	public RemoveFromMySavedTracksRequest(IdsBuilder<String> builder) {

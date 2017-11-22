@@ -2,7 +2,6 @@ package com.wrapper.spotify.methods;
 
 import java.io.IOException;
 
-import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.UtilProtos.Url;
 import com.wrapper.spotify.exceptions.WebApiException;
@@ -14,6 +13,7 @@ public interface Request<T> {
 	public static final String ARTISTS = "/v1/artists";
 	public static final String TRACKS = "/v1/tracks";
 	public static final String AUDIO_FEATURES = "/v1/audio-features";
+	public static final String RECOMMENDATIONS = "v1/recommendations";
 	public static final String SEARCH = "/v1/search";
 	
 	public static final String TOKEN = "/api/token";
@@ -38,8 +38,6 @@ public interface Request<T> {
 	}
 
 	T exec() throws IOException, WebApiException;
-	
-	SettableFuture<T> execAsync();
 	
 	Url toUrl();
 

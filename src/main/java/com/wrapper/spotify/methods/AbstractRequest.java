@@ -1,6 +1,5 @@
 package com.wrapper.spotify.methods;
 
-import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.HttpManager.Method;
@@ -113,17 +112,6 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	@Override
 	public T exec() throws IOException, WebApiException {
 		return jsonFactory.fromJson(JSONObject.fromObject(execMethod()));
-	}
-	
-	@Override
-	public SettableFuture<T> execAsync() {
-		SettableFuture<T> settableFuture = SettableFuture.create();
-		try {
-			settableFuture.set(exec());
-		} catch (Exception e) {
-			settableFuture.setException(e);
-		}
-		return settableFuture;
 	}
 
 }

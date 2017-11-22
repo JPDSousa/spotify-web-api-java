@@ -17,7 +17,7 @@ import java.util.List;
 public class ContainsMySavedTracksRequest extends AbstractRequest<List<Boolean>> {
 
 	public static IdsBuilder<List<Boolean>> builder() {
-		return new IdsBuilder<>(ME_TRACKS_CONTAINS, b -> {
+		return new IdsBuilder<>(50, ME_TRACKS_CONTAINS, b -> {
 			b.header("Content-Type", "application/json");
 			return new ContainsMySavedTracksRequest(b);
 		});

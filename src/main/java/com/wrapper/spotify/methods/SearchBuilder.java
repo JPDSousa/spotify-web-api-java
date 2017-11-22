@@ -2,10 +2,11 @@ package com.wrapper.spotify.methods;
 
 import java.util.function.Function;
 
+import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.models.SpotifyEntityType;
 
 @SuppressWarnings("javadoc")
-public class SearchBuilder<T> extends PageBuilder<SearchBuilder<T>, T> {
+public class SearchBuilder<T> extends AbstractPageBuilder<SearchBuilder<T>, T> implements MarketBuilder<SearchBuilder<T>> {
 	
 	public SearchBuilder(SpotifyEntityType type, Function<SearchBuilder<T>, Request<T>> builder) {
 		super(Request.SEARCH, builder);
@@ -18,15 +19,19 @@ public class SearchBuilder<T> extends PageBuilder<SearchBuilder<T>, T> {
 		return this;
 	}
 	
-	public SearchBuilder<T> market(String market) {
-		assert (market != null);
-		parameter("market", market);
-		return this;
+	@Override
+	public SearchBuilder<T> market(CountryCode market) {
+		return BuilderUtils.market(this, market);
 	}
 
 
 	private String encode(String query) {
 		return query.replace(" ", "+");
+	}
+
+	@Override
+	public SearchBuilder<T> marketFromToken() {
+		return BuilderUtils.marketFromToken(this);
 	}
 
 }

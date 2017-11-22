@@ -12,7 +12,7 @@ import java.util.List;
 public class ArtistsRequest extends AbstractRequest<List<Artist>> {
 
 	public static IdsBuilder<List<Artist>> builder() {
-		return new IdsBuilder<>(ARTISTS, ArtistsRequest::new);
+		return new IdsBuilder<>(50, ARTISTS, ArtistsRequest::new);
 	}
 
 	public ArtistsRequest(IdsBuilder<List<Artist>> builder) {

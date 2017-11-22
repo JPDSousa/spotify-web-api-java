@@ -1,8 +1,12 @@
 package com.wrapper.spotify.methods.artists;
 
 import com.google.common.base.Joiner;
+import com.neovisionaries.i18n.CountryCode;
+import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
-import com.wrapper.spotify.methods.DefaultBuilder;
+import com.wrapper.spotify.methods.BuilderUtils;
+import com.wrapper.spotify.methods.MarketBuilder;
+import com.wrapper.spotify.methods.PageBuilder;
 import com.wrapper.spotify.models.album.AlbumType;
 import com.wrapper.spotify.models.album.SimpleAlbum;
 import com.wrapper.spotify.models.album.SimpleAlbumJsonFactory;
@@ -16,7 +20,7 @@ public class AlbumsForArtistRequest extends AbstractRequest<Page<SimpleAlbum>> {
 		return new Builder(artistId);
 	}
 
-	public static class Builder extends DefaultBuilder<Page<SimpleAlbum>> {
+	public static class Builder extends AbstractBuilder<Builder, Page<SimpleAlbum>> implements MarketBuilder<Builder>, PageBuilder<Builder> {
 
 		public Builder(String artistId) {
 			super(joinPath(ARTISTS, artistId, "albums"), AlbumsForArtistRequest::new);
@@ -30,27 +34,29 @@ public class AlbumsForArtistRequest extends AbstractRequest<Page<SimpleAlbum>> {
 			return this;
 		}
 
-		public Builder market(String market) {
-			assert (market != null);
-			parameter("market", market);
-			return this;
+		@Override
+		public Builder market(CountryCode market) {
+			return BuilderUtils.market(this, market);
 		}
 
+		@Override
 		public Builder limit(int limit) {
-			assert (limit > 0);
-			parameter("limit", String.valueOf(limit));
-			return this;
+			return BuilderUtils.limit(this, limit);
 		}
 
+		@Override
 		public Builder offset(int offset) {
-			assert (offset >= 0);
-			parameter("offset", String.valueOf(offset));
-			return this;
+			return BuilderUtils.offset(this, offset);
+		}
+
+		@Override
+		public Builder marketFromToken() {
+			return BuilderUtils.marketFromToken(this);
 		}
 
 	}
 	
-	public AlbumsForArtistRequest(DefaultBuilder<Page<SimpleAlbum>> builder) {
+	public AlbumsForArtistRequest(Builder builder) {
 		super(new PageJsonFactory<>(new SimpleAlbumJsonFactory()), builder);
 	}
 

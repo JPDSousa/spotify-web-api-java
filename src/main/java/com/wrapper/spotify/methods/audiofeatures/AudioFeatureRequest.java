@@ -2,8 +2,8 @@ package com.wrapper.spotify.methods.audiofeatures;
 
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.methods.DefaultBuilder;
-import com.wrapper.spotify.models.AudioFeature;
-import com.wrapper.spotify.models.AudioFeatureJsonFactory;
+import com.wrapper.spotify.models.audio.AudioFeature;
+import com.wrapper.spotify.models.audio.AudioFeatureJsonFactory;
 
 @SuppressWarnings("javadoc")
 public class AudioFeatureRequest extends AbstractRequest<AudioFeature> {

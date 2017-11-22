@@ -3,8 +3,8 @@
  */
 package com.wrapper.spotify.methods.me;
 
+import com.wrapper.spotify.methods.AbstractPageBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
-import com.wrapper.spotify.methods.PageBuilder;
 import com.wrapper.spotify.models.LibraryTrack;
 import com.wrapper.spotify.models.LibraryTrackJsonFactory;
 import com.wrapper.spotify.models.page.Page;
@@ -17,7 +17,7 @@ public class GetMySavedTracksRequest extends AbstractRequest<Page<LibraryTrack>>
 		return new Builder();
 	}
 
-	public static final class Builder extends PageBuilder<Builder, Page<LibraryTrack>> {
+	public static final class Builder extends AbstractPageBuilder<Builder, Page<LibraryTrack>> {
 
 		protected Builder() {
 			super(ME_TRACKS, GetMySavedTracksRequest::new);
