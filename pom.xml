@@ -162,6 +162,10 @@
         	<groupId>com.neovisionaries</groupId>
         	<artifactId>nv-i18n</artifactId>
         </dependency>
+        <dependency>
+        	<groupId>org.rocksdb</groupId>
+        	<artifactId>rocksdbjni</artifactId>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -204,6 +208,11 @@
     			<groupId>com.neovisionaries</groupId>
     			<artifactId>nv-i18n</artifactId>
     			<version>1.22</version>
+    		</dependency>
+    		<dependency>
+    			<groupId>org.rocksdb</groupId>
+    			<artifactId>rocksdbjni</artifactId>
+    			<version>5.3.6</version>
     		</dependency>
     	</dependencies>
     </dependencyManagement>
