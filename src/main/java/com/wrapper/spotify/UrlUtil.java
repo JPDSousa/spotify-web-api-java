@@ -22,15 +22,15 @@ public abstract class UrlUtil {
 	public static String assemble(UtilProtos.Url url)  {
 		try {
 			if (!url.getPath().contains("users")) {
-				final URIBuilder uriBuilder = new URIBuilder();
-
-				URI uri = uriBuilder.build();
-				// final URI uri = new URI(SCHEME_NAMES.get(url.getScheme()), null, url.getHost(), url.getPort(), url.getPath());
-				return uri.toString();
-			} else {
-				final URI uri = new URI(SCHEME_NAMES.get(url.getScheme()), null, url.getHost(), url.getPort(), null, null, null);
-				return uri.toString() + url.getPath();
+				final URIBuilder uriBuilder = new URIBuilder()
+						.setScheme(SCHEME_NAMES.get(url.getScheme()))
+						.setHost(url.getHost())
+						.setPort(url.getPort())
+						.setPath(url.getPath());
+				return uriBuilder.build().toString();
 			}
+			final URI uri = new URI(SCHEME_NAMES.get(url.getScheme()), null, url.getHost(), url.getPort(), null, null, null);
+			return uri.toString() + url.getPath();
 		} catch (Throwable e) {
 			throw new IllegalStateException(e);
 		}
