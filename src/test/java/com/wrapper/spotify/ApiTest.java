@@ -27,9 +27,15 @@ import com.wrapper.spotify.models.user.User;
 
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.binary.Base64;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.rocksdb.Options;
+import org.rocksdb.RocksDB;
+import org.rocksdb.RocksDBException;
 
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -44,12 +50,29 @@ import static junit.framework.TestCase.assertEquals;
 public class ApiTest {
 	
 	private static final String BASE_URL = "https://api.spotify.com:443";
+	private static final String BASE_URL_HTTP = "http://api.spotify.com:443"; 
 	
 	private static Api api;
+	
+	private static Options options;
+	private static RocksDB cache;
+
+	@BeforeClass
+	public static final void beforeClass() throws RocksDBException {
+		RocksDB.loadLibrary();
+		options = new Options();
+		cache = RocksDB.open(options.setCreateIfMissing(true), Paths.get("cache").toString());
+	}
+	
+	@AfterClass
+	public static final void afterClass() {
+		cache.close();
+		options.close();
+	}
 
 	@Before
 	public final void before() {
-		api = Api.DEFAULT_API;
+		api = Api.builder().cache(cache).build();
 	}
 	
 	@Test
@@ -181,7 +204,7 @@ public class ApiTest {
 	public void shouldCreateSearchUrl() {
 		final Request<Page<Track>> request = api.searchTracks("moulat swalf").build();
 		assertEquals("https://api.spotify.com:443/v1/search", request.toString());
-		assertHasParameter(request.toUrl(), "q", "moulat swalf");
+		assertHasParameter(request.toUrl(), "q", "moulat+swalf");
 		assertHasParameter(request.toUrl(), "type", "track");
 	}
 
@@ -207,7 +230,7 @@ public class ApiTest {
 	public void shouldCreateSearchUrlWithLimitParameter() {
 		final Request<Page<Track>> request = api.searchTracks("moulat swalf").limit(2).market(CountryCode.SE).build();
 		assertEquals("https://api.spotify.com:443/v1/search", request.toString());
-		assertHasParameter(request.toUrl(), "q", "moulat swalf");
+		assertHasParameter(request.toUrl(), "q", "moulat+swalf");
 		assertHasParameter(request.toUrl(), "limit", "2");
 		assertHasParameter(request.toUrl(), "type", "track");
 		assertHasParameter(request.toUrl(), "market", "SE");
@@ -217,7 +240,7 @@ public class ApiTest {
 	public void shouldCreateSearchUrlWithOffsetParameter() {
 		final Request<Page<Track>> request = api.searchTracks("moulat swalf").offset(2).build();
 		assertEquals("https://api.spotify.com:443/v1/search", request.toString());
-		assertHasParameter(request.toUrl(), "q", "moulat swalf");
+		assertHasParameter(request.toUrl(), "q", "moulat+swalf");
 		assertHasParameter(request.toUrl(), "offset", "2");
 		assertHasParameter(request.toUrl(), "type", "track");
 	}
@@ -225,8 +248,10 @@ public class ApiTest {
 	@Test
 	public void shouldModifySchemeInUrl() {
 		final Api api = Api.builder().scheme(Scheme.HTTP).build();
-		final Request<Album> request = api.getAlbum("5oEljuMoe9MXH6tBIPbd5e").build();
-		assertEquals("http://api.spotify.com:443/v1/albums/5oEljuMoe9MXH6tBIPbd5e", request.toString());
+		final String id = "5oEljuMoe9MXH6tBIPbd5e";
+		final Request<Album> request = api.getAlbum(id).build();
+		final String expected = BASE_URL_HTTP + Request.ALBUMS + "/" + id;
+		assertEquals(expected, request.toString());
 	}
 
 	@Test
@@ -261,9 +286,10 @@ public class ApiTest {
 	public void shouldCreateUrlForListingAUsersPlaylists() {
 		final String accessToken = "myVeryLongAccessToken";
 		final Api api = Api.builder().accessToken(accessToken).build();
-		final Request<Page<SimplePlaylist>> request = api.getPlaylistsForUser("wizzler").build();
+		final String userId = "wizzler";
+		final Request<Page<SimplePlaylist>> request = api.getPlaylistsForUser(userId).build();
 
-		assertEquals("https://api.spotify.com:443/v1/users/wizzler/playlists", request.toString());
+		assertEquals(BASE_URL + "/v1/users/wizzler/playlists", request.toString());
 		assertHasHeader(request.toUrl(), "Authorization", "Bearer " + accessToken);
 	}
 
@@ -382,10 +408,8 @@ public class ApiTest {
 	public void shouldCreateChangePlaylistDetailsUrl() {
 		final String accessToken = "myVeryLongAccessToken";
 		final Api api = Api.builder().accessToken(accessToken).build();
-
 		final String myUsername = "thelinmichael";
 		final String myPlaylistId = "5ieJqeLJjjI8iJWaxeBLuK";
-
 		final boolean isPublic = false;
 		final String name = "Testing name change";
 
@@ -478,7 +502,11 @@ public class ApiTest {
 		final String state = "someExpectedStateString";
 
 		String authorizeURL = api.createAuthorizeURL(scopes, state);
-		assertEquals("https://accounts.spotify.com:443/authorize?client_id=fcecfc79122e4cd299473677a17cbd4d&response_type=code&redirect_uri=http://www.michaelthelin.se/test-callback&scope=user-read-private%20user-read-email&state=someExpectedStateString", authorizeURL);
+		final String expected = "https://accounts.spotify.com:443"
+				+ "/authorize?client_id=fcecfc79122e4cd299473677a17cbd4d&response_type=code"
+				+ "&redirect_uri=http://www.michaelthelin.se/test-callback"
+				+ "&scope=user-read-private%20user-read-email&state=someExpectedStateString";
+		assertEquals(expected, authorizeURL);
 	}
 
 	@Test
