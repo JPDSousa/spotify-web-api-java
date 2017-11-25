@@ -35,7 +35,7 @@ import java.util.List;
 @SuppressWarnings("javadoc")
 public class HttpMethodTest {
 
-	public static Api api;
+	private Api api;
 
 	@Before
 	public void before() {
@@ -233,19 +233,16 @@ public class HttpMethodTest {
 
 	@Test
 	public void shouldGetPlaylistTracksResult() throws Exception {
-		String accessToken = "someToken";
+		final String accessToken = "someToken";
 		final Api api = Api.builder().accessToken(accessToken).build();
-
 		final Request<Page<PlaylistTrack>> request = api
 				.getPlaylistTracks("thelinmichael", "3ktAYNcRHpazJ9qecm3ptn")
 				.httpManager(TestUtil.MockedHttpManager.returningJson("playlist-tracks.json"))
 				.build();
-
 		final Page<PlaylistTrack> page = request.exec();
 
 		assertNotNull(page);
-		assertEquals(
-				"https://api.spotify.com/v1/users/thelinmichael/playlists/3ktAYNcRHpazJ9qecm3ptn/tracks",
+		assertEquals("https://api.spotify.com/v1/users/thelinmichael/playlists/3ktAYNcRHpazJ9qecm3ptn/tracks",
 				page.getHref());
 		assertEquals(100, page.getLimit());
 		assertNull(page.getNext());
@@ -448,9 +445,9 @@ public class HttpMethodTest {
 		final Request<List<Album>> request = api.getAlbums("2hYe61Nd2oOoM6RYCwIma1")
 				.httpManager(TestUtil.MockedHttpManager.returningJson("albums.json"))
 				.build();
-		List<Album> albums = request.exec();
+		final List<Album> albums = request.exec();
 		assertEquals(1, albums.size());
-		Album firstAlbum = albums.get(0);
+		final Album firstAlbum = albums.get(0);
 		assertEquals("2hYe61Nd2oOoM6RYCwIma1", firstAlbum.getId());
 		assertEquals(AlbumType.ALBUM, firstAlbum.getAlbumType());
 		assertEquals("2013-11-08", firstAlbum.getReleaseDate());
