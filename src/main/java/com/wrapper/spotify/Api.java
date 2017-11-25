@@ -232,7 +232,7 @@ public class Api {
 	 * @return A builder that builds authorization code grant requests.
 	 */
 	public AuthorizationCodeGrantRequest.Builder authorizationCodeGrant(String code) {
-		return setDefaults(AuthorizationCodeGrantRequest.builder())
+		return AuthorizationCodeGrantRequest.builder()
 				.grantType("authorization_code")
 				.basicAuthorizationHeader(clientId, clientSecret)
 				.code(code)
@@ -245,7 +245,7 @@ public class Api {
 	 * @return A builder that builds refresh access token requests.
 	 */
 	public RefreshAccessTokenRequest.Builder refreshAccessToken() {
-		return setDefaults(RefreshAccessTokenRequest.builder())
+		return RefreshAccessTokenRequest.builder()
 				.grantType("refresh_token")
 				.refreshToken(refreshToken)
 				.basicAuthorizationHeader(clientId, clientSecret);
@@ -257,7 +257,7 @@ public class Api {
 	 * @return A builder that builds client credential grant requests.
 	 */
 	public ClientCredentialsGrantRequest.Builder clientCredentialsGrant() {
-		return setDefaults(ClientCredentialsGrantRequest.builder())
+		return ClientCredentialsGrantRequest.builder()
 				.grantType("client_credentials")
 				.basicAuthorizationHeader(clientId, clientSecret);
 	}
@@ -395,7 +395,6 @@ public class Api {
 	 */
 	public String createAuthorizeURL(List<String> scopes, String state) {
 		final AuthorizationURLRequest.Builder builder = AuthorizationURLRequest.builder();
-		setDefaults(builder);
 		builder.clientId(clientId);
 		builder.responseType("code");
 		builder.redirectURI(redirectURI);
@@ -417,7 +416,6 @@ public class Api {
 	 */
 	public AuthorizationURLRequest.Builder createAuthorizeURL(List<String> scopes) {
 		final AuthorizationURLRequest.Builder builder = AuthorizationURLRequest.builder();
-		setDefaults(builder);
 		builder.clientId(clientId);
 		builder.responseType("code");
 		builder.redirectURI(redirectURI);
