@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.rocksdb.RocksDB;
+
 import com.google.common.util.concurrent.RateLimiter;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
@@ -26,6 +28,7 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	protected List<Url.Part> parts = new ArrayList<Url.Part>();
 	protected List<Url.Parameter> bodyParameters = new ArrayList<Url.Parameter>();
 	protected RateLimiter rateLimiter;
+	protected RocksDB cache;
 	
 	private final Function<B, Request<T>> builder;
 	
@@ -62,12 +65,18 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 		this.scheme = scheme;
 		return (B) this;
 	}
+	
+	@SuppressWarnings("unchecked")
 	public B rateLimiter(RateLimiter rateLimiter) {
 		this.rateLimiter = rateLimiter;
 		return (B) this;
 	}
 	
 	@SuppressWarnings("unchecked")
+	public B cache(RocksDB cache) {
+		this.cache = cache;
+		return (B) this;
+	}
 
 	@SuppressWarnings("unchecked")
 	public B parameter(String name, String value) {

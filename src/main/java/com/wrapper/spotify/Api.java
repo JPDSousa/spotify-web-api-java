@@ -47,11 +47,17 @@ import net.sf.json.JSONArray;
 import java.util.Arrays;
 import java.util.List;
 
+import org.rocksdb.RocksDB;
+
 /**
  * Instances of the Api class provide access to the Spotify Web API.
  */
 @SuppressWarnings("javadoc")
 public class Api {
+	
+	static {
+		RocksDB.loadLibrary();
+	}
 
 	/**
 	 * The default host of Spotify API calls.
@@ -94,6 +100,7 @@ public class Api {
 	private final String clientSecret;
 	private final String redirectURI;
 	private final RateLimiter rateLimiter;
+	private final RocksDB cache;
 
 	private Api(Builder builder) {
 		assert (builder.host != null);
@@ -108,6 +115,7 @@ public class Api {
 		} else {
 			this.httpManager = builder.httpManager;
 		}
+		cache = builder.cache;
 		rateLimiter = builder.rateLimiter;
 		scheme = builder.scheme;
 		host = builder.host;
@@ -309,6 +317,7 @@ public class Api {
 		builder.host(host);
 		builder.port(port);
 		builder.rateLimiter(rateLimiter);
+		builder.cache(cache);
 		if (accessToken != null) {
 			builder.header("Authorization", "Bearer " + accessToken);
 		}
@@ -430,6 +439,13 @@ public class Api {
 		private String clientId;
 		private String clientSecret;
 		private String refreshToken;
+		private RocksDB cache;
+		
+		public Builder cache(RocksDB cache) {
+			this.cache = cache;
+			return this;
+		}
+		
 		public Builder rateLimiter(RateLimiter rateLimiter) {
 			this.rateLimiter = rateLimiter;
 			return this;

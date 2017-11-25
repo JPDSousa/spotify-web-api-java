@@ -13,6 +13,9 @@ import net.sf.json.JSONObject;
 
 import java.io.IOException;
 
+import org.rocksdb.RocksDB;
+import org.rocksdb.RocksDBException;
+
 @SuppressWarnings("javadoc")
 public abstract class AbstractRequest<T> implements Request<T> {
 
@@ -26,6 +29,8 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	private final Method method;
 	private final JsonFactory<T> jsonFactory;
 	private final RateLimiter rateLimiter;
+	private final RocksDB cache;
+	
 	public AbstractRequest(JsonFactory<T> jsonFactory, AbstractBuilder<?, T> builder) {
 		this(jsonFactory, Method.GET, builder);
 	}
@@ -40,6 +45,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		assert (builder.bodyParameters != null);
 		assert (builder.headerParameters != null);
 
+		this.cache = builder.cache;
 		this.method = method;
 		this.jsonFactory = jsonFactory;
 		this.rateLimiter = builder.rateLimiter;
@@ -97,6 +103,22 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		return httpManager.delete(url);
 	}
 	
+	private JSONObject fetchFromCache() {
+		if(cache == null) {
+			return null;
+		}
+		try {
+			final byte[] key = (method.name() + UrlUtil.assemble(url)).getBytes();
+			final byte[] rawValue = cache.get(key);
+			if(rawValue != null) {
+				return JSONObject.fromObject(new String(rawValue));
+			}
+			return null;
+		} catch (RocksDBException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	private String execMethod() throws IOException, WebApiException {
 		switch(method) {
 		case DELETE:
@@ -113,8 +135,12 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	
 	@Override
 	public T exec() throws IOException, WebApiException {
-		return jsonFactory.fromJson(JSONObject.fromObject(execMethod()));
+		JSONObject cached = fetchFromCache();
+		if(cached == null) {
 			rateLimiter.acquire();
+			cached = JSONObject.fromObject(execMethod());
+		}
+		return jsonFactory.fromJson(cached);
 	}
 
 }
