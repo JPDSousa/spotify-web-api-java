@@ -12,7 +12,7 @@ public class SimpleArtistJsonFactory extends SpotifyModelJsonFactory<SimpleArtis
 	@Override
 	public SimpleArtist fromJson(JSONObject jsonObject) {
 		final SimpleArtist simpleArtist = new SimpleArtist(getId(jsonObject));
-
+		fillObject(simpleArtist, jsonObject);
 		return simpleArtist;
 	}
 

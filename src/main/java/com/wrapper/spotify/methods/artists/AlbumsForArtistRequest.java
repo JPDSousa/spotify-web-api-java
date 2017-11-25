@@ -57,7 +57,7 @@ public class AlbumsForArtistRequest extends AbstractRequest<Page<SimpleAlbum>> {
 	}
 	
 	public AlbumsForArtistRequest(Builder builder) {
-		super(new PageJsonFactory<>(new SimpleAlbumJsonFactory()), builder);
+		super(new PageJsonFactory<>(null, new SimpleAlbumJsonFactory()), builder);
 	}
 
 }

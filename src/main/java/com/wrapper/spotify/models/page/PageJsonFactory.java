@@ -17,26 +17,35 @@ public class PageJsonFactory<T> extends AbstractJsonFactory<Page<T>> {
 	private static final String HREF = "href";
 	
 	private final JsonFactory<T> itemFactory;
+	private final String propName;
 	
-	public PageJsonFactory(JsonFactory<T> itemFactory) {
+	public PageJsonFactory(String propName, JsonFactory<T> itemFactory) {
 		this.itemFactory = itemFactory;
+		this.propName = propName;
 	}
 	
 	@Override
 	public Page<T> fromJson(JSONObject jsonObject) {
-		final Page<T> page = createItemlessPage(jsonObject);
-		page.setItems(itemFactory.fromJson(jsonObject.getJSONArray(ITEMS)));
+		final JSONObject unwrapped = propName != null ? jsonObject.getJSONObject(propName) : jsonObject;
+		final Page<T> page = createItemlessPage(unwrapped);
+		page.setItems(itemFactory.fromJson(unwrapped.getJSONArray(ITEMS)));
 		return page;
 	}
 
 	private Page<T> createItemlessPage(JSONObject jsonObject) {
-		final Page<T> page = new Page<>();
-		page.setHref(jsonObject.getString(HREF));
-		page.setLimit(jsonObject.getInt(LIMIT));
+		final Page<T> page = new Page<>(propName, itemFactory);
+//		if(existsAndNotNull(HREF, jsonObject)) {
+			page.setHref(jsonObject.getString(HREF));
+//		}
+//		if(existsAndNotNull(LIMIT, jsonObject)) {
+			page.setLimit(jsonObject.getInt(LIMIT));
+//		}
 		if (existsAndNotNull(NEXT, jsonObject)) {
 			page.setNext(jsonObject.getString(NEXT));
 		}
-		page.setOffset(jsonObject.getInt(OFFSET));
+//		if(existsAndNotNull(OFFSET, jsonObject)) {
+			page.setOffset(jsonObject.getInt(OFFSET));
+//		}
 		if (existsAndNotNull(PREVIOUS, jsonObject)) {
 			page.setPrevious(jsonObject.getString(PREVIOUS));
 		}

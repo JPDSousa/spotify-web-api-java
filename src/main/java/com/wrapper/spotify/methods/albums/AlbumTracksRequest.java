@@ -36,7 +36,7 @@ public class AlbumTracksRequest extends AbstractRequest<Page<SimpleTrack>> {
 	}
 	
 	public AlbumTracksRequest(Builder builder) {
-		super(new PageJsonFactory<>(new SimpleTrackJsonFactory()), builder);
+		super(new PageJsonFactory<>(null, new SimpleTrackJsonFactory()), builder);
 	}
 
 }

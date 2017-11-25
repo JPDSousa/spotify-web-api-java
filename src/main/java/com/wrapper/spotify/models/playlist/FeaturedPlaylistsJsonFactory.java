@@ -17,14 +17,14 @@ public class FeaturedPlaylistsJsonFactory extends AbstractJsonFactory<FeaturedPl
 	private final JsonFactory<Page<SimplePlaylist>> pageFactory;
 	
 	public FeaturedPlaylistsJsonFactory() {
-		pageFactory = new PageJsonFactory<>(new SimplePlaylistJsonFactory());
+		pageFactory = new PageJsonFactory<>(PLAYLISTS, new SimplePlaylistJsonFactory());
 	}
 	
 	@Override
 	public FeaturedPlaylists fromJson(JSONObject jsonObject) {
 		final FeaturedPlaylists featuredPlaylists = new FeaturedPlaylists();
 		featuredPlaylists.setMessage(jsonObject.getString(MESSAGE));
-		featuredPlaylists.setPlaylists(pageFactory.fromJson(jsonObject.getJSONObject(PLAYLISTS)));
+		featuredPlaylists.setPlaylists(pageFactory.fromJson(jsonObject));
 		return featuredPlaylists;
 	}
 

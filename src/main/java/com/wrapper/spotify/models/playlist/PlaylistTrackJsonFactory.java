@@ -7,8 +7,8 @@ import com.wrapper.spotify.json.AbstractJsonFactory;
 import com.wrapper.spotify.json.JsonFactory;
 import com.wrapper.spotify.models.track.Track;
 import com.wrapper.spotify.models.track.TrackJsonFactory;
-import com.wrapper.spotify.models.user.User;
-import com.wrapper.spotify.models.user.UserJsonFactory;
+import com.wrapper.spotify.models.user.SimpleUser;
+import com.wrapper.spotify.models.user.SimpleUserJsonFactory;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -21,11 +21,11 @@ public class PlaylistTrackJsonFactory extends AbstractJsonFactory<PlaylistTrack>
 	private static final String TRACK = "track";
 	
 	private final JsonFactory<Track> trackFactory;
-	private final JsonFactory<User> userFactory;
+	private final JsonFactory<SimpleUser> userFactory;
 	
 	public PlaylistTrackJsonFactory() {
 		trackFactory = new TrackJsonFactory();
-		userFactory = new UserJsonFactory();
+		userFactory = new SimpleUserJsonFactory();
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class PlaylistTrackJsonFactory extends AbstractJsonFactory<PlaylistTrack>
 			returnedPlaylistTrack.setAddedAt(null);
 		}
 		try {
-			final User user = userFactory.fromJson(jsonObject.getJSONObject(ADDED_BY));
+			final SimpleUser user = userFactory.fromJson(jsonObject.getJSONObject(ADDED_BY));
 			returnedPlaylistTrack.setAddedBy(user);
 		} catch (JSONException e) {
 			returnedPlaylistTrack.setAddedBy(null);

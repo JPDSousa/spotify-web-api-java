@@ -24,7 +24,7 @@ public class PlaylistTracksRequest extends AbstractRequest<Page<PlaylistTrack>> 
 	}
 	
 	public PlaylistTracksRequest(Builder builder) {
-		super(new PageJsonFactory<>(new PlaylistTrackJsonFactory()), builder);
+		super(new PageJsonFactory<>(null, new PlaylistTrackJsonFactory()), builder);
 	}
 
 	public static Builder builder(String userId, String playlistId) {

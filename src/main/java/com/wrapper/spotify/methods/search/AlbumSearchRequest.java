@@ -16,7 +16,7 @@ public class AlbumSearchRequest extends AbstractRequest<Page<SimpleAlbum>> {
 	}
 	
 	public AlbumSearchRequest(SearchBuilder<Page<SimpleAlbum>> builder) {
-		super(new PageJsonFactory<>(new SimpleAlbumJsonFactory()), builder);
+		super(new PageJsonFactory<>("albums", new SimpleAlbumJsonFactory()), builder);
 	}
 
 }

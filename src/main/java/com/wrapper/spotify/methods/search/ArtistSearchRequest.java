@@ -16,7 +16,7 @@ public class ArtistSearchRequest extends AbstractRequest<Page<Artist>> {
 	}
 	
 	public ArtistSearchRequest(SearchBuilder<Page<Artist>> builder) {
-		super(new PageJsonFactory<>(new ArtistJsonFactory()), builder);
+		super(new PageJsonFactory<>("artists", new ArtistJsonFactory()), builder);
 	}
 	
 }

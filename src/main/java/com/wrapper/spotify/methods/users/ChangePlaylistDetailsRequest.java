@@ -8,6 +8,7 @@ import com.wrapper.spotify.HttpManager.Method;
 import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
+import com.wrapper.spotify.methods.Request;
 
 import net.sf.json.JSONObject;
 
@@ -29,7 +30,6 @@ public class ChangePlaylistDetailsRequest extends AbstractRequest<String> {
 			super(joinPath(USERS, userId, "playlists", playlistId), ChangePlaylistDetailsRequest::new);
 			this.properties = Maps.newHashMap();
 			header("Content-Type", "application/json");
-			body(JSONObject.fromObject(properties));
 		}
 
 		public Builder name(String name) {
@@ -41,6 +41,12 @@ public class ChangePlaylistDetailsRequest extends AbstractRequest<String> {
 		public Builder publicAccess(boolean isPublic) {
 			properties.put("public", isPublic);
 			return this;
+		}
+
+		@Override
+		public Request<String> build() {
+			body(JSONObject.fromObject(properties));
+			return super.build();
 		}
 
 	}

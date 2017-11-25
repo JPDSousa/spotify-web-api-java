@@ -18,7 +18,8 @@ public class PlaylistCreationRequest extends AbstractRequest<Playlist> {
 	public static final class Builder extends AbstractBuilder<Builder, Playlist> {
 
 		protected Builder(String userId) {
-			super(joinPath(USERS, userId, "playlist"), PlaylistCreationRequest::new);
+			super(joinPath(USERS, userId, "playlists"), PlaylistCreationRequest::new);
+			header("Content-Type", "application/json");
 		}
 
 		private JSONObject jsonBody;

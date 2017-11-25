@@ -16,7 +16,7 @@ public class TrackSearchRequest extends AbstractRequest<Page<Track>> {
 	}
 	
 	public TrackSearchRequest(SearchBuilder<Page<Track>> builder) {
-		super(new PageJsonFactory<>(new TrackJsonFactory()), builder);
+		super(new PageJsonFactory<>("tracks", new TrackJsonFactory()), builder);
 	}
 
 }

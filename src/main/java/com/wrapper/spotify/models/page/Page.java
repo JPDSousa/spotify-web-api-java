@@ -3,6 +3,8 @@ package com.wrapper.spotify.models.page;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wrapper.spotify.json.JsonFactory;
+
 @SuppressWarnings("javadoc")
 public class Page<T> {
 
@@ -13,6 +15,21 @@ public class Page<T> {
 	private int offset;
 	private String previous;
 	private int total;
+	private final JsonFactory<T> jsonFactory;
+	private final String propName;
+	
+	public Page(String propName, JsonFactory<T> jsonFactory) {
+		this.jsonFactory = jsonFactory;
+		this.propName = propName;
+	}
+	
+	public JsonFactory<T> getJsonFactory() {
+		return jsonFactory;
+	}
+	
+	public String getPropName() {
+		return propName;
+	}
 
 	public String getHref() {
 		return href;

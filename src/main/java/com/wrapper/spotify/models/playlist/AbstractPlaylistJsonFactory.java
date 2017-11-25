@@ -1,7 +1,9 @@
 package com.wrapper.spotify.models.playlist;
 
+import com.wrapper.spotify.json.JsonFactory;
 import com.wrapper.spotify.models.image.ImageHolderJsonFactory;
-import com.wrapper.spotify.models.user.UserJsonFactory;
+import com.wrapper.spotify.models.user.SimpleUser;
+import com.wrapper.spotify.models.user.SimpleUserJsonFactory;
 
 import net.sf.json.JSONObject;
 
@@ -12,10 +14,10 @@ abstract class AbstractPlaylistJsonFactory<T extends AbstractPlaylist> extends I
 	private static final String NAME = "name";
 	private static final String COLLABORATIVE = "collaborative";
 	
-	protected final UserJsonFactory userFactory;
+	protected final JsonFactory<SimpleUser> userFactory;
 	
 	protected AbstractPlaylistJsonFactory() {
-		userFactory = new UserJsonFactory();
+		userFactory = new SimpleUserJsonFactory();
 	}
 	
 	@Override

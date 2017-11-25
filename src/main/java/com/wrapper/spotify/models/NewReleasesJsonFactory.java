@@ -15,13 +15,13 @@ public class NewReleasesJsonFactory extends AbstractJsonFactory<NewReleases> {
 	private final PageJsonFactory<SimpleAlbum> pageJsonFactory;
 	
 	public NewReleasesJsonFactory() {
-		pageJsonFactory = new PageJsonFactory<>(new SimpleAlbumJsonFactory());
+		pageJsonFactory = new PageJsonFactory<>(ALBUMS, new SimpleAlbumJsonFactory());
 	}
 
 	@Override
 	public NewReleases fromJson(JSONObject jsonObject) {
 		final NewReleases newReleases = new NewReleases();
-		newReleases.setAlbums(pageJsonFactory.fromJson(jsonObject.getJSONObject(ALBUMS)));
+		newReleases.setAlbums(pageJsonFactory.fromJson(jsonObject));
 		return newReleases;
 	}
 

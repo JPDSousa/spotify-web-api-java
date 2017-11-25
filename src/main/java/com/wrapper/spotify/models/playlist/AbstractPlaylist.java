@@ -2,12 +2,12 @@ package com.wrapper.spotify.models.playlist;
 
 import com.wrapper.spotify.models.SpotifyEntityType;
 import com.wrapper.spotify.models.image.DefaultImageHolder;
-import com.wrapper.spotify.models.user.User;
+import com.wrapper.spotify.models.user.SimpleUser;
 
 abstract class AbstractPlaylist extends DefaultImageHolder {
 
 	private boolean collaborative;
-	private User owner;
+	private SimpleUser owner;
 	private String name;
 	private boolean publicAccess;
 	
@@ -23,11 +23,11 @@ abstract class AbstractPlaylist extends DefaultImageHolder {
 		this.collaborative = collaborative;
 	}
 
-	public User getOwner() {
+	public SimpleUser getOwner() {
 		return owner;
 	}
 
-	public void setOwner(User owner) {
+	public void setOwner(SimpleUser owner) {
 		this.owner = owner;
 	}
 

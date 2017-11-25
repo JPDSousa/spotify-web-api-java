@@ -33,13 +33,13 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 		innerFactory = new SimpleAlbumJsonFactory();
 		trackFactory = new SimpleTrackJsonFactory();
 		artistFactory = new SimpleArtistJsonFactory();
-		pageFactory = new PageJsonFactory<>(trackFactory);
+		pageFactory = new PageJsonFactory<>(TRACKS, trackFactory);
 	}
 	
 	@Override
 	public Album fromJson(JSONObject jsonObject) {
 		final Album album = new Album(getId(jsonObject));
-		super.fillObject(album, jsonObject);
+		fillObject(album, jsonObject);
 		return album;
 	}
 
@@ -55,7 +55,7 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 		baseObject.setPopularity(jsonObject.getInt(POPULARITY));
 		baseObject.setReleaseDate(jsonObject.getString(RELEASE_DATE));
 		baseObject.setReleaseDatePrecision(jsonObject.getString(RELEASE_DATE_PRECISION));
-		baseObject.setTracks(pageFactory.fromJson(jsonObject.getJSONObject(TRACKS)));
+		baseObject.setTracks(pageFactory.fromJson(jsonObject));
 	}
 	
 	private List<Copyright> createCopyrights(JSONArray copyrightsJson) {

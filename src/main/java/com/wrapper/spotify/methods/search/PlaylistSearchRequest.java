@@ -16,7 +16,7 @@ public class PlaylistSearchRequest extends AbstractRequest<Page<SimplePlaylist>>
 	}
 
 	public PlaylistSearchRequest(SearchBuilder<Page<SimplePlaylist>> builder) {
-		super(new PageJsonFactory<>(new SimplePlaylistJsonFactory()), builder);
+		super(new PageJsonFactory<>("playlists", new SimplePlaylistJsonFactory()), builder);
 	}
 
 }

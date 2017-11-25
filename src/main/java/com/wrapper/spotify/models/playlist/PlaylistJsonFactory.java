@@ -10,7 +10,7 @@ public class PlaylistJsonFactory extends AbstractPlaylistJsonFactory<Playlist> {
 	private final PageJsonFactory<PlaylistTrack> pageFactory;
 	
 	public PlaylistJsonFactory() {
-		pageFactory = new PageJsonFactory<>(new PlaylistTrackJsonFactory());
+		pageFactory = new PageJsonFactory<>("tracks", new PlaylistTrackJsonFactory());
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class PlaylistJsonFactory extends AbstractPlaylistJsonFactory<Playlist> {
 	protected void fillObject(Playlist baseObject, JSONObject jsonObject) {
 		super.fillObject(baseObject, jsonObject);
 		if (existsAndNotNull("tracks", jsonObject)) {
-			baseObject.setTracks(pageFactory.fromJson(jsonObject.getJSONObject("tracks")));
+			baseObject.setTracks(pageFactory.fromJson(jsonObject));
 		}
 	}
 	

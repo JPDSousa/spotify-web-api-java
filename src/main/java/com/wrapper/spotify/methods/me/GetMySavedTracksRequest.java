@@ -30,7 +30,7 @@ public class GetMySavedTracksRequest extends AbstractRequest<Page<LibraryTrack>>
 	}
 	
 	public GetMySavedTracksRequest(Builder builder) {
-		super(new PageJsonFactory<>(new LibraryTrackJsonFactory()), builder);
+		super(new PageJsonFactory<>(null, new LibraryTrackJsonFactory()), builder);
 	}
 
 }

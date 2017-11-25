@@ -3,13 +3,13 @@ package com.wrapper.spotify.models.playlist;
 import java.util.Date;
 
 import com.wrapper.spotify.models.track.Track;
-import com.wrapper.spotify.models.user.User;
+import com.wrapper.spotify.models.user.SimpleUser;
 
 @SuppressWarnings("javadoc")
 public class PlaylistTrack {
 
 	private Date addedAt;
-	private User addedBy;
+	private SimpleUser addedBy;
 	private Track track;
 
 	public Date getAddedAt() {
@@ -20,11 +20,11 @@ public class PlaylistTrack {
 		this.addedAt = addedAt;
 	}
 
-	public User getAddedBy() {
+	public SimpleUser getAddedBy() {
 		return addedBy;
 	}
 
-	public void setAddedBy(User addedBy) {
+	public void setAddedBy(SimpleUser addedBy) {
 		this.addedBy = addedBy;
 	}
 
