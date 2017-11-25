@@ -1,5 +1,6 @@
 package com.wrapper.spotify;
 
+import com.google.common.util.concurrent.RateLimiter;
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.UtilProtos.Url.Scheme;
 import com.wrapper.spotify.methods.*;
@@ -92,11 +93,13 @@ public class Api {
 	private final String clientId;
 	private final String clientSecret;
 	private final String redirectURI;
+	private final RateLimiter rateLimiter;
 
 	private Api(Builder builder) {
 		assert (builder.host != null);
 		assert (builder.port > 0);
 		assert (builder.scheme != null);
+		assert builder.rateLimiter != null;
 
 		if (builder.httpManager == null) {
 			this.httpManager = SpotifyHttpManager
@@ -105,6 +108,7 @@ public class Api {
 		} else {
 			this.httpManager = builder.httpManager;
 		}
+		rateLimiter = builder.rateLimiter;
 		scheme = builder.scheme;
 		host = builder.host;
 		port = builder.port;
@@ -304,6 +308,7 @@ public class Api {
 		builder.scheme(scheme);
 		builder.host(host);
 		builder.port(port);
+		builder.rateLimiter(rateLimiter);
 		if (accessToken != null) {
 			builder.header("Authorization", "Bearer " + accessToken);
 		}
@@ -419,11 +424,16 @@ public class Api {
 		private int port = DEFAULT_PORT;
 		private HttpManager httpManager = null;
 		private Scheme scheme = DEFAULT_SCHEME;
+		private RateLimiter rateLimiter = RateLimiter.create(20);
 		private String accessToken;
 		private String redirectURI;
 		private String clientId;
 		private String clientSecret;
 		private String refreshToken;
+		public Builder rateLimiter(RateLimiter rateLimiter) {
+			this.rateLimiter = rateLimiter;
+			return this;
+		}
 
 		public Builder scheme(Scheme scheme) {
 			this.scheme = scheme;

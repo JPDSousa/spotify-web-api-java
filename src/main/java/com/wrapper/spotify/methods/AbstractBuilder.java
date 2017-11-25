@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import com.google.common.util.concurrent.RateLimiter;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.UtilProtos.Url;
@@ -24,6 +25,7 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	protected List<Url.Parameter> headerParameters = new ArrayList<Url.Parameter>();
 	protected List<Url.Part> parts = new ArrayList<Url.Part>();
 	protected List<Url.Parameter> bodyParameters = new ArrayList<Url.Parameter>();
+	protected RateLimiter rateLimiter;
 	
 	private final Function<B, Request<T>> builder;
 	
@@ -60,6 +62,12 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 		this.scheme = scheme;
 		return (B) this;
 	}
+	public B rateLimiter(RateLimiter rateLimiter) {
+		this.rateLimiter = rateLimiter;
+		return (B) this;
+	}
+	
+	@SuppressWarnings("unchecked")
 
 	@SuppressWarnings("unchecked")
 	public B parameter(String name, String value) {

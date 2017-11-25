@@ -1,5 +1,6 @@
 package com.wrapper.spotify.methods;
 
+import com.google.common.util.concurrent.RateLimiter;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.HttpManager.Method;
@@ -24,7 +25,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	private final HttpManager httpManager;
 	private final Method method;
 	private final JsonFactory<T> jsonFactory;
-
+	private final RateLimiter rateLimiter;
 	public AbstractRequest(JsonFactory<T> jsonFactory, AbstractBuilder<?, T> builder) {
 		this(jsonFactory, Method.GET, builder);
 	}
@@ -41,6 +42,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 
 		this.method = method;
 		this.jsonFactory = jsonFactory;
+		this.rateLimiter = builder.rateLimiter;
 		if (builder.httpManager == null) {
 			httpManager = Api.DEFAULT_HTTP_MANAGER;
 		} else {
@@ -112,6 +114,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	@Override
 	public T exec() throws IOException, WebApiException {
 		return jsonFactory.fromJson(JSONObject.fromObject(execMethod()));
+			rateLimiter.acquire();
 	}
 
 }
