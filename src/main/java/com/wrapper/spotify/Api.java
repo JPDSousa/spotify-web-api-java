@@ -23,6 +23,7 @@ import com.wrapper.spotify.methods.me.ContainsMySavedTracksRequest;
 import com.wrapper.spotify.methods.me.CurrentUserRequest;
 import com.wrapper.spotify.methods.me.GetMySavedTracksRequest;
 import com.wrapper.spotify.methods.me.RemoveFromMySavedTracksRequest;
+import com.wrapper.spotify.methods.page.PageRequest;
 import com.wrapper.spotify.methods.search.AlbumSearchRequest;
 import com.wrapper.spotify.methods.search.ArtistSearchRequest;
 import com.wrapper.spotify.methods.search.TrackSearchRequest;
@@ -44,6 +45,7 @@ import com.wrapper.spotify.models.user.User;
 
 import net.sf.json.JSONArray;
 
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -129,6 +131,31 @@ public class Api {
 
 	public static Builder builder() {
 		return new Builder();
+	}
+	
+	public <I> Request<Page<I>> getNextPage(Page<I> currentPage) {
+		final String href = currentPage.getNext();
+		if(href == null) {
+			return null;
+		}
+		return getPage(currentPage, href);
+	}
+	
+	public <I> Request<Page<I>> getPreviousPage(Page<I> currentPage) {
+		final String href = currentPage.getPrevious();
+		if(href == null) {
+			return null;
+		}
+		return getPage(currentPage, href);
+	}
+
+	private <I> Request<Page<I>> getPage(Page<I> currentPage, String href) {
+		try {
+			return PageRequest.builder(href, currentPage.getPropName(), currentPage.getJsonFactory())
+					.build();
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
