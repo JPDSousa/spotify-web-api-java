@@ -25,7 +25,7 @@ public class BuilderUtils {
 	}
 	
 	private static <B extends AbstractBuilder<B, ?>> B market(B builder, String value) {
-		return builder.parameter("marker", value);
+		return builder.parameter("market", value);
 	}
 	
 	public static <B extends AbstractBuilder<B, ?>> B country(B builder, CountryCode country) {
