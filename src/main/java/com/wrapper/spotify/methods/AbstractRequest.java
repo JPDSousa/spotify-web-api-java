@@ -23,8 +23,7 @@ public abstract class AbstractRequest<T> implements Request<T> {
 		return String.join("/", elements);
 	}
 	
-	private Url url;
-
+	private final Url url;
 	private final HttpManager httpManager;
 	private final Method method;
 	private final JsonFactory<T> jsonFactory;
