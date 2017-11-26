@@ -10,22 +10,22 @@ public class TrackAnalysis extends Section {
 	private int windowSeconds;
 	
 	private int analysisSampleRate;
-	private short analysisChannel;
+	private int analysisChannels;
 	
-	private float endOfFadeIn;
-	private float startOfFadeOut;
+	private double endOfFadeIn;
+	private double startOfFadeOut;
 	
 	private String codeString;
-	private float codeVersion;
+	private double codeVersion;
 	
 	private String echoPrintString;
-	private float echoPrintVersion;
+	private double echoPrintVersion;
 	
 	private String synchString;
-	private float synchVersion;
+	private double synchVersion;
 	
 	private String rythmString;
-	private float rythmVersion;
+	private double rythmVersion;
 	
 	public int getNumSamples() {
 		return numSamples;
@@ -67,27 +67,27 @@ public class TrackAnalysis extends Section {
 		this.analysisSampleRate = analysisSampleRate;
 	}
 	
-	public short getAnalysisChannel() {
-		return analysisChannel;
+	public int getAnalysisChannels() {
+		return analysisChannels;
 	}
 	
-	public void setAnalysisChannel(short analysisChannel) {
-		this.analysisChannel = analysisChannel;
+	public void setAnalysisChannels(int analysisChannels) {
+		this.analysisChannels = analysisChannels;
 	}
 	
-	public float getEndOfFadeIn() {
+	public double getEndOfFadeIn() {
 		return endOfFadeIn;
 	}
 	
-	public void setEndOfFadeIn(float endOfFadeIn) {
+	public void setEndOfFadeIn(double endOfFadeIn) {
 		this.endOfFadeIn = endOfFadeIn;
 	}
 	
-	public float getStartOfFadeOut() {
+	public double getStartOfFadeOut() {
 		return startOfFadeOut;
 	}
 	
-	public void setStartOfFadeOut(float startOfFadeOut) {
+	public void setStartOfFadeOut(double startOfFadeOut) {
 		this.startOfFadeOut = startOfFadeOut;
 	}
 	
@@ -99,11 +99,11 @@ public class TrackAnalysis extends Section {
 		this.codeString = codeString;
 	}
 	
-	public float getCodeVersion() {
+	public double getCodeVersion() {
 		return codeVersion;
 	}
 	
-	public void setCodeVersion(float codeVersion) {
+	public void setCodeVersion(double codeVersion) {
 		this.codeVersion = codeVersion;
 	}
 	
@@ -115,11 +115,11 @@ public class TrackAnalysis extends Section {
 		this.echoPrintString = echoPrintString;
 	}
 	
-	public float getEchoPrintVersion() {
+	public double getEchoPrintVersion() {
 		return echoPrintVersion;
 	}
 	
-	public void setEchoPrintVersion(float echoPrintVersion) {
+	public void setEchoPrintVersion(double echoPrintVersion) {
 		this.echoPrintVersion = echoPrintVersion;
 	}
 	
@@ -131,11 +131,11 @@ public class TrackAnalysis extends Section {
 		this.synchString = synchString;
 	}
 	
-	public float getSynchVersion() {
+	public double getSynchVersion() {
 		return synchVersion;
 	}
 	
-	public void setSynchVersion(float synchVersion) {
+	public void setSynchVersion(double synchVersion) {
 		this.synchVersion = synchVersion;
 	}
 	
@@ -147,11 +147,11 @@ public class TrackAnalysis extends Section {
 		this.rythmString = rythmString;
 	}
 	
-	public float getRythmVersion() {
+	public double getRythmVersion() {
 		return rythmVersion;
 	}
 	
-	public void setRythmVersion(float rythmVersion) {
+	public void setRythmVersion(double rythmVersion) {
 		this.rythmVersion = rythmVersion;
 	}
 

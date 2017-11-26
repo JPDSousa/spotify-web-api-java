@@ -3,31 +3,31 @@ package com.wrapper.spotify.models.audio;
 @SuppressWarnings("javadoc")
 public class Interval {
 	
-	private float start;
-	private float duration;
-	private float confidence;
+	private double start;
+	private double duration;
+	private double confidence;
 	
-	public float getStart() {
+	public double getStart() {
 		return start;
 	}
 	
-	public void setStart(float start) {
+	public void setStart(double start) {
 		this.start = start;
 	}
 	
-	public float getDuration() {
+	public double getDuration() {
 		return duration;
 	}
 	
-	public void setDuration(float duration) {
+	public void setDuration(double duration) {
 		this.duration = duration;
 	}
 	
-	public float getConfidence() {
+	public double getConfidence() {
 		return confidence;
 	}
 	
-	public void setConfidence(float confidence) {
+	public void setConfidence(double confidence) {
 		this.confidence = confidence;
 	}
 

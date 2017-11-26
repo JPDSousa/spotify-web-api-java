@@ -5,58 +5,58 @@ import java.util.List;
 @SuppressWarnings("javadoc")
 public class Segment extends Interval {
 	
-	private float loudnessStart;
-	private float loudnessMaxTime;
-	private float loudnessMax;
-	private float loudnessEnd;
-	private List<Float> pitches;
-	private List<Float> timbre;
+	private double loudnessStart;
+	private double loudnessMaxTime;
+	private double loudnessMax;
+	private double loudnessEnd;
+	private List<Double> pitches;
+	private List<Double> timbre;
 	
-	public float getLoudnessStart() {
+	public double getLoudnessStart() {
 		return loudnessStart;
 	}
 	
-	public void setLoudnessStart(float loudnessStart) {
+	public void setLoudnessStart(double loudnessStart) {
 		this.loudnessStart = loudnessStart;
 	}
 	
-	public float getLoudnessMaxTime() {
+	public double getLoudnessMaxTime() {
 		return loudnessMaxTime;
 	}
 	
-	public void setLoudnessMaxTime(float loudnessMaxTime) {
+	public void setLoudnessMaxTime(double loudnessMaxTime) {
 		this.loudnessMaxTime = loudnessMaxTime;
 	}
 	
-	public float getLoudnessMax() {
+	public double getLoudnessMax() {
 		return loudnessMax;
 	}
 	
-	public void setLoudnessMax(float loudnessMax) {
+	public void setLoudnessMax(double loudnessMax) {
 		this.loudnessMax = loudnessMax;
 	}
 	
-	public float getLoudnessEnd() {
+	public double getLoudnessEnd() {
 		return loudnessEnd;
 	}
 	
-	public void setLoudnessEnd(float loudnessEnd) {
+	public void setLoudnessEnd(double loudnessEnd) {
 		this.loudnessEnd = loudnessEnd;
 	}
 	
-	public List<Float> getPitches() {
+	public List<Double> getPitches() {
 		return pitches;
 	}
 	
-	public void setPitches(List<Float> pitches) {
+	public void setPitches(List<Double> pitches) {
 		this.pitches = pitches;
 	}
 	
-	public List<Float> getTimbre() {
+	public List<Double> getTimbre() {
 		return timbre;
 	}
 	
-	public void setTimbre(List<Float> timbre) {
+	public void setTimbre(List<Double> timbre) {
 		this.timbre = timbre;
 	}
 

@@ -8,7 +8,7 @@ public class Metadata {
 	private String detailedStatus;
 	private int statusCode;
 	private long timestamp;
-	private float analysisTime;
+	private double analysisTime;
 	private String inputProcess;
 	
 	public String getAnalyzerVersion() {
@@ -51,11 +51,11 @@ public class Metadata {
 		this.timestamp = timestamp;
 	}
 	
-	public float getAnalysisTime() {
+	public double getAnalysisTime() {
 		return analysisTime;
 	}
 	
-	public void setAnalysisTime(float analysisTime) {
+	public void setAnalysisTime(double analysisTime) {
 		this.analysisTime = analysisTime;
 	}
 	

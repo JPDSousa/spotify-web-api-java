@@ -3,89 +3,89 @@ package com.wrapper.spotify.models.audio;
 @SuppressWarnings("javadoc")
 public class Section extends Interval {
 	
-	private float loudness;
+	private double loudness;
 	
-	private float tempo;
-	private float tempoConfidence;
+	private double tempo;
+	private double tempoConfidence;
 	
-	private short key;
-	private float keyConfidence;
+	private int key;
+	private double keyConfidence;
 	
-	private short mode;
-	private float modeConfidence;
+	private int mode;
+	private double modeConfidence;
 	
-	private short timeSignature;
-	private float timeSignatureConfidence;
+	private int timeSignature;
+	private double timeSignatureConfidence;
 	
-	public float getLoudness() {
+	public double getLoudness() {
 		return loudness;
 	}
 	
-	public void setLoudness(float loudness) {
+	public void setLoudness(double loudness) {
 		this.loudness = loudness;
 	}
 	
-	public float getTempo() {
+	public double getTempo() {
 		return tempo;
 	}
 	
-	public void setTempo(float tempo) {
+	public void setTempo(double tempo) {
 		this.tempo = tempo;
 	}
 	
-	public float getTempoConfidence() {
+	public double getTempoConfidence() {
 		return tempoConfidence;
 	}
 	
-	public void setTempoConfidence(float tempoConfidence) {
+	public void setTempoConfidence(double tempoConfidence) {
 		this.tempoConfidence = tempoConfidence;
 	}
 	
-	public short getKey() {
+	public int getKey() {
 		return key;
 	}
 	
-	public void setKey(short key) {
+	public void setKey(int key) {
 		this.key = key;
 	}
 	
-	public float getKeyConfidence() {
+	public double getKeyConfidence() {
 		return keyConfidence;
 	}
 	
-	public void setKeyConfidence(float keyConfidence) {
+	public void setKeyConfidence(double keyConfidence) {
 		this.keyConfidence = keyConfidence;
 	}
 	
-	public short getMode() {
+	public int getMode() {
 		return mode;
 	}
 	
-	public void setMode(short mode) {
+	public void setMode(int mode) {
 		this.mode = mode;
 	}
 	
-	public float getModeConfidence() {
+	public double getModeConfidence() {
 		return modeConfidence;
 	}
 	
-	public void setModeConfidence(float modeConfidence) {
+	public void setModeConfidence(double modeConfidence) {
 		this.modeConfidence = modeConfidence;
 	}
 	
-	public short getTimeSignature() {
+	public int getTimeSignature() {
 		return timeSignature;
 	}
 	
-	public void setTimeSignature(short timeSignature) {
+	public void setTimeSignature(int timeSignature) {
 		this.timeSignature = timeSignature;
 	}
 	
-	public float getTimeSignatureConfidence() {
+	public double getTimeSignatureConfidence() {
 		return timeSignatureConfidence;
 	}
 	
-	public void setTimeSignatureConfidence(float timeSignatureConfidence) {
+	public void setTimeSignatureConfidence(double timeSignatureConfidence) {
 		this.timeSignatureConfidence = timeSignatureConfidence;
 	}
 	
