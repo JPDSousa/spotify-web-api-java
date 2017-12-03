@@ -54,7 +54,8 @@ public class AlbumJsonFactory extends ImageHolderJsonFactory<Album> {
 		baseObject.setGenres(getGenres(jsonObject));
 		baseObject.setPopularity(jsonObject.getInt(POPULARITY));
 		baseObject.setReleaseDate(jsonObject.getString(RELEASE_DATE));
-		baseObject.setReleaseDatePrecision(jsonObject.getString(RELEASE_DATE_PRECISION));
+		baseObject.setReleaseDatePrecision(ReleaseDatePrecision.forName(
+				jsonObject.getString(RELEASE_DATE_PRECISION)));
 		baseObject.setTracks(pageFactory.fromJson(jsonObject));
 	}
 	

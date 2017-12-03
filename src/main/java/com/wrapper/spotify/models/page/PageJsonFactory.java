@@ -28,28 +28,32 @@ public class PageJsonFactory<T> extends AbstractJsonFactory<Page<T>> {
 	public Page<T> fromJson(JSONObject jsonObject) {
 		final JSONObject unwrapped = propName != null ? jsonObject.getJSONObject(propName) : jsonObject;
 		final Page<T> page = createItemlessPage(unwrapped);
-		page.setItems(itemFactory.fromJson(unwrapped.getJSONArray(ITEMS)));
+		if(existsAndNotNull(ITEMS, unwrapped)) {
+			page.setItems(itemFactory.fromJson(unwrapped.getJSONArray(ITEMS)));
+		}
 		return page;
 	}
 
 	private Page<T> createItemlessPage(JSONObject jsonObject) {
 		final Page<T> page = new Page<>(propName, itemFactory);
-//		if(existsAndNotNull(HREF, jsonObject)) {
+		if(existsAndNotNull(HREF, jsonObject)) {
 			page.setHref(jsonObject.getString(HREF));
-//		}
-//		if(existsAndNotNull(LIMIT, jsonObject)) {
+		}
+		if(existsAndNotNull(LIMIT, jsonObject)) {
 			page.setLimit(jsonObject.getInt(LIMIT));
-//		}
+		}
 		if (existsAndNotNull(NEXT, jsonObject)) {
 			page.setNext(jsonObject.getString(NEXT));
 		}
-//		if(existsAndNotNull(OFFSET, jsonObject)) {
+		if(existsAndNotNull(OFFSET, jsonObject)) {
 			page.setOffset(jsonObject.getInt(OFFSET));
-//		}
+		}
 		if (existsAndNotNull(PREVIOUS, jsonObject)) {
 			page.setPrevious(jsonObject.getString(PREVIOUS));
 		}
-		page.setTotal(jsonObject.getInt(TOTAL));
+		if (existsAndNotNull(TOTAL, jsonObject)) {
+			page.setTotal(jsonObject.getInt(TOTAL));
+		}
 		return page;
 	}
 

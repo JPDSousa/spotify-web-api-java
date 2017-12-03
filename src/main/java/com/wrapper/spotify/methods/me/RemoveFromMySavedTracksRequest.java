@@ -3,8 +3,7 @@
  */
 package com.wrapper.spotify.methods.me;
 
-import com.wrapper.spotify.HttpManager.Method;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.Method;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.methods.IdsBuilder;
 
@@ -22,7 +21,7 @@ public class RemoveFromMySavedTracksRequest extends AbstractRequest<String> {
 	}
 
 	@Override
-	public String exec() throws IOException, WebApiException {
+	public String exec() throws IOException {
 		return deleteJson();
 	}
 

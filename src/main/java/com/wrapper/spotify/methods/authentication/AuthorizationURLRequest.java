@@ -24,27 +24,27 @@ public class AuthorizationURLRequest extends AbstractRequest<Void> {
 		}
 
 		public Builder scopes(List<String> scopes) {
-			return parameter("scope", Joiner.on(" ").join(scopes));
+			return query("scope", Joiner.on(" ").join(scopes));
 		}
 
 		public Builder state(String state) {
-			return parameter("state", state);
+			return query("state", state);
 		}
 
 		public Builder responseType(String responseType) {
-			return parameter("response_type", responseType);
+			return query("response_type", responseType);
 		}
 
 		public Builder clientId(String clientId) {
-			return parameter("client_id", clientId);
+			return query("client_id", clientId);
 		}
 
 		public Builder redirectURI(String redirectURI) {
-			return parameter("redirect_uri", redirectURI);
+			return query("redirect_uri", redirectURI);
 		}
 
 		public Builder showDialog(boolean showDialog) {
-			return parameter("show_dialog", String.valueOf(showDialog));
+			return query("show_dialog", String.valueOf(showDialog));
 		}
 		
 	}

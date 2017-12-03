@@ -1,5 +1,5 @@
 {
-  "message": "Behöver du hjälp att komma igång idag?",
+  "message": "Behover du hjalp att komma igang idag?",
   "playlists": {
     "href": "https://api.spotify.com/v1/browse/featured-playlists?country=SE&locale=sv_SE&timestamp=2014-10-23T09:00:00&offset=1&limit=1",
     "items": [
@@ -15,7 +15,7 @@
             "url": "https://i.scdn.co/image/1ea73dc4a640537a4647079c4b623838f7573049"
           }
         ],
-        "name": "Träning",
+        "name": "Traning",
         "owner": {
           "external_urls": {
             "spotify": "http://open.spotify.com/user/spotify"

@@ -30,7 +30,7 @@ public class AlbumsForArtistRequest extends AbstractRequest<Page<SimpleAlbum>> {
 			assert (types != null);
 			assert (types.length > 0);
 			String albumsParameter = Joiner.on(",").join(types);
-			parameter("album_type", albumsParameter);
+			query("album_type", albumsParameter);
 			return this;
 		}
 

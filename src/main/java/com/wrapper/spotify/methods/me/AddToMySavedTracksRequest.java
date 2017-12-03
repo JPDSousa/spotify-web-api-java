@@ -3,7 +3,6 @@
  */
 package com.wrapper.spotify.methods.me;
 
-import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
 
@@ -37,7 +36,7 @@ public class AddToMySavedTracksRequest extends AbstractRequest<String> {
 	}
 	
 	@Override
-	public String exec() throws IOException, WebApiException {
+	public String exec() throws IOException {
 		return putJson();
 	}
 

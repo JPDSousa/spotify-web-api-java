@@ -1,6 +1,7 @@
 package com.wrapper.spotify.methods.authentication;
 
 import com.wrapper.spotify.Api;
+import com.wrapper.spotify.Method;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.authentication.ClientCredentials;
@@ -48,7 +49,7 @@ public class ClientCredentialsGrantRequest extends AbstractRequest<ClientCredent
 	}
 	
 	public ClientCredentialsGrantRequest(Builder builder) {
-		super(new ClientCredentialsJsonFactory(), builder);
+		super(new ClientCredentialsJsonFactory(), Method.POST, builder);
 	}
 	
 }

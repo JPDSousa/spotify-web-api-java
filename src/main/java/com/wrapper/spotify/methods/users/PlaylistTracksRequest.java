@@ -18,7 +18,7 @@ public class PlaylistTracksRequest extends AbstractRequest<Page<PlaylistTrack>> 
 
 		public Builder fields(String fields) {
 			assert (fields != null);
-			return parameter("fields", fields);
+			return query("fields", fields);
 		}
 
 	}

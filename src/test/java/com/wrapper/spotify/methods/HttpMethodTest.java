@@ -2,7 +2,6 @@ package com.wrapper.spotify.methods;
 
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.Api;
-import com.wrapper.spotify.HttpManager;
 import com.wrapper.spotify.TestUtil;
 import com.wrapper.spotify.models.FeaturedPlaylists;
 import com.wrapper.spotify.models.LibraryTrack;
@@ -22,6 +21,7 @@ import com.wrapper.spotify.models.track.SimpleTrack;
 import com.wrapper.spotify.models.track.Track;
 import com.wrapper.spotify.models.user.User;
 
+import org.apache.http.client.HttpClient;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,7 +45,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetUser() throws Exception {
 		final Request<User> request = api.getUser("wizzler")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("user.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("user.json"))
 				.build();
 		final User user = request.exec();
 		assertNull(user.getEmail());
@@ -63,7 +63,7 @@ public class HttpMethodTest {
 		final Request<Page<SimplePlaylist>> request = api
 				.getPlaylistsForUser("wizzler")
 				.accessToken(accessToken)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("user-playlists.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("user-playlists.json"))
 				.build();
 		final Page<SimplePlaylist> playlistsPage = request.exec();
 		assertTrue(playlistsPage.getTotal() >= 0);
@@ -94,7 +94,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetTracksResult() throws Exception {
 		final Request<List<Track>> request = api.getTracks("0eGsygTp906u18L0Oimnem", "1lDWb6b6ieDQ2xT7ewTC3G")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("tracks.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("tracks.json"))
 				.build();
 		final List<Track> tracks = request.exec();
 		assertEquals(2, tracks.size());
@@ -106,8 +106,8 @@ public class HttpMethodTest {
 
 	@Test
 	public void shouldSearchTracksResult() throws Exception {
-		final HttpManager mockedHttpManager = TestUtil.MockedHttpManager.returningJson("search-track.json");
-		final Request<Page<Track>> request = api.searchTracks("Mr. Brightside").httpManager(mockedHttpManager).build();
+		final HttpClient mockedHttpManager = TestUtil.MockedHttpManager.returningJson("search-track.json");
+		final Request<Page<Track>> request = api.searchTracks("Mr. Brightside").httpClient(mockedHttpManager).build();
 		final Page<Track> trackSearchResult = request.exec();
 		assertTrue(trackSearchResult.getTotal() > 0);
 		assertEquals(20, trackSearchResult.getLimit());
@@ -125,7 +125,7 @@ public class HttpMethodTest {
 	public void shouldGetTrackResult() throws Exception {
 		final String id = "0eGsygTp906u18L0Oimnem";
 		final Request<Track> request = api.getTrack(id)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("track.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("track.json"))
 				.build();
 		final Track track = request.exec();
 		assertNotNull(track);
@@ -135,7 +135,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetTopTracksForArtistResult() throws Exception {
 		final Request<List<Track>> request = api.getTopTracksForArtist("43ZHCT0cAZBISjO8DG9PnE", CountryCode.GB)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("tracks-for-artist.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("tracks-for-artist.json"))
 				.build();
 		final List<Track> tracks = request.exec();
 		assertTrue(tracks.size() > 0);
@@ -165,7 +165,7 @@ public class HttpMethodTest {
 				.limit(3)
 				.offset(1)
 				.country(CountryCode.SE)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("new-releases.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("new-releases.json"))
 				.build();
 		final NewReleases newReleases = request.exec();
 		assertNotNull(newReleases.getAlbums());
@@ -193,7 +193,7 @@ public class HttpMethodTest {
 		final Api api = Api.builder().accessToken("someAccessToken").build();
 		final Request<Playlist> request = api.createPlaylist("thelinmichael","title")
 				.publicAccess(true)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("created-playlist.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("created-playlist.json"))
 				.build();
 		final Playlist playlist = request.exec();
 		assertFalse(playlist.isCollaborative());
@@ -215,7 +215,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldCreatePlaylistPage() throws Exception {
 		final Request<Playlist> request = api.getPlaylist("thelinmichael", "3ktAYNcRHpazJ9qecm3ptn")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("playlist-response.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("playlist-response.json"))
 				.build();
 		final Playlist playlist = request.exec();
 		assertEquals("https://api.spotify.com/v1/users/thelinmichael/playlists/3ktAYNcRHpazJ9qecm3ptn", playlist.getHref());
@@ -224,7 +224,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldBeAbleToHandlePlaylistsWithLocalFiles() throws Exception {
 		final Request<Playlist> request = api.getPlaylist("thelinmichael", "3ktAYNcRHpazJ9qecm3ptn")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("playlist-localfiles-response.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("playlist-localfiles-response.json"))
 				.build();
 		final Playlist playlist = request.exec();
 		assertTrue(playlist.getTracks().getItems().get(0).getTrack().getAlbum().getAlbumType() == null);
@@ -237,7 +237,7 @@ public class HttpMethodTest {
 		final Api api = Api.builder().accessToken(accessToken).build();
 		final Request<Page<PlaylistTrack>> request = api
 				.getPlaylistTracks("thelinmichael", "3ktAYNcRHpazJ9qecm3ptn")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("playlist-tracks.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("playlist-tracks.json"))
 				.build();
 		final Page<PlaylistTrack> page = request.exec();
 
@@ -260,7 +260,7 @@ public class HttpMethodTest {
 	public void shouldGetRelatedArtists() throws Exception {
 		final Request<List<Artist>> request = api
 				.getArtistRelatedArtists("0qeei9KQnptjwb8MgkqEoy")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("related-artists.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("related-artists.json"))
 				.build();
 		final List<Artist> artists = request.exec();
 		assertFalse(artists.isEmpty());
@@ -289,7 +289,7 @@ public class HttpMethodTest {
 		final Request<Page<LibraryTrack>> request = api.getMySavedTracks()
 				.limit(5)
 				.offset(1)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("saved-tracks.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("saved-tracks.json"))
 				.build();
 		final Page<LibraryTrack> libraryTracks = request.exec();
 		assertNotNull(libraryTracks);
@@ -312,10 +312,10 @@ public class HttpMethodTest {
 				.offset(1)
 				.country(CountryCode.SE)
 				.timestamp(timestamp)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("featured-playlists.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("featured-playlists.json"))
 				.build();
 		FeaturedPlaylists featuredPlaylists = request.exec();
-		assertEquals("Behöver du hjälp att komma igång idag?", featuredPlaylists.getMessage());
+		assertEquals("Behover du hjalp att komma igang idag?", featuredPlaylists.getMessage());
 		Page<SimplePlaylist> playlistPage = featuredPlaylists.getPlaylists();
 		assertEquals(12, playlistPage.getTotal());
 		assertEquals(1, playlistPage.getOffset());
@@ -330,14 +330,14 @@ public class HttpMethodTest {
 		assertEquals(1, items.size());
 		SimplePlaylist playlist = items.get(0);
 		assertEquals("2BgVZaiDigaqxTbZEI2TpE", playlist.getId());
-		assertEquals("Träning", playlist.getName());
+		assertEquals("Traning", playlist.getName());
 	}
 
 	@Test
 	public void shouldGetCurrentUser() throws Exception {
 		final Request<User> request = api.getMe()
 				.accessToken("myLongAccessToken")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("current-user.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("current-user.json"))
 				.build();
 		final User user = request.exec();
 		assertNotNull(user);
@@ -363,7 +363,7 @@ public class HttpMethodTest {
 		final Api api = Api.builder().accessToken(accessToken).build();
 		Request<List<Boolean>> request = api.containsMySavedTracks(
 				Arrays.asList("0udZHhCi7p1YzMlvI4fXoK", "1e1VmyiAuPyM4SHhySP1oU"))
-				.httpManager(TestUtil.MockedHttpManager.returningJson("yourmusic-contains.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("yourmusic-contains.json"))
 				.build();
 		List<Boolean> response = request.exec();
 		assertFalse(response.get(0));
@@ -378,7 +378,7 @@ public class HttpMethodTest {
 				.changePlaylistDetails("thelinmichael", "3ktAYNcRHpazJ9qecm3ptn")
 				.publicAccess(true)
 				.name("Testing playlist name change")
-				.httpManager(TestUtil.MockedHttpManager.returningString(""))
+				.httpClient(TestUtil.MockedHttpManager.returningString(""))
 				.build();
 		String response = request.exec();
 		assertEquals("", response);
@@ -387,7 +387,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetArtistsResult() throws Exception {
 		final Request<List<Artist>> request = api.getArtists("0oSGxfWSnnOXhD2fKuz2Gy", "3dBVyJ7JuOMt4GE9607Qin")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("artists.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("artists.json"))
 				.build();
 		final List<Artist> artists = request.exec();
 		assertEquals(2, artists.size());
@@ -402,7 +402,7 @@ public class HttpMethodTest {
 		final Request<Page<Artist>> request = api.searchArtists("tania bowra")
 				.limit(20)
 				.offset(0)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("search-artist.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("search-artist.json"))
 				.build();
 		final Page<Artist> artistSearchResult = request.exec();
 		assertEquals(20, artistSearchResult.getLimit());
@@ -427,7 +427,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetArtistResult() throws Exception {
 		Request<Artist> request = api.getArtist("2BTZIqw0ntH9MvilQ3ewNY")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("artist.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("artist.json"))
 				.build();
 		final Artist artist = request.exec();
 		assertNotNull(artist);
@@ -443,7 +443,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetAlbumResultForIds() throws Exception {
 		final Request<List<Album>> request = api.getAlbums("2hYe61Nd2oOoM6RYCwIma1")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("albums.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("albums.json"))
 				.build();
 		final List<Album> albums = request.exec();
 		assertEquals(1, albums.size());
@@ -470,7 +470,7 @@ public class HttpMethodTest {
 				.limit(2)
 				.types(AlbumType.SINGLE)
 				.market(CountryCode.US)
-				.httpManager(TestUtil.MockedHttpManager.returningJson("artist-album.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("artist-album.json"))
 				.build();
 		final Page<SimpleAlbum> albumSearchResult = request.exec();
 		assertEquals("https://api.spotify.com/v1/artists/1vCWHaC5f2uS3yhpwWbIA6/albums?offset=0&limit=2&album_type=single&market=US", albumSearchResult.getHref());
@@ -492,7 +492,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetAlbumsResult() throws Exception {
 		final Request<Page<SimpleAlbum>> request = api.searchAlbums("tania bowra")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("search-album.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("search-album.json"))
 				.build();
 		final Page<SimpleAlbum> albumSearchResult = request.exec();
 		assertEquals("https://api.spotify.com/v1/search?query=tania%2Bbowra&offset=0&limit=20&type=album", albumSearchResult.getHref());
@@ -517,7 +517,7 @@ public class HttpMethodTest {
 	@Test
 	public void shouldGetAlbumResult() throws Exception {
 		final Request<Album> request = api.getAlbum("4pox3k0CGuwwAknR9GtcoX")
-				.httpManager(TestUtil.MockedHttpManager.returningJson("album.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("album.json"))
 				.build();
 		final Album album = request.exec();
 		assertNotNull(album);
@@ -532,7 +532,7 @@ public class HttpMethodTest {
 		final Api api = Api.builder().accessToken(accessToken).build();
 		final List<String> tracksToAdd = Arrays.asList("4BYGxv4rxSNcTgT3DsFB9o", "0BG2iE6McPhmAEKIhfqy1X");
 		final Request<String> request = api.addToMySavedTracks(tracksToAdd)
-				.httpManager(TestUtil.MockedHttpManager.returningString(""))
+				.httpClient(TestUtil.MockedHttpManager.returningString(""))
 				.build();
 		final String addTrackResponse = request.exec();
 		assertEquals("", addTrackResponse);

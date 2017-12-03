@@ -13,6 +13,8 @@ import java.util.List;
 
 @SuppressWarnings("javadoc")
 public class AlbumsRequest extends AbstractRequest<List<Album>> {
+	
+	public static final short MAX_IDS = 20;
 
 	public static Builder builder() {
 		return new Builder();
@@ -25,7 +27,7 @@ public class AlbumsRequest extends AbstractRequest<List<Album>> {
 	public static final class Builder extends AbstractIdsBuilder<Builder, List<Album>> implements MarketBuilder<Builder> {
 
 		public Builder() {
-			super(20, ALBUMS, AlbumsRequest::new);
+			super(MAX_IDS, ALBUMS, AlbumsRequest::new);
 		}
 
 		@Override

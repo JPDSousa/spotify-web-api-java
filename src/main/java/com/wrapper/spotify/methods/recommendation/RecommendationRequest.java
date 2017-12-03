@@ -54,19 +54,19 @@ public class RecommendationRequest extends AbstractRequest<List<SimpleTrack>> {
 		public Builder trackSeeds(List<String> ids) {
 			assert nSeeds() + ids.size() < TOTAL_SEEDS;
 			trackSeeds = ids.size();
-			return parameter("seed_tracks", String.join(",", ids));
+			return query("seed_tracks", String.join(",", ids));
 		}
 		
 		public Builder genreSeeds(List<String> ids) {
 			assert nSeeds() + ids.size() < TOTAL_SEEDS;
 			genreSeeds = ids.size();
-			return parameter("seed_genres", String.join(",", ids));
+			return query("seed_genres", String.join(",", ids));
 		}
 		
 		public Builder artistSeeds(List<String> ids) {
 			assert nSeeds() + ids.size() < TOTAL_SEEDS;
 			artistSeeds = ids.size();
-			return parameter("seed_artists", String.join(",", ids));
+			return query("seed_artists", String.join(",", ids));
 		}
 		
 		public Builder min(AudioProperty prop, Number value) {
@@ -84,7 +84,7 @@ public class RecommendationRequest extends AbstractRequest<List<SimpleTrack>> {
 		private Builder trackValue(AudioProperty prop, String preName, Number value) {
 			assert prop != null;
 			assert prop.isValid(value.floatValue());
-			return parameter(preName + prop.getName(), value.toString());
+			return query(preName + prop.getName(), value.toString());
 		}
 		
 	}

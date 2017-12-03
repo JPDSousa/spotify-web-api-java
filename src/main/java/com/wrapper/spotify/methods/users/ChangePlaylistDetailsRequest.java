@@ -4,8 +4,7 @@
 package com.wrapper.spotify.methods.users;
 
 import com.google.common.collect.Maps;
-import com.wrapper.spotify.HttpManager.Method;
-import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.Method;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.methods.Request;
@@ -56,7 +55,7 @@ public class ChangePlaylistDetailsRequest extends AbstractRequest<String> {
 	}
 
 	@Override
-	public String exec() throws IOException, WebApiException {
+	public String exec() throws IOException {
 		return putJson();
 	}
 

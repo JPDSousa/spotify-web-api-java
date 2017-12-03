@@ -17,7 +17,7 @@ public class Album extends SimpleAlbum{
 	private List<String> genres;
 	private int popularity;
 	private String releaseDate;
-	private String releaseDatePrecision;
+	private ReleaseDatePrecision releaseDatePrecision;
 	private Page<SimpleTrack> tracks;
 
 	public Album(String id) {
@@ -72,11 +72,11 @@ public class Album extends SimpleAlbum{
 		this.tracks = tracks;
 	}
 
-	public String getReleaseDatePrecision() {
+	public ReleaseDatePrecision getReleaseDatePrecision() {
 		return releaseDatePrecision;
 	}
 
-	public void setReleaseDatePrecision(String releaseDatePrecision) {
+	public void setReleaseDatePrecision(ReleaseDatePrecision releaseDatePrecision) {
 		this.releaseDatePrecision = releaseDatePrecision;
 	}
 

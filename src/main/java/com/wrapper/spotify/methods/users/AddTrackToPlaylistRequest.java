@@ -1,6 +1,6 @@
 package com.wrapper.spotify.methods.users;
 
-import com.wrapper.spotify.HttpManager.Method;
+import com.wrapper.spotify.Method;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.SnapshotResult;
@@ -27,7 +27,7 @@ public class AddTrackToPlaylistRequest extends AbstractRequest<SnapshotResult> {
 		public Builder position(int position) {
 			assert (position >= 0);
 
-			return parameter("position", String.valueOf(position));
+			return query("position", String.valueOf(position));
 		}
 
 	}

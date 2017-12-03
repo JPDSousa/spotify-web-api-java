@@ -32,9 +32,9 @@ public class RefreshAccessTokenRequest extends AbstractRequest<RefreshAccessToke
 
 			return header("Authorization", "Basic " + idSecretEncoded);
 		}
-
+		
 		public Builder grantType(String grantType) {
-			assert (grantType != null);
+			assert grantType != null;
 			return body("grant_type", grantType);
 		}
 
