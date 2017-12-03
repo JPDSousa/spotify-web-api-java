@@ -152,7 +152,8 @@ public class Api {
 
 	private <I> Request<Page<I>> getPage(Page<I> currentPage, String href) {
 		try {
-			return PageRequest.builder(href, currentPage.getPropName(), currentPage.getJsonFactory())
+			return setDefaults(PageRequest
+					.builder(href, currentPage.getPropName(), currentPage.getJsonFactory()))
 					.build();
 		} catch (MalformedURLException e) {
 			throw new RuntimeException(e);
