@@ -7,12 +7,12 @@ public class BuilderUtils {
 
 	public static <B extends AbstractBuilder<B, ?>> B limit(B builder, int limit) {
 		assert (limit > 0);
-		return builder.parameter("limit", String.valueOf(limit));
+		return builder.query("limit", String.valueOf(limit));
 	}
 	
 	public static <B extends AbstractBuilder<B, ?>> B offset(B builder, int offset) {
 		assert (offset >= 0);
-		return builder.parameter("offset", String.valueOf(offset));
+		return builder.query("offset", String.valueOf(offset));
 	}
 	
 	public static <B extends AbstractBuilder<B, ?>> B market(B builder, CountryCode market) {
@@ -25,12 +25,12 @@ public class BuilderUtils {
 	}
 	
 	private static <B extends AbstractBuilder<B, ?>> B market(B builder, String value) {
-		return builder.parameter("market", value);
+		return builder.query("market", value);
 	}
 	
 	public static <B extends AbstractBuilder<B, ?>> B country(B builder, CountryCode country) {
 		assert (country != null);
-		return builder.parameter("country", country.name());
+		return builder.query("country", country.name());
 	}
 	
 }

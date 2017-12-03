@@ -28,14 +28,14 @@ public class FeaturedPlaylistsRequest extends AbstractRequest<FeaturedPlaylists>
 
 		public Builder locale(LanguageCode language, CountryCode country) {
 			assert (language != null && country != null);
-			return parameter("locale", String.join("_", language.name(), country.name()));
+			return query("locale", String.join("_", language.name(), country.name()));
 		}
 
 		public Builder timestamp(Date timestamp) {
 			assert (timestamp != null);
 			
 			final DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-			return parameter("timestamp", format.format(timestamp));
+			return query("timestamp", format.format(timestamp));
 		}
 
 		public Builder accessToken(String accessToken) {

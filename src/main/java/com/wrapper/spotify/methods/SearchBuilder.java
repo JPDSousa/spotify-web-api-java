@@ -10,23 +10,18 @@ public class SearchBuilder<T> extends AbstractPageBuilder<SearchBuilder<T>, T> i
 	
 	public SearchBuilder(SpotifyEntityType type, Function<SearchBuilder<T>, Request<T>> builder) {
 		super(Request.SEARCH, builder);
-		parameter("type", type.getType());
+		query("type", type.getType());
 	}
 	
 	public SearchBuilder<T> query(String query) {
 		assert (query != null);
-		parameter("q", encode(query));
+		query("q", query);
 		return this;
 	}
 	
 	@Override
 	public SearchBuilder<T> market(CountryCode market) {
 		return BuilderUtils.market(this, market);
-	}
-
-
-	private String encode(String query) {
-		return query.replace(" ", "+");
 	}
 
 	@Override

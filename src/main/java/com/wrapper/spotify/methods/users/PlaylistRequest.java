@@ -20,7 +20,7 @@ public class PlaylistRequest extends AbstractRequest<Playlist> {
 
 		public Builder fields(String fields) {
 			assert (fields != null);
-			return parameter("fields", fields);
+			return query("fields", fields);
 		}
 
 	}

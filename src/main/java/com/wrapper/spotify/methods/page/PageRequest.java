@@ -28,7 +28,7 @@ public class PageRequest<T> extends AbstractRequest<Page<T>> {
 			final StringTokenizer tokenizer = new StringTokenizer(query, "&");
 			while(tokenizer.hasMoreTokens()) {
 				final String[] param = tokenizer.nextToken().split("=", 2);
-				parameter(param[0], param[1]);
+				query(param[0], param[1]);
 			}
 		}
 		
