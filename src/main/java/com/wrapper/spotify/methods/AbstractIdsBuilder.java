@@ -17,7 +17,7 @@ public abstract class AbstractIdsBuilder<B extends AbstractIdsBuilder<B, T>, T> 
 		assert (ids != null);
 		assert (ids.size() <= maxItems);
 		String idsParameter = String.join(",", ids);
-		return parameter("ids", idsParameter);
+		return query("ids", idsParameter);
 	}
 
 }
