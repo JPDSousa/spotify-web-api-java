@@ -349,6 +349,8 @@ public class Api {
 		if (accessToken != null) {
 			builder.header("Authorization", "Bearer " + accessToken);
 		}
+		builder.header("Accept", "application/json");
+		builder.header("Content-Type", "application/json");
 		return builder;
 	}
 
