@@ -1,12 +1,19 @@
 package com.wrapper.spotify;
 
-import com.wrapper.spotify.exceptions.WebApiException;
-
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.entity.ContentType;
+import org.apache.http.message.BasicHeader;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -34,25 +41,26 @@ public class TestUtil {
 
 	public static class MockedHttpManager {
 
-		public static HttpManager returningJson(String jsonFixture) throws Exception {
-			// Mocked HTTP Manager to get predictable responses
-			final HttpManager mockedHttpManager = mock(HttpManager.class);
+		public static HttpClient returningJson(String jsonFixture) throws Exception {
 			final String fixture = readTestData(jsonFixture);
-			when(mockedHttpManager.get((UtilProtos.Url) any())).thenReturn(fixture);
-			when(mockedHttpManager.post((UtilProtos.Url) any())).thenReturn(fixture);
-			when(mockedHttpManager.put((UtilProtos.Url) any())).thenReturn(fixture);
-			when(mockedHttpManager.delete((UtilProtos.Url) any())).thenReturn(fixture);
 
-			return mockedHttpManager;
+			return returningString(fixture);
 		}
 
-		public static HttpManager returningString(String returnedString) throws IOException, WebApiException {
-			final HttpManager mockedHttpManager = mock(HttpManager.class);
-			when(mockedHttpManager.get((UtilProtos.Url) any())).thenReturn(returnedString);
-			when(mockedHttpManager.post((UtilProtos.Url) any())).thenReturn(returnedString);
-			when(mockedHttpManager.put((UtilProtos.Url) any())).thenReturn(returnedString);
-			when(mockedHttpManager.delete((UtilProtos.Url) any())).thenReturn(returnedString);
-
+		public static HttpClient returningString(String returnedString) throws IOException {
+			// Mocked HTTP Manager to get predictable responses
+			final HttpClient mockedHttpManager = mock(HttpClient.class);
+			final HttpEntity mockedHttpEntity = mock(HttpEntity.class);
+			final HttpResponse mockedResponse = mock(HttpResponse.class);
+			final StatusLine mockedStatusLine = mock(StatusLine.class);
+			final BasicHeader mockedHeader = new BasicHeader("Content-Type", ContentType.APPLICATION_JSON.toString());
+			when(mockedStatusLine.getStatusCode()).thenReturn(200);
+			when(mockedHttpEntity.getContentType()).thenReturn(mockedHeader);
+			when(mockedHttpEntity.getContentLength()).thenReturn(returnedString.length() + 0L);
+			when(mockedHttpEntity.getContent()).thenReturn(new ByteArrayInputStream(returnedString.getBytes(StandardCharsets.UTF_8)));
+			when(mockedResponse.getEntity()).thenReturn(mockedHttpEntity);
+			when(mockedResponse.getStatusLine()).thenReturn(mockedStatusLine);
+			when(mockedHttpManager.execute(any())).thenReturn(mockedResponse);
 			return mockedHttpManager;
 		}
 	}
