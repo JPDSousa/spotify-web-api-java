@@ -2,7 +2,6 @@ package com.wrapper.spotify;
 
 import com.google.common.util.concurrent.RateLimiter;
 import com.neovisionaries.i18n.CountryCode;
-import com.wrapper.spotify.UtilProtos.Url.Scheme;
 import com.wrapper.spotify.methods.*;
 import com.wrapper.spotify.methods.albums.AlbumRequest;
 import com.wrapper.spotify.methods.albums.AlbumsRequest;
@@ -50,6 +49,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.rocksdb.RocksDB;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 /**
  * Instances of the Api class provide access to the Spotify Web API.
@@ -74,26 +75,26 @@ public class Api {
 	/**
 	 * A HttpManager configured with default settings.
 	 */
-	public static final HttpManager DEFAULT_HTTP_MANAGER = SpotifyHttpManager.builder().build();
+	public static final HttpClient DEFAULT_HTTP_CLIENT = HttpClientBuilder.create().build();
 
 	/**
 	 * The default http scheme of Spotify API calls.
 	 */
-	public static final Scheme DEFAULT_SCHEME = Scheme.HTTPS;
+	public static final String DEFAULT_SCHEME = "https";
 
 	public static final String DEFAULT_AUTHENTICATION_HOST = "accounts.spotify.com";
 
 	public static final int DEFAULT_AUTHENTICATION_PORT = 443;
 
-	public static final Scheme DEFAULT_AUTHENTICATION_SCHEME = Scheme.HTTPS;
+	public static final String DEFAULT_AUTHENTICATION_SCHEME = "https";
 
 	/**
 	 * Api instance with the default settings.
 	 */
 	public static final Api DEFAULT_API = Api.builder().build();
 
-	private final HttpManager httpManager;
-	private final Scheme scheme;
+	private final HttpClient httpManager;
+	private final String scheme;
 	private final int port;
 	private final String host;
 	private final String accessToken;
@@ -132,7 +133,7 @@ public class Api {
 	public static Builder builder() {
 		return new Builder();
 	}
-	
+
 	public <I> Request<Page<I>> getNextPage(Page<I> currentPage) {
 		final String href = currentPage.getNext();
 		if(href == null) {
@@ -140,7 +141,7 @@ public class Api {
 		}
 		return getPage(currentPage, href);
 	}
-	
+
 	public <I> Request<Page<I>> getPreviousPage(Page<I> currentPage) {
 		final String href = currentPage.getPrevious();
 		if(href == null) {
@@ -339,7 +340,7 @@ public class Api {
 	}
 
 	private <B extends AbstractBuilder<?, ?>> B setDefaults(B builder) {
-		builder.httpManager(httpManager);
+		builder.httpClient(httpManager);
 		builder.scheme(scheme);
 		builder.host(host);
 		builder.port(port);
@@ -456,8 +457,8 @@ public class Api {
 
 		private String host = DEFAULT_HOST;
 		private int port = DEFAULT_PORT;
-		private HttpManager httpManager = null;
-		private Scheme scheme = DEFAULT_SCHEME;
+		private HttpClient httpClient = Api.DEFAULT_HTTP_CLIENT;
+		private String scheme = DEFAULT_SCHEME;
 		private RateLimiter rateLimiter = RateLimiter.create(20);
 		private String accessToken;
 		private String redirectURI;
@@ -470,13 +471,13 @@ public class Api {
 			this.cache = cache;
 			return this;
 		}
-		
+
 		public Builder rateLimiter(RateLimiter rateLimiter) {
 			this.rateLimiter = rateLimiter;
 			return this;
 		}
 
-		public Builder scheme(Scheme scheme) {
+		public Builder scheme(String scheme) {
 			this.scheme = scheme;
 			return this;
 		}
@@ -491,8 +492,8 @@ public class Api {
 			return this;
 		}
 
-		public Builder httpManager(HttpManager httpManager) {
-			this.httpManager = httpManager;
+		public Builder httpManager(HttpClient httpClient) {
+			this.httpClient = httpClient;
 			return this;
 		}
 
