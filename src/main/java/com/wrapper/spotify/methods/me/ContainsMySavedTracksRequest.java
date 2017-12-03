@@ -4,7 +4,6 @@
 package com.wrapper.spotify.methods.me;
 
 import com.google.common.collect.Lists;
-import com.wrapper.spotify.exceptions.WebApiException;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.methods.IdsBuilder;
 
@@ -28,7 +27,7 @@ public class ContainsMySavedTracksRequest extends AbstractRequest<List<Boolean>>
 	}
 
 	@Override
-	public List<Boolean> exec() throws IOException, WebApiException {
+	public List<Boolean> exec() throws IOException {
 		return createBooleans(getJson());
 	}
 	
