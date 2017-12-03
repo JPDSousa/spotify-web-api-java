@@ -47,20 +47,18 @@ import net.sf.json.JSONArray;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
-import org.rocksdb.RocksDB;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.mapdb.DB;
+import org.mapdb.Serializer;
 
 /**
  * Instances of the Api class provide access to the Spotify Web API.
  */
 @SuppressWarnings("javadoc")
 public class Api {
-	
-	static {
-		RocksDB.loadLibrary();
-	}
 
 	/**
 	 * The default host of Spotify API calls.
@@ -103,7 +101,7 @@ public class Api {
 	private final String clientSecret;
 	private final String redirectURI;
 	private final RateLimiter rateLimiter;
-	private final RocksDB cache;
+	private final ConcurrentMap<String, String> cache;
 
 	private Api(Builder builder) {
 		assert (builder.host != null);
@@ -111,14 +109,15 @@ public class Api {
 		assert (builder.scheme != null);
 		assert builder.rateLimiter != null;
 
-		if (builder.httpManager == null) {
-			this.httpManager = SpotifyHttpManager
-					.builder()
-					.build();
-		} else {
-			this.httpManager = builder.httpManager;
+		this.httpManager = builder.httpClient;
+		if(builder.cache != null) {
+			cache = builder.cache
+					.hashMap("map", Serializer.STRING, Serializer.STRING)
+					.createOrOpen();
 		}
-		cache = builder.cache;
+		else {
+			cache = null;
+		}
 		rateLimiter = builder.rateLimiter;
 		scheme = builder.scheme;
 		host = builder.host;
@@ -435,7 +434,7 @@ public class Api {
 		if (state != null) {
 			builder.state(state);
 		}
-		return builder.build().toStringWithQueryParameters();
+		return builder.build().toString();
 	}
 
 	/**
@@ -468,9 +467,9 @@ public class Api {
 		private String clientId;
 		private String clientSecret;
 		private String refreshToken;
-		private RocksDB cache;
-		
-		public Builder cache(RocksDB cache) {
+		private DB cache;
+
+		public Builder cache(DB cache) {
 			this.cache = cache;
 			return this;
 		}

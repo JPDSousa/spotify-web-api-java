@@ -1,9 +1,9 @@
 package com.wrapper.spotify.methods;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
-import org.rocksdb.RocksDB;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -31,8 +31,8 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	protected final List<NameValuePair> query;
 	protected final List<Header> headerParameters;
 	protected RateLimiter rateLimiter;
-	protected RocksDB cache;
-	
+	protected ConcurrentMap<String, String> cache;
+
 	private final Function<B, Request<T>> builder;
 
 	protected AbstractBuilder(String path, Function<B, Request<T>> builder) {
@@ -84,7 +84,7 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	}
 
 	@SuppressWarnings("unchecked")
-	public B cache(RocksDB cache) {
+	public B cache(ConcurrentMap<String, String> cache) {
 		this.cache = cache;
 		return (B) this;
 	}

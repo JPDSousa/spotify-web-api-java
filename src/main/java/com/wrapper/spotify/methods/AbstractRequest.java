@@ -8,9 +8,6 @@ import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
 import java.io.IOException;
-
-import org.rocksdb.RocksDB;
-import org.rocksdb.RocksDBException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,6 +15,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.Charsets;
@@ -54,8 +52,8 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	private final Method method;
 	private final JsonFactory<T> jsonFactory;
 	private final RateLimiter rateLimiter;
-	private final RocksDB cache;
-	
+	private final ConcurrentMap<String, String> cache;
+
 	public AbstractRequest(JsonFactory<T> jsonFactory, AbstractBuilder<?, T> builder) {
 		this(jsonFactory, Method.GET, builder);
 	}
@@ -218,11 +216,18 @@ public abstract class AbstractRequest<T> implements Request<T> {
 	}
 
 	@Override
-	public T exec() throws IOException, WebApiException {
-		JSONObject cached = fetchFromCache();
+	public T exec() throws IOException {
+		final String cacheKey = method.name() + toString();
+		String cached = null;
+		if(cache != null) {
+			cached = cache.get(cacheKey);
+		}
 		if(cached == null) {
 			rateLimiter.acquire();
-			cached = JSONObject.fromObject(execMethod());
+			cached = execMethod();
+			if(cache != null) {
+				cache.put(cacheKey, cached);
+			}
 		}
 		return jsonFactory.fromJson(cached);
 	}
