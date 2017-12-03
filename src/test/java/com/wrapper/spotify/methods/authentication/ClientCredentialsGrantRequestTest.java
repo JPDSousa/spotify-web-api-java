@@ -24,7 +24,7 @@ public class ClientCredentialsGrantRequestTest {
 
 		final Request<ClientCredentials> request = api
 				.clientCredentialsGrant()
-				.httpManager(TestUtil.MockedHttpManager.returningJson("application-authentication-token.json"))
+				.httpClient(TestUtil.MockedHttpManager.returningJson("application-authentication-token.json"))
 				.build();
 
 		final ClientCredentials response = request.exec();
