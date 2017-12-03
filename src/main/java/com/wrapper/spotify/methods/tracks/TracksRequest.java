@@ -14,6 +14,8 @@ import java.util.List;
 @SuppressWarnings("javadoc")
 public class TracksRequest extends AbstractRequest<List<Track>> {
 
+	public static final short MAX_IDS = 50;
+	
 	public static Builder builder() {
 		return new Builder();
 	}
@@ -21,7 +23,7 @@ public class TracksRequest extends AbstractRequest<List<Track>> {
 	public static class Builder extends AbstractIdsBuilder<Builder, List<Track>> implements MarketBuilder<Builder> {
 
 		protected Builder() {
-			super(50, TRACKS, TracksRequest::new);
+			super(MAX_IDS, TRACKS, TracksRequest::new);
 		}
 
 		@Override
