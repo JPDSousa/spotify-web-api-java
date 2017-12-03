@@ -5,42 +5,53 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.rocksdb.RocksDB;
+import org.apache.http.Header;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
 
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.RateLimiter;
 import com.wrapper.spotify.Api;
-import com.wrapper.spotify.HttpManager;
-import com.wrapper.spotify.UtilProtos.Url;
 import com.wrapper.spotify.methods.Request.Builder;
 
 import net.sf.json.JSON;
+import net.sf.json.JSONObject;
 
 @SuppressWarnings("javadoc")
 public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Request.Builder<B, T> {
-	
-	protected Url.Scheme scheme = Api.DEFAULT_SCHEME;
-	protected String host = Api.DEFAULT_HOST;
-	protected int port = Api.DEFAULT_PORT;
+
+	protected String scheme;
+	protected String host;
+	protected int port;
 	protected final String path;
-	protected HttpManager httpManager;
+	protected HttpClient httpManager;
 	protected JSON jsonBody;
-	protected List<Url.Parameter> parameters = new ArrayList<Url.Parameter>();
-	protected List<Url.Parameter> headerParameters = new ArrayList<Url.Parameter>();
-	protected List<Url.Part> parts = new ArrayList<Url.Part>();
-	protected List<Url.Parameter> bodyParameters = new ArrayList<Url.Parameter>();
+	protected final List<NameValuePair> body;
+	protected final List<NameValuePair> query;
+	protected final List<Header> headerParameters;
 	protected RateLimiter rateLimiter;
 	protected RocksDB cache;
 	
 	private final Function<B, Request<T>> builder;
-	
+
 	protected AbstractBuilder(String path, Function<B, Request<T>> builder) {
 		super();
+		httpManager = Api.DEFAULT_HTTP_CLIENT;
+		scheme = Api.DEFAULT_SCHEME;
+		host = Api.DEFAULT_HOST;
+		port = Api.DEFAULT_PORT;
 		this.builder = builder;
 		this.path = path;
+		query = Lists.newArrayList();
+		headerParameters = Lists.newArrayList();
+		body = Lists.newArrayList();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public B httpManager(HttpManager httpManager) {
+	public B httpClient(HttpClient httpManager) {
 		this.httpManager = httpManager;
 		return (B) this;
 	}
@@ -61,17 +72,17 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public B scheme(Url.Scheme scheme) {
+	public B scheme(String scheme) {
 		this.scheme = scheme;
 		return (B) this;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public B rateLimiter(RateLimiter rateLimiter) {
 		this.rateLimiter = rateLimiter;
 		return (B) this;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public B cache(RocksDB cache) {
 		this.cache = cache;
@@ -79,29 +90,20 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	}
 
 	@SuppressWarnings("unchecked")
-	public B parameter(String name, String value) {
+	public B query(String name, String value) {
 		assert (name != null);
-		assert (name.length() > 0);
+		assert (!name.isEmpty());
 		assert (value != null);
 
-		Url.Parameter parameter = Url.Parameter.newBuilder()
-				.setName(name)
-				.setValue(value).build();
-		parameters.add(parameter);
-
+		query.add(new BasicNameValuePair(name, value));
 		return (B) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	public B body(String name, String value) {
-		assert (name != null);
-		assert (name.length() > 0);
-		assert (value != null);
-
-		Url.Parameter parameter = Url.Parameter.newBuilder()
-				.setName(name)
-				.setValue(value).build();
-		bodyParameters.add(parameter);
+		assert name != null;
+		assert value != null;
+		body.add(new BasicNameValuePair(name, value));
 
 		return (B) this;
 	}
@@ -117,27 +119,31 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 	@SuppressWarnings("unchecked")
 	public B header(String name, String value) {
 		assert (name != null);
-		assert (name.length() > 0);
+		assert (!name.isEmpty());
 		assert (value != null);
 
-		Url.Parameter parameter= Url.Parameter.newBuilder()
-				.setName(name)
-				.setValue(value).build();
-		headerParameters.add(parameter);
+		headerParameters.add(new BasicHeader(name, value));
 
-		return (B) this;
-	}
-
-	@SuppressWarnings("unchecked")
-	public B part(Url.Part part) {
-		assert (part != null);
-		parts.add(part);
 		return (B) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Request<T> build() {
+		final JSONObject json;
+		if(!body.isEmpty()) {
+			if(jsonBody == null) {
+				json = new JSONObject();
+				jsonBody = json;
+			}
+			else if(jsonBody instanceof JSONObject) {
+				json = (JSONObject) jsonBody;
+			}
+			else {
+				throw new RuntimeException("Invalid body");
+			}
+			body.forEach(pair -> json.element(pair.getName(), pair.getValue()));
+		}
 		return builder.apply((B) this);
 	}
 
