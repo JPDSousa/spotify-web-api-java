@@ -49,7 +49,7 @@ public class ClientCredentialsGrantRequest extends AbstractRequest<ClientCredent
 	}
 	
 	public ClientCredentialsGrantRequest(Builder builder) {
-		super(new ClientCredentialsJsonFactory(), builder);
+		super(new ClientCredentialsJsonFactory(), Method.POST, builder);
 	}
 	
 }
