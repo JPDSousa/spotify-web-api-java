@@ -44,6 +44,7 @@ public abstract class AbstractBuilder<B extends Builder<B, T>, T> implements Req
 		port = Api.DEFAULT_PORT;
 		this.builder = builder;
 		this.path = path;
+		rateLimiter = RateLimiter.create(20);
 		query = Lists.newArrayList();
 		headerParameters = Lists.newArrayList();
 		body = Lists.newArrayList();
