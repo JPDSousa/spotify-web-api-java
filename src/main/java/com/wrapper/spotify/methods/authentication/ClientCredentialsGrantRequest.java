@@ -1,6 +1,7 @@
 package com.wrapper.spotify.methods.authentication;
 
 import com.wrapper.spotify.Api;
+import com.wrapper.spotify.Method;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.authentication.ClientCredentials;

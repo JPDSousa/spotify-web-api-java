@@ -1,10 +1,11 @@
 package com.wrapper.spotify.methods;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
-import com.wrapper.spotify.HttpManager;
-import com.wrapper.spotify.UtilProtos.Url;
-import com.wrapper.spotify.exceptions.WebApiException;
+import org.apache.http.Header;
+import org.apache.http.client.HttpClient;
 
 @SuppressWarnings("javadoc")
 public interface Request<T> {
@@ -31,17 +32,19 @@ public interface Request<T> {
 	public static final String ME_TRACKS_CONTAINS = ME_TRACKS + "/contains";
 
 	interface Builder<B, T> {
-		Builder<B, T> httpManager(HttpManager httpManager);
+		Builder<B, T> httpClient(HttpClient httpManager);
 		Builder<B, T> host(String host);
 		Builder<B, T> port(int port);
-		Builder<B, T> scheme(Url.Scheme scheme);
+		Builder<B, T> scheme(String scheme);
 		Request<T> build();
 	}
 
-	T exec() throws IOException, WebApiException;
+	T exec() throws IOException;
 	
-	Url toUrl();
-
-	String toStringWithQueryParameters();
+	URL toUrl();
+	
+	List<Header> getHeader();
+	
+	String getBody();
 
 }

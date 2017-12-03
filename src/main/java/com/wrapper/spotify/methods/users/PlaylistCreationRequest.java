@@ -1,6 +1,6 @@
 package com.wrapper.spotify.methods.users;
 
-import com.wrapper.spotify.HttpManager.Method;
+import com.wrapper.spotify.Method;
 import com.wrapper.spotify.methods.AbstractBuilder;
 import com.wrapper.spotify.methods.AbstractRequest;
 import com.wrapper.spotify.models.playlist.Playlist;
