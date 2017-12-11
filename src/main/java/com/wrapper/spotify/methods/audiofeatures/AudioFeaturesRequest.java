@@ -11,8 +11,10 @@ import com.wrapper.spotify.models.audio.AudioFeatureJsonFactory;
 @SuppressWarnings("javadoc")
 public class AudioFeaturesRequest extends AbstractRequest<List<AudioFeature>> {
 
+	public static final int MAX_IDS = 100;
+
 	public static IdsBuilder<List<AudioFeature>> builder() {
-		return new IdsBuilder<>(100, AUDIO_FEATURES, AudioFeaturesRequest::new);
+		return new IdsBuilder<>(MAX_IDS, AUDIO_FEATURES, AudioFeaturesRequest::new);
 	}
 	
 	public AudioFeaturesRequest(IdsBuilder<List<AudioFeature>> builder) {

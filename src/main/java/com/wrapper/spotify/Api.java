@@ -11,6 +11,7 @@ import com.wrapper.spotify.methods.artists.ArtistsRequest;
 import com.wrapper.spotify.methods.artists.RelatedArtistsRequest;
 import com.wrapper.spotify.methods.artists.TopTracksRequest;
 import com.wrapper.spotify.methods.audiofeatures.AudioFeatureRequest;
+import com.wrapper.spotify.methods.audiofeatures.AudioFeaturesRequest;
 import com.wrapper.spotify.methods.authentication.AuthorizationCodeGrantRequest;
 import com.wrapper.spotify.methods.authentication.AuthorizationURLRequest;
 import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
@@ -229,6 +230,15 @@ public class Api {
 
 	public DefaultBuilder<AudioFeature> getAudioFeature(String id) {
 		return setDefaults(AudioFeatureRequest.builder(id));
+	}
+	
+	public IdsBuilder<List<AudioFeature>> getAudioFeatures(String... ids) {
+		return getAudioFeatures(Arrays.asList(ids));
+	}
+	
+	public IdsBuilder<List<AudioFeature>> getAudioFeatures(List<String> ids) {
+		return setDefaults(AudioFeaturesRequest.builder())
+				.ids(ids);
 	}
 
 	/**
