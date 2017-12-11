@@ -2,7 +2,7 @@
 | ------------------------------------- |
 | You can use this library in your Android app. However, you should have a look at the [Android Wrapper](https://www.github.com/kaaes/spotify-web-api-android) project built by [kaaes](https://www.github.com/kaaes) as it's made specifically for Android. See also [Spotify's Android SDK](https://developer.spotify.com/technologies/spotify-android-sdk/). |
 
-Spotify Web API Java [![Build Status](https://travis-ci.org/thelinmichael/spotify-web-api-java.svg?branch=master)](https://travis-ci.org/thelinmichael/spotify-web-api-java)
+Spotify Web API Java [![Jitpack](https://jitpack.io/v/JPDSousa/spotify-web-api-java.svg)](https://jitpack.io/#JPDSousa/spotify-web-api-java)
 ==================
 
 This is a Java wrapper/client for the [Spotify Web API](https://developer.spotify.com/spotify-web-api/).
@@ -79,32 +79,7 @@ Thanks a lot [digitaldesaster](https://github.com/digitaldesaster) for coming up
 
 ### Asynchronous, using [Guava's future API](https://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained).
 
-```java
-// Create an API instance. The default instance connects to https://api.spotify.com/.
-Api api = Api.DEFAULT_API; 
-
-// Create a request object for the type of request you want to make
-AlbumRequest request = api.getAlbum("7e0ij2fpWaxOEHv5fUYZjd").build();
-
-// Retrieve a future for an album
-SettableFuture<Album> albumFuture = request.getAsync();
-
-// Create callbacks in case of success or failure
-Futures.addCallback(albumFuture, new FutureCallback<Album>() {
-
-  // Print the genres of the album call is successful
-  public void onSuccess(Album album) {
-    List<String> genres = album.getGenres(); 
-    for (String genre : genres) {
-      System.out.println(genre);
-    }
-  }
-  // In case of failure
-  public void onFailure(Throwable thrown) {
-    System.out.println("Could not get albums.");
-  }
-});
-```
+Asynchronous behaviour can be achieved from your favorite async library, by performing a synchronous call asynchronously.
 
 ### Synchronous 
 ```java
