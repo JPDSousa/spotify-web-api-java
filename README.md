@@ -10,7 +10,7 @@ This is a Java wrapper/client for the [Spotify Web API](https://developer.spotif
 It includes helper functions to do:
 
 #### Music metadata
-- Albums, artists, and tracks
+- Albums, artists, tracks and playlists
 - Albums for a specific artist
 - Top tracks for a specific artist
 - Artists similar to a specific artist
@@ -19,7 +19,7 @@ It includes helper functions to do:
 - User's emails, product type, follower count, display name, image
 
 #### Search
-- Albums, artists, and tracks
+- Albums, artists, tracks and playlists
 
 #### Playlists
 - Get a user's playlists
@@ -48,38 +48,13 @@ Even though authentication isn't always necessary, it always gives benefits such
 
 ## Install
 
-As of version 1.4.5 the artifact is available through Maven Central. (All artifacts are available at https://oss.sonatype.org/#nexus-search;quick~spotify-web-api-java.)
-
-Get the latest version:
-
-#### Maven users
-
-```
-<dependency>
-  <groupId>se.michaelthelin.spotify</groupId>
-  <artifactId>spotify-web-api-java</artifactId>
-  <version>1.5.0</version>
-</dependency>
-```
-
-#### Gradle users
-
-This project uses net.sf.json-lib for marshalling, which may cause your Android build to fail if you're using Android Studio 1.0 ([relevant Stack Overflow post](http://stackoverflow.com/questions/27458227/org-apache-commons-collections-arraystack-has-already-been-added-to-output-plea)). It may therefore necessary to make an exclusion of common-beanutils when setting up this library as a dependency.
-```
-compile('se.michaelthelin.spotify:spotify-web-api-java:1.5.0') {
-        exclude group: "commons-beanutils", module: "commons-beanutils"
-
-    }
-    compile 'commons-beanutils:commons-beanutils:20030211.134440'
-```
-
-Thanks a lot [digitaldesaster](https://github.com/digitaldesaster) for coming up with the workaround.
+Use Jitpack: https://jitpack.io/#JPDSousa/spotify-web-api-java (works for Maven and Graddle)
 
 ## Usage
 
-### Asynchronous, using [Guava's future API](https://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained).
+### Asynchronous
 
-Asynchronous behaviour can be achieved from your favorite async library, by performing a synchronous call asynchronously.
+Asynchronous behaviour is not supported. In order to perform asynchronous requests, select your favorite asynchronous library and perform requests asynchronously, through the library's suggested method
 
 ### Synchronous 
 ```java
