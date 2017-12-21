@@ -5,3 +5,15 @@ jdk:
   - oraclejdk9
   - openjdk7
   - openjdk8
+notifications:
+  email:
+    recipients:
+      - jpd.sousa@campus.fct.unl.pt
+    on_success: never # default: change
+    on_failure: always # default: always
+
+script: 
+  - mvn clean verify
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
