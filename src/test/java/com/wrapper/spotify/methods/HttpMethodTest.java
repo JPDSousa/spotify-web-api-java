@@ -10,6 +10,7 @@ import com.wrapper.spotify.models.Product;
 import com.wrapper.spotify.models.SpotifyEntityType;
 import com.wrapper.spotify.models.album.Album;
 import com.wrapper.spotify.models.album.AlbumType;
+import com.wrapper.spotify.models.album.ReleaseDatePrecision;
 import com.wrapper.spotify.models.album.SimpleAlbum;
 import com.wrapper.spotify.models.artist.Artist;
 import com.wrapper.spotify.models.artist.SimpleArtist;
@@ -451,7 +452,7 @@ public class HttpMethodTest {
 		assertEquals("2hYe61Nd2oOoM6RYCwIma1", firstAlbum.getId());
 		assertEquals(AlbumType.ALBUM, firstAlbum.getAlbumType());
 		assertEquals("2013-11-08", firstAlbum.getReleaseDate());
-		assertEquals("day", firstAlbum.getReleaseDatePrecision());
+		assertEquals(ReleaseDatePrecision.DAY, firstAlbum.getReleaseDatePrecision());
 		List<SimpleArtist> artists = firstAlbum.getArtists();
 		SimpleArtist firstArtist = artists.get(0);
 		assertEquals("https://api.spotify.com/v1/artists/53A0W3U0s8diEn9RhXQhVz", firstArtist.getHref());
