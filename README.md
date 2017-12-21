@@ -2,7 +2,7 @@
 | ------------------------------------- |
 | You can use this library in your Android app. However, you should have a look at the [Android Wrapper](https://www.github.com/kaaes/spotify-web-api-android) project built by [kaaes](https://www.github.com/kaaes) as it's made specifically for Android. See also [Spotify's Android SDK](https://developer.spotify.com/technologies/spotify-android-sdk/). |
 
-Spotify Web API Java [![Jitpack](https://jitpack.io/v/JPDSousa/spotify-web-api-java.svg)](https://jitpack.io/#JPDSousa/spotify-web-api-java)
+Spotify Web API Java [![Jitpack](https://jitpack.io/v/JPDSousa/spotify-web-api-java.svg)](https://jitpack.io/#JPDSousa/spotify-web-api-java)[![Build Status](https://travis-ci.org/JPDSousa/spotify-web-api-java.svg?branch=master)](https://travis-ci.org/JPDSousa/spotify-web-api-java)[![codecov](https://codecov.io/gh/JPDSousa/spotify-web-api-java/branch/master/graph/badge.svg)](https://codecov.io/gh/JPDSousa/spotify-web-api-java)
 ==================
 
 This is a Java wrapper/client for the [Spotify Web API](https://developer.spotify.com/spotify-web-api/).
