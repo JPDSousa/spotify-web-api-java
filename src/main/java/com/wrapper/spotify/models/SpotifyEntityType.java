@@ -1,22 +1,31 @@
 package com.wrapper.spotify.models;
 
+import com.google.gson.annotations.SerializedName;
+
 @SuppressWarnings("javadoc")
 public enum SpotifyEntityType {
 
-	ALBUM("album"),
-	TRACK("track"),
-	ARTIST("artist"),
-	USER("user"),
-	PLAYLIST("playlist");
+    @SerializedName("album")
+    ALBUM("album"),
+    @SerializedName("track")
+    TRACK("track"),
+    @SerializedName("artist")
+    ARTIST("artist"),
+    @SerializedName("user")
+    USER("user"),
+    @SerializedName("playlist")
+    PLAYLIST("playlist"),
+    @SerializedName("category")
+    CATEGORY("category");
 
-	public final String type;
+    public final String type;
 
-	SpotifyEntityType(String type) {
-		this.type = type;
-	}
+    SpotifyEntityType(final String type) {
+        this.type = type;
+    }
 
-	public String getType() {
-		return this.type;
-	}
+    public String getType() {
+        return this.type;
+    }
 
 }
