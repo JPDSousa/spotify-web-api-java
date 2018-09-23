@@ -3,29 +3,18 @@
  */
 package com.wrapper.spotify.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.wrapper.spotify.models.track.Track;
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
 
-@SuppressWarnings("javadoc")
-public class LibraryTrack {
+@Value.Immutable
+@Gson.TypeAdapters
+public interface LibraryTrack {
 
-	private Date addedAt;
-	private Track track;
+    LocalDate addedAt();
 
-	public Date getAddedAt() {
-		return addedAt;
-	}
+    Track track();
 
-	public void setAddedAt(Date addedAt) {
-		this.addedAt = addedAt;
-	}
-
-	public Track getTrack() {
-		return track;
-	}
-
-	public void setTrack(Track track) {
-		this.track = track;
-	}
 }
