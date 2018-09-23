@@ -21,13 +21,18 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.playlist;
 
+import com.google.gson.annotations.SerializedName;
+import com.wrapper.spotify.models.page.Page;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 
 @Value.Immutable
 @Gson.TypeAdapters
-public interface SimplePlaylist extends GenericPlaylist {
+public interface FeaturedPlaylists {
 
-    TracksInfo tracks();
+    String message();
+
+    @SerializedName("playlists")
+    Page<SimplePlaylist> values();
 
 }

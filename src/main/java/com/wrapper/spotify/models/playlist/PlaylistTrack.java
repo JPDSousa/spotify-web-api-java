@@ -1,38 +1,21 @@
 package com.wrapper.spotify.models.playlist;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.wrapper.spotify.models.track.Track;
-import com.wrapper.spotify.models.user.SimpleUser;
+import com.wrapper.spotify.models.user.User;
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
 
 @SuppressWarnings("javadoc")
-public class PlaylistTrack {
+@Value.Immutable
+@Gson.TypeAdapters
+public interface PlaylistTrack {
 
-	private Date addedAt;
-	private SimpleUser addedBy;
-	private Track track;
+    LocalDate addedAt();
 
-	public Date getAddedAt() {
-		return addedAt;
-	}
+    User addedBy();
 
-	public void setAddedAt(Date addedAt) {
-		this.addedAt = addedAt;
-	}
+    Track track();
 
-	public SimpleUser getAddedBy() {
-		return addedBy;
-	}
-
-	public void setAddedBy(SimpleUser addedBy) {
-		this.addedBy = addedBy;
-	}
-
-	public Track getTrack() {
-		return track;
-	}
-
-	public void setTrack(Track track) {
-		this.track = track;
-	}
 }

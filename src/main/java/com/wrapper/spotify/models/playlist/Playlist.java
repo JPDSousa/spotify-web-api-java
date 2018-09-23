@@ -2,39 +2,18 @@ package com.wrapper.spotify.models.playlist;
 
 import com.wrapper.spotify.models.followers.Followers;
 import com.wrapper.spotify.models.page.Page;
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
 
 @SuppressWarnings("javadoc")
-public class Playlist extends AbstractPlaylist {
+@Value.Immutable
+@Gson.TypeAdapters
+public interface Playlist extends GenericPlaylist {
 
-	private String description;
-	private Followers followers;
-	private Page<PlaylistTrack> tracks;
+    String description();
 
-	public Playlist(String id) {
-		super(id);
-	}
+    Followers followers();
 
-	public String getDescription() {
-		return description;
-	}
+    Page<PlaylistTrack> tracks();
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Followers getFollowers() {
-		return followers;
-	}
-
-	public void setFollowers(Followers followers) {
-		this.followers = followers;
-	}
-
-	public Page<PlaylistTrack> getTracks() {
-		return tracks;
-	}
-
-	public void setTracks(Page<PlaylistTrack> tracks) {
-		this.tracks = tracks;
-	}
 }

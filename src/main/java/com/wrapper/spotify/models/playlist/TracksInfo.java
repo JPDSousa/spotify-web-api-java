@@ -24,10 +24,14 @@ package com.wrapper.spotify.models.playlist;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 
+import java.net.URL;
+
 @Value.Immutable
 @Gson.TypeAdapters
-public interface SimplePlaylist extends GenericPlaylist {
+public interface TracksInfo {
 
-    TracksInfo tracks();
+    URL href();
+
+    int total();
 
 }
