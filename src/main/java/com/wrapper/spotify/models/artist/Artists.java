@@ -21,21 +21,16 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.artist;
 
-import com.wrapper.spotify.models.followers.Followers;
-import com.wrapper.spotify.models.image.ImageHolder;
+import com.google.gson.annotations.SerializedName;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 
 import java.util.List;
 
-@Gson.TypeAdapters
 @Value.Immutable
-public interface Artist extends GenericArtist {
+@Gson.TypeAdapters
+public interface Artists {
 
-    Followers followers();
-
-    List<String> genres();
-
-    int popularity();
-
+    @SerializedName("artists")
+    List<Artist> values();
 }
