@@ -1,24 +1,19 @@
 package com.wrapper.spotify.models.followers;
 
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
+
+import java.net.URI;
+import java.net.URL;
+import java.util.Optional;
+
 @SuppressWarnings("javadoc")
-public class Followers {
+@Value.Immutable
+@Gson.TypeAdapters
+public interface Followers {
 
-	private String href;
-	private int total;
+    Optional<URL> href();
 
-	public String getHref() {
-		return href;
-	}
+    int total();
 
-	public void setHref(String href) {
-		this.href = href;
-	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
 }
