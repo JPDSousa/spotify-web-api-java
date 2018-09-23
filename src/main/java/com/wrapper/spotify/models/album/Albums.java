@@ -21,11 +21,17 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.album;
 
+import com.google.gson.annotations.SerializedName;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 
-@Gson.TypeAdapters(fieldNamingStrategy = true)
+import java.util.List;
+
 @Value.Immutable
-public interface SimpleAlbum extends GenericAlbum {
+@Gson.TypeAdapters
+public interface Albums {
+
+    @SerializedName("albums")
+    List<Album> values();
 
 }

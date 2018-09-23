@@ -24,8 +24,10 @@ package com.wrapper.spotify.models.album;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 
-@Gson.TypeAdapters(fieldNamingStrategy = true)
 @Value.Immutable
-public interface SimpleAlbum extends GenericAlbum {
+@Gson.TypeAdapters(fieldNamingStrategy = true)
+public interface NewRelease extends ReleaseableAlbum {
+
+    int totalTracks();
 
 }

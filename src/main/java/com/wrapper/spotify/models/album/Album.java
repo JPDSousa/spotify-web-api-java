@@ -1,90 +1,39 @@
+/*******************************************************************************
+ * Copyright (C) 2018 Joao Sousa
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package com.wrapper.spotify.models.album;
 
-import java.util.List;
-
-import com.wrapper.spotify.models.Copyright;
-import com.wrapper.spotify.models.artist.SimpleArtist;
-import com.wrapper.spotify.models.external.ExternalIds;
 import com.wrapper.spotify.models.page.Page;
 import com.wrapper.spotify.models.track.SimpleTrack;
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
 
-@SuppressWarnings("javadoc")
-public class Album extends SimpleAlbum{
+@Gson.TypeAdapters(fieldNamingStrategy = true)
+@Value.Immutable
+public interface Album extends ReleaseableAlbum {
 
-	private List<SimpleArtist> artists;
-	private List<Copyright> copyrights;
-	private ExternalIds externalIds;
-	private List<String> genres;
-	private int popularity;
-	private String releaseDate;
-	private ReleaseDatePrecision releaseDatePrecision;
-	private Page<SimpleTrack> tracks;
+    int popularity();
 
-	public Album(String id) {
-		super(id);
-	}
+    // TODO restrictions
 
-	public List<SimpleArtist> getArtists() {
-		return artists;
-	}
+    Page<SimpleTrack> tracks();
 
-	public void setArtists(List<SimpleArtist> artists) {
-		this.artists = artists;
-	}
-
-	public List<Copyright> getCopyrights() {
-		return copyrights;
-	}
-
-	public void setCopyrights(List<Copyright> copyrights) {
-		this.copyrights = copyrights;
-	}
-
-	public ExternalIds getExternalIds() {
-		return externalIds;
-	}
-
-	public void setExternalIds(ExternalIds externalIds) {
-		this.externalIds = externalIds;
-	}
-
-	public List<String> getGenres() {
-		return genres;
-	}
-
-	public void setGenres(List<String> genres) {
-		this.genres = genres;
-	}
-
-	public int getPopularity() {
-		return popularity;
-	}
-
-	public void setPopularity(int popularity) {
-		this.popularity = popularity;
-	}
-
-	public Page<SimpleTrack> getTracks() {
-		return tracks;
-	}
-
-	public void setTracks(Page<SimpleTrack> tracks) {
-		this.tracks = tracks;
-	}
-
-	public ReleaseDatePrecision getReleaseDatePrecision() {
-		return releaseDatePrecision;
-	}
-
-	public void setReleaseDatePrecision(ReleaseDatePrecision releaseDatePrecision) {
-		this.releaseDatePrecision = releaseDatePrecision;
-	}
-
-	public String getReleaseDate() {
-		return releaseDate;
-	}
-
-	public void setReleaseDate(String releaseDate) {
-		this.releaseDate = releaseDate;
-	}
 }

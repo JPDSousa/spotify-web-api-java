@@ -21,11 +21,10 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.album;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+public interface ReleaseableAlbum extends GenericAlbum {
 
-@Gson.TypeAdapters(fieldNamingStrategy = true)
-@Value.Immutable
-public interface SimpleAlbum extends GenericAlbum {
+    String releaseDate();
+
+    String releaseDatePrecision();
 
 }

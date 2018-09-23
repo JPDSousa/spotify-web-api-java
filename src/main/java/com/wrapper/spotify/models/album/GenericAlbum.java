@@ -21,11 +21,30 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.album;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import com.wrapper.spotify.models.copyright.Copyright;
+import com.wrapper.spotify.models.SpotifyEntity;
+import com.wrapper.spotify.models.artist.SimpleArtist;
+import com.wrapper.spotify.models.image.ImageHolder;
 
-@Gson.TypeAdapters(fieldNamingStrategy = true)
-@Value.Immutable
-public interface SimpleAlbum extends GenericAlbum {
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+public interface GenericAlbum extends ImageHolder, SpotifyEntity {
+
+    List<String> availableMarkets();
+
+    TypeAlbum albumType();
+
+    String name();
+
+    List<SimpleArtist> artists();
+
+    List<Copyright> copyrights();
+
+    Map<String, String> externalIds();
+
+    List<String> genres();
+
+    Optional<String> label();
 }
