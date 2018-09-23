@@ -1,33 +1,19 @@
 package com.wrapper.spotify.models.image;
 
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
+
+import java.util.OptionalInt;
+
 @SuppressWarnings("javadoc")
-public class Image {
+@Value.Immutable
+@Gson.TypeAdapters
+public interface Image {
 
-	private Integer height;
-	private String url;
-	private Integer width;
+    OptionalInt width();
 
-	public Integer getWidth() {
-		return width;
-	}
+    String url();
 
-	public void setWidth(Integer width) {
-		this.width = width;
-	}
+    OptionalInt height();
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public Integer getHeight() {
-		return height;
-	}
-
-	public void setHeight(Integer height) {
-		this.height = height;
-	}
 }
