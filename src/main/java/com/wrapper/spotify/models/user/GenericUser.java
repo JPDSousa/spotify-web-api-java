@@ -21,10 +21,11 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.user;
 
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import com.wrapper.spotify.models.SpotifyEntity;
+import com.wrapper.spotify.models.image.ImageHolder;
 
-@Value.Immutable
-@Gson.TypeAdapters(fieldNamingStrategy = true)
-public interface SimpleUser {
+public interface GenericUser extends ImageHolder, SpotifyEntity {
+
+    String displayName();
+
 }
