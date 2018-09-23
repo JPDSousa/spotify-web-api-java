@@ -21,41 +21,13 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.audio;
 
-import com.wrapper.spotify.models.SpotifyEntity;
-import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 
-@Gson.TypeAdapters
-@Value.Immutable
-public interface AudioFeature extends SpotifyEntity {
+public interface GenericInterval {
 
-    float acounticness();
+    float start();
 
-    String analysisUrl();
+    float duration();
 
-    float danceability();
-
-    int durationMs();
-
-    float energy();
-
-    float instrumentalness();
-
-    int key();
-
-    float liveness();
-
-    float loudness();
-
-    int mode();
-
-    float speechiness();
-
-    float tempo();
-
-    int timeSignature();
-
-    String trackHref();
-
-    float valence();
+    float confidence();
 }

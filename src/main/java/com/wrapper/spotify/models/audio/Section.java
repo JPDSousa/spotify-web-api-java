@@ -1,92 +1,30 @@
+/*******************************************************************************
+ * Copyright (C) 2018 Joao Sousa
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ ******************************************************************************/
 package com.wrapper.spotify.models.audio;
 
-@SuppressWarnings("javadoc")
-public class Section extends Interval {
-	
-	private double loudness;
-	
-	private double tempo;
-	private double tempoConfidence;
-	
-	private int key;
-	private double keyConfidence;
-	
-	private int mode;
-	private double modeConfidence;
-	
-	private int timeSignature;
-	private double timeSignatureConfidence;
-	
-	public double getLoudness() {
-		return loudness;
-	}
-	
-	public void setLoudness(double loudness) {
-		this.loudness = loudness;
-	}
-	
-	public double getTempo() {
-		return tempo;
-	}
-	
-	public void setTempo(double tempo) {
-		this.tempo = tempo;
-	}
-	
-	public double getTempoConfidence() {
-		return tempoConfidence;
-	}
-	
-	public void setTempoConfidence(double tempoConfidence) {
-		this.tempoConfidence = tempoConfidence;
-	}
-	
-	public int getKey() {
-		return key;
-	}
-	
-	public void setKey(int key) {
-		this.key = key;
-	}
-	
-	public double getKeyConfidence() {
-		return keyConfidence;
-	}
-	
-	public void setKeyConfidence(double keyConfidence) {
-		this.keyConfidence = keyConfidence;
-	}
-	
-	public int getMode() {
-		return mode;
-	}
-	
-	public void setMode(int mode) {
-		this.mode = mode;
-	}
-	
-	public double getModeConfidence() {
-		return modeConfidence;
-	}
-	
-	public void setModeConfidence(double modeConfidence) {
-		this.modeConfidence = modeConfidence;
-	}
-	
-	public int getTimeSignature() {
-		return timeSignature;
-	}
-	
-	public void setTimeSignature(int timeSignature) {
-		this.timeSignature = timeSignature;
-	}
-	
-	public double getTimeSignatureConfidence() {
-		return timeSignatureConfidence;
-	}
-	
-	public void setTimeSignatureConfidence(double timeSignatureConfidence) {
-		this.timeSignatureConfidence = timeSignatureConfidence;
-	}
-	
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
+
+@Gson.TypeAdapters
+@Value.Immutable
+public interface Section extends GenericSection {
 }
