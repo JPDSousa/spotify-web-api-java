@@ -21,26 +21,21 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.track;
 
-import com.wrapper.spotify.models.album.SimpleAlbum;
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+import com.wrapper.spotify.models.SpotifyEntity;
+import com.wrapper.spotify.models.artist.SimpleArtist;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
 
-@Value.Immutable
-@Gson.TypeAdapters(fieldNamingStrategy = true)
-public interface Track extends GenericTrack {
+public interface GenericTrack extends SpotifyEntity {
 
-    int discNumber();
+    List<String> availableMarkets();
 
-    int durationMs();
+    List<SimpleArtist> artists();
 
-    Optional<String> previewUrl();
+    boolean explicit();
 
-    int trackNumber();
+    String name();
 
-    SimpleAlbum album();
-
-    int popularity();
-
+    Map<String, String> externalIds();
 }
