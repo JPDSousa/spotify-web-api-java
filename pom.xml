@@ -131,19 +131,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>mockwebserver</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <classifier>jdk15</classifier>
-            <version>2.4</version>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>converter-gson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -155,12 +153,27 @@
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
-        	<groupId>com.neovisionaries</groupId>
-        	<artifactId>nv-i18n</artifactId>
+            <groupId>com.neovisionaries</groupId>
+            <artifactId>nv-i18n</artifactId>
         </dependency>
         <dependency>
-        	<groupId>org.mapdb</groupId>
-        	<artifactId>mapdb</artifactId>
+            <groupId>org.immutables</groupId>
+            <artifactId>value</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.immutables</groupId>
+            <artifactId>gson</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -169,42 +182,67 @@
     </properties>
 
     <dependencyManagement>
-    	<dependencies>
-    		<dependency>
-    			<groupId>junit</groupId>
-    			<artifactId>junit</artifactId>
-    			<version>4.12</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>org.apache.httpcomponents</groupId>
-    			<artifactId>httpclient</artifactId>
-    			<version>4.5.3</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>net.sf.json-lib</groupId>
-    			<artifactId>json-lib</artifactId>
-    			<version>2.4</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>org.mockito</groupId>
-    			<artifactId>mockito-all</artifactId>
-    			<version>1.10.19</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>com.google.guava</groupId>
-    			<artifactId>guava</artifactId>
-    			<version>23.0</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>com.neovisionaries</groupId>
-    			<artifactId>nv-i18n</artifactId>
-    			<version>1.22</version>
-    		</dependency>
-    		<dependency>
-    			<groupId>org.mapdb</groupId>
-    			<artifactId>mapdb</artifactId>
-    			<version>3.0.5</version>
-    		</dependency>
-    	</dependencies>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.0.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>mockwebserver</artifactId>
+                <version>3.10.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.neovisionaries</groupId>
+                <artifactId>nv-i18n</artifactId>
+                <version>1.22</version>
+            </dependency>
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>2.7.1</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-gson</artifactId>
+                <version>2.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.8.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.7.1</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 </project>
