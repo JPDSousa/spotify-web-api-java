@@ -5,9 +5,9 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>se.michaelthelin.spotify</groupId>
+    <groupId>com.github.JPDSousa</groupId>
     <artifactId>spotify-web-api-java</artifactId>
-    <version>1.7.1</version>
+    <version>0.1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
 
