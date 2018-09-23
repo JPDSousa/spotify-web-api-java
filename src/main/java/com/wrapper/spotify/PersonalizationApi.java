@@ -21,19 +21,15 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
-public interface Api {
+import com.wrapper.spotify.models.top.TopElement;
+import com.wrapper.spotify.models.top.TypeTop;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
-    AlbumApi albums();
+@SuppressWarnings("HardcodedFileSeparator")
+public interface PersonalizationApi {
 
-    ArtistApi artists();
-
-    BrowseApi browse();
-
-    PlaylistApi playlists();
-
-    FollowApi follow();
-
-    LibraryApi library();
-
-    PersonalizationApi personalization();
+    @GET("/me/top/{type}")
+    Call<TopElement> getUserTop(@Path("type") TypeTop type);
 }

@@ -21,19 +21,28 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
-public interface Api {
+import com.wrapper.spotify.models.playlist.PlaylistSnapshot;
+import retrofit2.Call;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
-    AlbumApi albums();
+import java.util.Collection;
 
-    ArtistApi artists();
+public interface PlaylistApi {
 
-    BrowseApi browse();
+    @POST("/playlists/{playlist_id}/tracks")
+    Call<PlaylistSnapshot> addTracks(@Path("playlist_id") String playlistId,
+                                     @Query("uris") String trackURIs,
+                                     @Query("position") Integer position);
 
-    PlaylistApi playlists();
+    default Call<PlaylistSnapshot> addTracks(final String playlistId,
+                                             final Collection<String> trackURIs,
+                                             final Integer position) {
+        return addTracks(playlistId, join(trackURIs), position);
+    }
 
-    FollowApi follow();
-
-    LibraryApi library();
-
-    PersonalizationApi personalization();
+    default String join(final Collection<String> items) {
+        return String.join(",", items);
+    }
 }
