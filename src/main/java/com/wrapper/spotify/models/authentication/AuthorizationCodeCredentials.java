@@ -1,42 +1,13 @@
 package com.wrapper.spotify.models.authentication;
 
+import org.immutables.gson.Gson;
+import org.immutables.value.Value;
+
 @SuppressWarnings("javadoc")
-public class AuthorizationCodeCredentials {
+@Gson.TypeAdapters
+@Value.Immutable
+public interface AuthorizationCodeCredentials extends Credentials {
 
-	private String accessToken;
-	private String tokenType;
-	private int expiresIn;
-	private String refreshToken;
+    String refreshToken();
 
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
-
-	public String getTokenType() {
-		return tokenType;
-	}
-
-	public void setTokenType(String tokenType) {
-		this.tokenType = tokenType;
-	}
-
-	public int getExpiresIn() {
-		return expiresIn;
-	}
-
-	public void setExpiresIn(int expiresIn) {
-		this.expiresIn = expiresIn;
-	}
-
-	public String getRefreshToken() {
-		return refreshToken;
-	}
-
-	public void setRefreshToken(String refreshToken) {
-		this.refreshToken = refreshToken;
-	}
 }
