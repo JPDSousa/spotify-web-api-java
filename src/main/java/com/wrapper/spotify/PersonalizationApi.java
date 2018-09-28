@@ -21,15 +21,20 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
-import com.wrapper.spotify.models.top.TopElement;
-import com.wrapper.spotify.models.top.TypeTop;
+import com.wrapper.spotify.models.artist.Artist;
+import com.wrapper.spotify.models.page.Page;
+import com.wrapper.spotify.models.track.Track;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 @SuppressWarnings("HardcodedFileSeparator")
 public interface PersonalizationApi {
 
-    @GET("/me/top/{type}")
-    Call<TopElement> getUserTop(@Path("type") TypeTop type);
+    String BASE_URL = "/v1/me/top";
+
+    @GET(BASE_URL + "/artists")
+    Call<Page<Artist>> getUserTopArtist();
+
+    @GET(BASE_URL + "/tracks")
+    Call<Page<Track>> getUserTopTrack();
 }

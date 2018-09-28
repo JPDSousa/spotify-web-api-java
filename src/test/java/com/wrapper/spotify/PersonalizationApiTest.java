@@ -1,4 +1,4 @@
-/*******************************************************************************
+package com.wrapper.spotify; /*******************************************************************************
  * Copyright (C) 2018 Joao Sousa
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,41 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package com.wrapper.spotify.models.top;
 
-import com.wrapper.spotify.models.artist.Artist;
-import com.wrapper.spotify.models.track.Track;
+import org.junit.jupiter.api.Test;
 
-import java.util.NoSuchElementException;
+import java.io.IOException;
 
-final class ArtistTopElement implements TopElement {
+class PersonalizationApiTest extends RetrofitTest {
 
-    private final Artist artist;
-
-    ArtistTopElement(final Artist artist) {
-        this.artist = artist;
+    @Test
+    public void testGetUserTopArtists() throws IOException {
+        api.personalization().getUserTopArtist().execute();
     }
 
-    @Override
-    public Track asTrack() {
-        throw new NoSuchElementException("This top element contains an artist, not a track. Use #type to find out the" +
-                "exact type of a given top element.");
+    @Test
+    public void testGetUserTopTrack() throws IOException {
+        api.personalization().getUserTopTrack().execute();
     }
 
-    @Override
-    public Artist asArtist() {
-        return this.artist;
-    }
-
-    @Override
-    public TypeTop type() {
-        return TypeTop.ARTIST;
-    }
-
-    @Override
-    public String toString() {
-        return "ArtistTopElement{" +
-                "artist=" + this.artist +
-                "}";
-    }
 }

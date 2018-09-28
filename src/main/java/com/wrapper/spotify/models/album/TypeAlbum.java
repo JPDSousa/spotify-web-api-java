@@ -7,11 +7,11 @@ public enum TypeAlbum {
 
     @SerializedName(value = "album", alternate = "ALBUM")
     ALBUM("album"),
-    @SerializedName("single")
+    @SerializedName(value = "single", alternate = "SINGLE")
     SINGLE("single"),
-    @SerializedName("appears_on")
+    @SerializedName(value = "appears_on", alternate = "APPEARS_ON")
     APPEARS_ON("appears_on"),
-    @SerializedName("compilation")
+    @SerializedName(value = "compilation", alternate = "COMPILATION")
     COMPILATION("compilation");
 
     private final String type;
