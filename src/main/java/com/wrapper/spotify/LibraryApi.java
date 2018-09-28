@@ -23,6 +23,9 @@ package com.wrapper.spotify;
 
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.models.album.Album;
+import com.wrapper.spotify.models.album.SavedAlbum;
+import com.wrapper.spotify.models.page.Page;
+import com.wrapper.spotify.models.track.SavedTrack;
 import com.wrapper.spotify.models.track.Track;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -31,56 +34,59 @@ import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 import java.util.Collection;
+import java.util.List;
 
 @SuppressWarnings("HardcodedFileSeparator")
 public interface LibraryApi {
 
-    @GET("/me/albums/contains")
-    Call<Boolean> checkSavedAlbum(@Query("ids") String ids);
+    String BASE_URL = "/v1/me";
 
-    default Call<Boolean> checkSavedAlbum(final Collection<String> ids) {
+    @GET(BASE_URL + "/albums/contains")
+    Call<List<Boolean>> checkSavedAlbum(@Query("ids") String ids);
+
+    default Call<List<Boolean>> checkSavedAlbum(final Collection<String> ids) {
         return checkSavedAlbum(join(ids));
     }
 
-    @GET("/me/tracks/contains")
-    Call<Boolean> checkSavedTracks(@Query("ids") String ids);
+    @GET(BASE_URL + "/tracks/contains")
+    Call<List<Boolean>> checkSavedTracks(@Query("ids") String ids);
 
-    default Call<Boolean> checkSavedTracks(final Collection<String> ids) {
+    default Call<List<Boolean>> checkSavedTracks(final Collection<String> ids) {
         return checkSavedTracks(join(ids));
     }
 
-    @GET("/me/albums")
-    Call<Collection<Album>> getSavedAlbums(@Query("market") CountryCode market,
-                                           @Query("limit") Integer limit,
-                                           @Query("offset") Integer offset);
+    @GET(BASE_URL + "/albums")
+    Call<Page<SavedAlbum>> getSavedAlbums(@Query("market") CountryCode market,
+                                          @Query("limit") Integer limit,
+                                          @Query("offset") Integer offset);
 
-    @GET("/me/tracks")
-    Call<Collection<Track>> getSavedTracks(@Query("market") CountryCode market,
-                                           @Query("limit") Integer limit,
-                                           @Query("offset") Integer offset);
+    @GET(BASE_URL + "/tracks")
+    Call<Page<SavedTrack>> getSavedTracks(@Query("market") CountryCode market,
+                                          @Query("limit") Integer limit,
+                                          @Query("offset") Integer offset);
 
-    @DELETE("/me/albums")
+    @DELETE(BASE_URL + "/albums")
     Call<Void> removeSavedAlbums(@Query("ids") String ids);
 
     default Call<Void> removeSavedAlbums(final Collection<String> ids) {
         return removeSavedAlbums(join(ids));
     }
 
-    @DELETE("/me/tracks")
+    @DELETE(BASE_URL + "/tracks")
     Call<Void> removeSavedTracks(@Query("ids") String ids);
 
     default Call<Void> removeSavedTracks(final Collection<String> ids) {
         return removeSavedTracks(join(ids));
     }
 
-    @PUT("/me/albums")
+    @PUT(BASE_URL + "/albums")
     Call<Void> saveAlbums(@Query("ids") String ids);
 
     default Call<Void> saveAlbums(final Collection<String> ids) {
         return saveAlbums(join(ids));
     }
 
-    @PUT("/me/tracks")
+    @PUT(BASE_URL + "/tracks")
     Call<Void> saveTracks(@Query("ids") String ids);
 
     default Call<Void> saveTracks(final Collection<String> ids) {
