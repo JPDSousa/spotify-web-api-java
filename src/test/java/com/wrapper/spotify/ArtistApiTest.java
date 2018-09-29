@@ -37,7 +37,7 @@ class ArtistApiTest extends RetrofitTest {
 
     @Test
     void testGetArtists() throws IOException {
-        api.artists().getArtists("asgjdh,asjhgf,asdvghb").execute();
+        api.artists().getArtists("0oSGxfWSnnOXhD2fKuz2Gy,3dBVyJ7JuOMt4GE9607Qin").execute();
     }
 
     @Test

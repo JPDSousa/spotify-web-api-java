@@ -24,42 +24,32 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/thelinmichael/spotify-web-api-java</url>
-        <connection>scm:git:git://github.com/thelinmichael/spotify-web-api-java.git</connection>
-        <developerConnection>scm:git:git@github.com:thelinmichael/spotify-web-api-java.git</developerConnection>
+        <url>https://github.com/JPDSousa/spotify-web-api-java</url>
+        <connection>scm:git:git://github.com/JPDSousa/spotify-web-api-java.git</connection>
+        <developerConnection>scm:git:git@github.com:JPDSousa/spotify-web-api-java.git</developerConnection>
     </scm>
 
     <developers>
         <developer>
-            <name>Michael Thelin</name>
-            <email>thelinmichael@gmail.com</email>
-            <organization>Michael Thelin</organization>
-            <organizationUrl>https://github.com/thelinmichael</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>Europe/Stockholm</timezone>
-        </developer>
-        <developer>
-            <name>Jonas Thelemann</name>
-            <email>e-mail@jonas-thelemann.de</email>
-            <organization>Jonas Thelemann</organization>
-            <organizationUrl>https://github.com/dargmuesli</organizationUrl>
+            <name>Joao Sousa</name>
+            <email>jpd.sousa@campus.fct.unl.pt</email>
+            <organization>Joao Sousa</organization>
+            <organizationUrl>https://github.com/JPDSousa</organizationUrl>
             <roles>
                 <role>maintainer</role>
             </roles>
-            <timezone>Europe/Berlin</timezone>
+            <timezone>Europe/Lisbon</timezone>
         </developer>
     </developers>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -126,6 +116,11 @@
                 </configuration>
                 <version>2.9.1</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -175,6 +170,16 @@
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -186,7 +191,7 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.0.1</version>
+                <version>5.3.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -242,6 +247,18 @@
                 <artifactId>gson</artifactId>
                 <version>2.7.1</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.3.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>3.11.1</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

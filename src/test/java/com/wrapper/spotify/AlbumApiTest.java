@@ -41,8 +41,8 @@ class AlbumApiTest extends RetrofitTest {
 
     @Test
     void testGetAlbums() throws IOException {
-        final String ids = "aksdgajshd,akshgdfsahdj,asjkhgdfsavbd";
-        final CountryCode code = CountryCode.TD;
+        final String ids = "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc";
+        final CountryCode code = CountryCode.ES;
 
         api.albums().getAlbums(ids, code).execute();
     }

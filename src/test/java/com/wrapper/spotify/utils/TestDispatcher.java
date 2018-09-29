@@ -36,36 +36,39 @@ import java.util.Objects;
 
 public final class TestDispatcher extends Dispatcher {
 
-    public static final char QUERY_TOKEN = '?';
-
     @SuppressWarnings("PublicMethodNotExposedInInterface") // not on my side
     @Override
     public MockResponse dispatch(final RecordedRequest request) {
-        final String method = request.getMethod();
-        if ("GET".equals(method)) {
-            return mockGetResponse(request);
-        }
-        return new MockResponse()
-                .setResponseCode(204);
-    }
-
-    private MockResponse mockGetResponse(final RecordedRequest request) {
-        final String path = request.getPath()
+        final Path method = Paths.get(request.getMethod());
+        final String basePath = request.getPath()
                 .substring(1)
                 .replace("?", "--")
-                .replace("%2C", ",")+ ".json";
+                .replace("%2C", ",");
+        final Path bodyPath = method.resolve(basePath + ".json");
+        final Path codePath = method.resolve(basePath + ".code");
+
         try {
-            final URL url = getClass().getClassLoader().getResource(path);
-            final Path bodyPath = Paths.get(Objects.requireNonNull(url).toURI());
-            final String content = new String(Files.readAllBytes(bodyPath), Charset.forName("UTF-8"));
             return new MockResponse()
-                    .setResponseCode(200)
-                    .setBody(content);
+                    .setResponseCode(getCode(codePath))
+                    .setBody(getResourceContent(bodyPath, ""));
         } catch (final URISyntaxException e) {
-            throw new IllegalArgumentException(String.format("%s is not a valid path", path), e);
+            throw new IllegalArgumentException(String.format("%s is not a valid path", bodyPath), e);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String getResourceContent(final Path path, final String defaultValue) throws URISyntaxException, IOException {
+        final URL url = getClass().getClassLoader().getResource(path.toString());
+        if (Objects.nonNull(url)) {
+            final Path urlPath = Paths.get(url.toURI());
+            return new String(Files.readAllBytes(urlPath), Charset.forName("UTF-8"));
+        }
+        return defaultValue;
+    }
+
+    private int getCode(final Path path) throws IOException, URISyntaxException {
+        return Integer.valueOf(getResourceContent(path, "200"));
     }
 
 }
