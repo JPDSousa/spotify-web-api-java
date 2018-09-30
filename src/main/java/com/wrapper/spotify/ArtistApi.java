@@ -62,10 +62,10 @@ public interface ArtistApi {
                                                @Query("offset") Integer offset);
 
     default Call<Page<SimpleAlbum>> getAlbumsForArtist(final String artistId,
-                                                           final Collection<TypeAlbum> albumTypes,
-                                                           final CountryCode market,
-                                                           final Integer limit,
-                                                           final Integer offset) {
+                                                       final Collection<TypeAlbum> albumTypes,
+                                                       final CountryCode market,
+                                                       final Integer limit,
+                                                       final Integer offset) {
         return getAlbumsForArtist(artistId, join(albumTypes), market, limit, offset);
     }
 

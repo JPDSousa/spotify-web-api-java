@@ -26,8 +26,6 @@ public enum TypeAlbum {
 
     @Override
     public String toString() {
-        return "TypeAlbum{" +
-                "type='" + this.type + '\'' +
-                "} " + super.toString();
+        return this.type;
     }
 }

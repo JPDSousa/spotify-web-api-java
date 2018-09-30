@@ -22,6 +22,7 @@
 
 package com.wrapper.spotify;
 
+import com.google.common.collect.ImmutableList;
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.models.album.TypeAlbum;
 import org.junit.jupiter.api.Test;
@@ -49,6 +50,16 @@ class ArtistApiTest extends RetrofitTest {
     void getAlbumsForArtist() throws IOException {
         api.artists().getAlbumsForArtist("1vCWHaC5f2uS3yhpwWbIA6",
                 TypeAlbum.APPEARS_ON.type(),
+                CountryCode.ES,
+                2,
+                0)
+                .execute();
+    }
+
+    @Test
+    void getAlbumsForArtistCollection() throws IOException {
+        api.artists().getAlbumsForArtist("1vCWHaC5f2uS3yhpwWbIA6",
+                ImmutableList.of(TypeAlbum.APPEARS_ON),
                 CountryCode.ES,
                 2,
                 0)
