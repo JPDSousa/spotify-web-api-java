@@ -29,7 +29,9 @@ import org.junit.jupiter.api.BeforeAll;
 import java.io.IOException;
 import java.time.Duration;
 
-public abstract class RetrofitTest {
+@SuppressWarnings({"HardcodedFileSeparator", "NonFinalUtilityClass", "UtilityClass",
+        "ProtectedField", "StaticVariableMayNotBeInitialized"})
+public class RetrofitTest {
 
     protected static MockWebServer webServer;
     protected static Api api;
@@ -40,15 +42,22 @@ public abstract class RetrofitTest {
         webServer.setDispatcher(new TestDispatcher());
         webServer.start();
 
-        final ImmutableRetrofitApiConfig config = ImmutableRetrofitApiConfig.builder()
+        final CredentialsProvider credentialsProvider = ImmutableCredentialsProvider.builder()
+                .clientId("clientId")
+                .clientSecret("clientSecret")
+                .clientCredentialsSupplier(new MockClientCredentialsSupplier())
+                .build();
+        final RetrofitApiConfig config = ImmutableRetrofitApiConfig.builder()
                 .url(webServer.url("/"))
                 .readTimeout(Duration.ofSeconds(3))
                 .connectTimeout(Duration.ofSeconds(1))
+                .credentials(credentialsProvider)
                 .build();
 
         api = RetrofitApi.create(config);
     }
 
+    @SuppressWarnings("StaticVariableUsedBeforeInitialization")
     @AfterAll
     static void tearDown() throws IOException {
         webServer.shutdown();

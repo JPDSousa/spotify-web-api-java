@@ -22,10 +22,6 @@
 package com.wrapper.spotify;
 
 import com.google.common.util.concurrent.RateLimiter;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapterFactory;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import org.immutables.value.Value;
@@ -33,34 +29,37 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.time.Duration;
-import java.util.ServiceLoader;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("InterfaceMayBeAnnotatedFunctional")
 @Value.Immutable
-public interface RetrofitApiConfig {
+public interface RetrofitApiConfig extends BaseUrlConfig {
 
     @Value.Default
+    @Override
     default String host() {
         return "api.spotify.com";
     }
 
+    @SuppressWarnings("MagicNumber")
     @Value.Default
+    @Override
     default int port() {
         return 443;
     }
 
     @Value.Default
+    @Override
     default String scheme() {
         return "https";
     }
 
     @Value.Default
+    @Override
     default HttpUrl url() {
-        return new HttpUrl.Builder()
-                .host(host())
-                .port(port())
-                .scheme(scheme())
-                .build();
+        return BaseUrlConfig.super.url();
     }
 
     @Value.Default
@@ -73,31 +72,29 @@ public interface RetrofitApiConfig {
         return Duration.ofSeconds(10);
     }
 
+    @SuppressWarnings("MagicNumber")
     @Value.Default
     default RateLimiter rateLimiter() {
         return RateLimiter.create(20);
     }
 
     @Value.Default
+    default ScheduledExecutorService scheduler() {
+        return Executors.newScheduledThreadPool(2);
+    }
+
+    CredentialsProvider credentials();
+
+    @Value.Default
     default OkHttpClient httpClient() {
         final Duration readTimeout = readTimeout();
         final Duration connectTimeout = connectTimeout();
         return new OkHttpClient.Builder()
-                .addInterceptor(new RateLimiterInterceptor(rateLimiter()))
+                .addInterceptor(new SpotifyAuthenticator(credentials().clientCredentialsSupplier()))
+                .addInterceptor(new RateLimiterInterceptor(rateLimiter(), 5, scheduler()))
                 .readTimeout(readTimeout.getSeconds(), TimeUnit.SECONDS)
                 .connectTimeout(connectTimeout.getSeconds(), TimeUnit.SECONDS)
                 .build();
-    }
-
-    @Value.Default
-    default Gson gson() {
-        final GsonBuilder gsonBuilder = new GsonBuilder();
-        for (final TypeAdapterFactory factory : ServiceLoader.load(TypeAdapterFactory.class)) {
-            gsonBuilder.registerTypeAdapterFactory(factory);
-        }
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-
-        return gsonBuilder.create();
     }
 
     @Value.Default
@@ -105,7 +102,7 @@ public interface RetrofitApiConfig {
         return new Retrofit.Builder()
                 .client(httpClient())
                 .baseUrl(url())
-                .addConverterFactory(GsonConverterFactory.create(gson()))
+                .addConverterFactory(GsonConverterFactory.create(credentials().gson()))
                 .build();
     }
 

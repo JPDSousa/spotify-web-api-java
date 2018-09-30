@@ -21,24 +21,9 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
-import com.google.common.util.concurrent.RateLimiter;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapterFactory;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.util.ServiceLoader;
 
 public final class RetrofitApi implements Api {
-
-    public static final String DEFAULT_AUTHENTICATION_HOST = "accounts.spotify.com";
-
-    public static final int DEFAULT_AUTHENTICATION_PORT = 443;
-
-    public static final String DEFAULT_AUTHENTICATION_SCHEME = "https";
 
     public static Api create(final RetrofitApiConfig config) {
         return new RetrofitApi(config);
@@ -52,7 +37,7 @@ public final class RetrofitApi implements Api {
     private final LibraryApi libraryApi;
     private final PersonalizationApi personalizationApi;
 
-    RetrofitApi(final RetrofitApiConfig config) {
+    private RetrofitApi(final RetrofitApiConfig config) {
         final Retrofit retrofit = config.retrofit();
         this.albumApi = retrofit.create(AlbumApi.class);
         this.artistApi = retrofit.create(ArtistApi.class);
@@ -97,5 +82,18 @@ public final class RetrofitApi implements Api {
     @Override
     public PersonalizationApi personalization() {
         return this.personalizationApi;
+    }
+
+    @Override
+    public String toString() {
+        return "RetrofitApi{" +
+                "albumApi=" + this.albumApi +
+                ", artistApi=" + this.artistApi +
+                ", browseApi=" + this.browseApi +
+                ", playlistApi=" + this.playlistApi +
+                ", followApi=" + this.followApi +
+                ", libraryApi=" + this.libraryApi +
+                ", personalizationApi=" + this.personalizationApi +
+                "}";
     }
 }
