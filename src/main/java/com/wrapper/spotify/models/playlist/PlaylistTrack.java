@@ -1,20 +1,21 @@
 package com.wrapper.spotify.models.playlist;
 
-import java.time.LocalDate;
-
 import com.wrapper.spotify.models.track.Track;
 import com.wrapper.spotify.models.user.User;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @SuppressWarnings("javadoc")
 @Value.Immutable
 @Gson.TypeAdapters
 public interface PlaylistTrack {
 
-    LocalDate addedAt();
+    Optional<LocalDate> addedAt();
 
-    User addedBy();
+    Optional<User> addedBy();
 
     Track track();
 
