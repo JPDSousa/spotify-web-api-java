@@ -36,6 +36,7 @@ public final class RetrofitApi implements Api {
     private final FollowApi followApi;
     private final LibraryApi libraryApi;
     private final PersonalizationApi personalizationApi;
+    private final SearchApi searchApi;
 
     private RetrofitApi(final RetrofitApiConfig config) {
         final Retrofit retrofit = config.retrofit();
@@ -46,6 +47,7 @@ public final class RetrofitApi implements Api {
         this.followApi = retrofit.create(FollowApi.class);
         this.libraryApi = retrofit.create(LibraryApi.class);
         this.personalizationApi = retrofit.create(PersonalizationApi.class);
+        this.searchApi = retrofit.create(SearchApi.class);
     }
 
     @Override
@@ -82,6 +84,11 @@ public final class RetrofitApi implements Api {
     @Override
     public PersonalizationApi personalization() {
         return this.personalizationApi;
+    }
+
+    @Override
+    public SearchApi search() {
+        return this.searchApi;
     }
 
     @Override

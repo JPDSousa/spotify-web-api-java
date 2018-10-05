@@ -19,12 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package com.wrapper.spotify.models.album;
 
-public interface ReleaseableAlbum extends GenericAlbum {
+package com.wrapper.spotify;
 
-    String releaseDate();
+import com.neovisionaries.i18n.CountryCode;
+import org.junit.jupiter.api.Test;
 
-    String releaseDatePrecision();
+import java.io.IOException;
 
+@SuppressWarnings({"ExtendsUtilityClass", "JUnitTestMethodWithNoAssertions"})
+class SearchApiTest extends RetrofitTest {
+
+    @Test
+    void testSearchArtists() throws IOException {
+        api.search().artists("Muse").execute();
+        api.search().artists("Muse", CountryCode.US).execute();
+        api.search().artists("Muse", CountryCode.US, 10, 5).execute();
+    }
+
+    @Test
+    void testSearchAlbums() throws IOException {
+        api.search().albums("The Heist").execute();
+        api.search().albums("The Heist", CountryCode.US).execute();
+        api.search().albums("The Heist", CountryCode.US, 10, 5).execute();
+    }
+
+    @Test
+    void testSearchTracks() throws IOException {
+        api.search().tracks("Tonight").execute();
+        api.search().tracks("Tonight", CountryCode.US).execute();
+        api.search().tracks("Tonight", CountryCode.US, 10, 5).execute();
+    }
+
+    @Test
+    void testSearchPlaylists() throws IOException {
+        api.search().playlists("Best").execute();
+        api.search().playlists("Best", 10, 5).execute();
+    }
 }

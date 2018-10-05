@@ -19,21 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package com.wrapper.spotify.models.album;
+package com.wrapper.spotify.models.track;
 
+import com.google.gson.annotations.SerializedName;
 import com.wrapper.spotify.models.page.Page;
-import com.wrapper.spotify.models.track.SimpleTrack;
 import org.immutables.gson.Gson;
 import org.immutables.value.Value;
 
-@Gson.TypeAdapters(fieldNamingStrategy = true)
 @Value.Immutable
-public interface Album extends GenericReleasableAlbum {
+@Gson.TypeAdapters
+public interface TrackSearchResults {
 
-    int popularity();
-
-    // TODO restrictions
-
-    Page<SimpleTrack> tracks();
+    @SerializedName("tracks")
+    Page<Track> values();
 
 }

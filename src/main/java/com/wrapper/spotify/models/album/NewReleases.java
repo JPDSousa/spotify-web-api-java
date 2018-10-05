@@ -31,6 +31,6 @@ import org.immutables.value.Value;
 public interface NewReleases {
 
     @SerializedName("albums")
-    Page<NewRelease> values();
+    Page<ReleasableAlbum> values();
 
 }

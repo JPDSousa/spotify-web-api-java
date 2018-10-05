@@ -21,19 +21,10 @@
  ******************************************************************************/
 package com.wrapper.spotify.models.album;
 
-import com.wrapper.spotify.models.page.Page;
-import com.wrapper.spotify.models.track.SimpleTrack;
-import org.immutables.gson.Gson;
-import org.immutables.value.Value;
+public interface GenericReleasableAlbum extends GenericAlbum {
 
-@Gson.TypeAdapters(fieldNamingStrategy = true)
-@Value.Immutable
-public interface Album extends GenericReleasableAlbum {
+    String releaseDate();
 
-    int popularity();
-
-    // TODO restrictions
-
-    Page<SimpleTrack> tracks();
+    String releaseDatePrecision();
 
 }

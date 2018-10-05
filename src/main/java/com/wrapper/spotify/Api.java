@@ -36,4 +36,6 @@ public interface Api {
     LibraryApi library();
 
     PersonalizationApi personalization();
+
+    SearchApi search();
 }

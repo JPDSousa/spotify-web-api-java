@@ -75,7 +75,7 @@ public interface RetrofitApiConfig extends BaseUrlConfig {
     @SuppressWarnings("MagicNumber")
     @Value.Default
     default RateLimiter rateLimiter() {
-        return RateLimiter.create(20);
+        return RateLimiter.create(18);
     }
 
     @Value.Default
