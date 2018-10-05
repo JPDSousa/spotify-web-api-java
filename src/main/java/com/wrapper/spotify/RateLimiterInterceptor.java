@@ -28,11 +28,13 @@ import okhttp3.Response;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 @ThreadSafe
+//TODO this class needs a lot of refactoring
 final class RateLimiterInterceptor implements Interceptor {
 
     private static final Logger logger = Logger.getLogger(RateLimiterInterceptor.class.getName());
@@ -59,11 +61,24 @@ final class RateLimiterInterceptor implements Interceptor {
         final Request request = chain.request();
         final double rate = this.limiter.getRate();
         this.limiter.acquire();
+        return computeResponse(chain, request, rate);
+    }
+
+    private Response computeResponse(final Chain chain, final Request request, final double rate) throws IOException {
         Response response = chain.proceed(request);
         int retries = 0;
         while ((response.code() == 429) && (retries < this.maxRetries)) {
             response.close();
-            decreaseLimiter(rate - 5);
+            decreaseLimiter(rate - 3);
+            final int retryAfter = Integer.valueOf(response.header("Retry-After", "0"));
+            if (retryAfter > 0) {
+                try {
+                    Thread.sleep(Duration.ofSeconds(retryAfter).toMillis());
+                } catch (final InterruptedException e) {
+                    logger.info("Thread interrupted. Returning current response");
+                    return response;
+                }
+            }
             this.limiter.acquire();
             response = chain.proceed(request);
             retries++;
@@ -80,7 +95,7 @@ final class RateLimiterInterceptor implements Interceptor {
                 logger.info("Rate limiter set to " + target);
                 if (!this.isScheduled) {
                     this.isScheduled = true;
-                    this.scheduler.scheduleAtFixedRate(this::increaseLimiter, 1,1, TimeUnit.SECONDS);
+                    this.scheduler.scheduleAtFixedRate(this::increaseLimiter, 3,3, TimeUnit.SECONDS);
                 }
             }
         }
