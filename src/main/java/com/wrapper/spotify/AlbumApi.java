@@ -26,7 +26,6 @@ import com.wrapper.spotify.models.album.Album;
 import com.wrapper.spotify.models.album.Albums;
 import com.wrapper.spotify.models.page.Page;
 import com.wrapper.spotify.models.track.SimpleTrack;
-import com.wrapper.spotify.models.track.Track;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -40,14 +39,36 @@ public interface AlbumApi {
     String BASE_URL = "/v1/albums";
 
     @GET(BASE_URL + "/{id}")
+    Call<Album> getAlbum(@Path("id") String id);
+
+    @GET(BASE_URL + "/{id}")
     Call<Album> getAlbum(@Path("id") String id, @Query("market") CountryCode market);
+
+    @GET(BASE_URL)
+    Call<Albums> getAlbums(@Query("ids") String ids);
 
     @GET(BASE_URL)
     Call<Albums> getAlbums(@Query("ids") String ids, @Query("market") final CountryCode market);
 
+    default Call<Albums> getAlbums(final Collection<String> ids) {
+        return getAlbums(join(ids));
+    }
+
     default Call<Albums> getAlbums(final Collection<String> ids, final CountryCode market) {
         return getAlbums(join(ids), market);
     }
+
+    @GET(BASE_URL + "/{id}/tracks")
+    Call<Page<SimpleTrack>> getAlbumTracks(@Path("id") String id);
+
+    @GET(BASE_URL + "/{id}/tracks")
+    Call<Page<SimpleTrack>> getAlbumTracks(@Path("id") String id,
+                                           @Query("limit") int limit,
+                                           @Query("offset") int offset);
+
+    @GET(BASE_URL + "/{id}/tracks")
+    Call<Page<SimpleTrack>> getAlbumTracks(@Path("id") String id,
+                                           @Query("market") CountryCode market);
 
     @GET(BASE_URL + "/{id}/tracks")
     Call<Page<SimpleTrack>> getAlbumTracks(@Path("id") String id,

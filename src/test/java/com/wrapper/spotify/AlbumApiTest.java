@@ -21,6 +21,7 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
+import com.google.common.collect.ImmutableList;
 import com.neovisionaries.i18n.CountryCode;
 import com.wrapper.spotify.models.album.Album;
 import org.junit.jupiter.api.Test;
@@ -41,17 +42,27 @@ class AlbumApiTest extends RetrofitTest {
 
     @Test
     void testGetAlbums() throws IOException {
-        final String ids = "382ObEPsp2rxGrnsizN5TX,1A2GTWGtFfWp7KSQTwWOyo,2noRn2Aes5aoNVsU6iWThc";
+        final String id1 = "382ObEPsp2rxGrnsizN5TX";
+        final String id2 = "1A2GTWGtFfWp7KSQTwWOyo";
+        final String id3 = "2noRn2Aes5aoNVsU6iWThc";
+        final String ids = id1 + "," + id2 + "," + id3;
         final CountryCode code = CountryCode.ES;
 
         api.albums().getAlbums(ids, code).execute();
+        api.albums().getAlbums(ImmutableList.of(id1, id2, id3), code).execute();
+        api.albums().getAlbums(ids).execute();
+        api.albums().getAlbums(ImmutableList.of(id1, id2, id3)).execute();
     }
 
     @Test
     void testGetAlbumTracks() throws IOException {
         final String id = "6akEvsycLGftJxYudPjmqK";
+        final CountryCode market = CountryCode.AD;
 
-        api.albums().getAlbumTracks(id, 2, 0, CountryCode.AD).execute();
+        api.albums().getAlbumTracks(id).execute();
+        api.albums().getAlbumTracks(id, market).execute();
+        api.albums().getAlbumTracks(id, 2, 0).execute();
+        api.albums().getAlbumTracks(id, 2, 0, market).execute();
     }
 
 }
