@@ -42,6 +42,11 @@ public interface SearchApi {
 
     @GET(BASE_URL + "?type=artist")
     Call<ArtistSearchResults> artists(@Query("q") String query,
+                               @Query("limit") int limit,
+                               @Query("offset") int offset);
+
+    @GET(BASE_URL + "?type=artist")
+    Call<ArtistSearchResults> artists(@Query("q") String query,
                                @Query("market") CountryCode market,
                                @Query("limit") int limit,
                                @Query("offset") int offset);
@@ -54,6 +59,11 @@ public interface SearchApi {
 
     @GET(BASE_URL + "?type=album")
     Call<AlbumSearchResults> albums(@Query("q") String query,
+                             @Query("limit") int limit,
+                             @Query("offset") int offset);
+
+    @GET(BASE_URL + "?type=album")
+    Call<AlbumSearchResults> albums(@Query("q") String query,
                              @Query("market") CountryCode market,
                              @Query("limit") int limit,
                              @Query("offset") int offset);
@@ -63,6 +73,11 @@ public interface SearchApi {
 
     @GET(BASE_URL + "?type=track")
     Call<TrackSearchResults> tracks(@Query("q") String query, @Query("market") CountryCode market);
+
+    @GET(BASE_URL + "?type=track")
+    Call<TrackSearchResults> tracks(@Query("q") String query,
+                             @Query("limit") int limit,
+                             @Query("offset") int offset);
 
     @GET(BASE_URL + "?type=track")
     Call<TrackSearchResults> tracks(@Query("q") String query,

@@ -19,23 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package com.wrapper.spotify.models.album;
+package com.wrapper.spotify.dump;
 
-import com.wrapper.spotify.models.page.Page;
-import com.wrapper.spotify.models.track.SimpleTrack;
-import org.immutables.gson.Gson;
-import org.immutables.mongo.Mongo;
-import org.immutables.value.Value;
+import com.google.common.util.concurrent.FutureCallback;
 
-@Gson.TypeAdapters(fieldNamingStrategy = true)
-@Value.Immutable
-@Mongo.Repository("albums")
-public interface Album extends GenericReleasableAlbum {
+import javax.annotation.Nullable;
+import java.util.Objects;
 
-    int popularity();
+public final class MongoOperationHandler implements FutureCallback<Integer> {
 
-    // TODO restrictions
+    public static FutureCallback<Integer> create() {
+        return new MongoOperationHandler();
+    }
 
-    Page<SimpleTrack> tracks();
+    private MongoOperationHandler() {
+    }
+
+    @Override
+    public void onSuccess(@Nullable final Integer result) {
+        if (Objects.isNull(result) || (result != 1)) {
+            throw new IllegalArgumentException("Operation on object failed: " + result);
+        }
+    }
+
+    @Override
+    public void onFailure(final Throwable t) {
+        throw new IllegalArgumentException("Operation failed: ", t);
+    }
 
 }
