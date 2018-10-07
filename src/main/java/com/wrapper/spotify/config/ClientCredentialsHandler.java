@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package com.wrapper.spotify;
+package com.wrapper.spotify.config;
 
 import com.wrapper.spotify.models.authentication.ClientCredentials;
 

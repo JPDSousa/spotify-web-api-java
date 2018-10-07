@@ -21,6 +21,8 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
+import com.wrapper.spotify.config.ClientCredentialsHandler;
+import com.wrapper.spotify.config.RequestHandler;
 import com.wrapper.spotify.models.authentication.ClientCredentials;
 import com.wrapper.spotify.models.authentication.ImmutableClientCredentials;
 

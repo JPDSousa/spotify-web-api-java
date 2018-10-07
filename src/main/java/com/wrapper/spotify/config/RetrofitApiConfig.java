@@ -19,16 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package com.wrapper.spotify;
+package com.wrapper.spotify.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.RateLimiter;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import org.immutables.value.Value;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -86,15 +90,28 @@ public interface RetrofitApiConfig extends BaseUrlConfig {
     CredentialsProvider credentials();
 
     @Value.Default
+    default List<Interceptor> interceptors() {
+        return ImmutableList.of(new SpotifyAuthenticator(credentials().clientCredentialsSupplier()),
+                new RateLimiterInterceptor(rateLimiter(), 5, scheduler()));
+    }
+
+    @Value.Default
     default OkHttpClient httpClient() {
         final Duration readTimeout = readTimeout();
         final Duration connectTimeout = connectTimeout();
-        return new OkHttpClient.Builder()
-                .addInterceptor(new SpotifyAuthenticator(credentials().clientCredentialsSupplier()))
-                .addInterceptor(new RateLimiterInterceptor(rateLimiter(), 5, scheduler()))
+        final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        interceptors().forEach(builder::addInterceptor);
+
+        return builder
                 .readTimeout(readTimeout.getSeconds(), TimeUnit.SECONDS)
                 .connectTimeout(connectTimeout.getSeconds(), TimeUnit.SECONDS)
                 .build();
+    }
+
+    @Value.Default
+    default Executor threadPool() {
+        final Runtime runtime = Runtime.getRuntime();
+        return Executors.newFixedThreadPool(runtime.availableProcessors() +1);
     }
 
     @Value.Default
@@ -103,6 +120,7 @@ public interface RetrofitApiConfig extends BaseUrlConfig {
                 .client(httpClient())
                 .baseUrl(url())
                 .addConverterFactory(GsonConverterFactory.create(credentials().gson()))
+                .callbackExecutor(threadPool())
                 .build();
     }
 

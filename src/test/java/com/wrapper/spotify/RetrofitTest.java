@@ -21,6 +21,10 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
+import com.wrapper.spotify.config.CredentialsProvider;
+import com.wrapper.spotify.config.ImmutableCredentialsProvider;
+import com.wrapper.spotify.config.ImmutableRetrofitApiConfig;
+import com.wrapper.spotify.config.RetrofitApiConfig;
 import com.wrapper.spotify.utils.TestDispatcher;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterAll;

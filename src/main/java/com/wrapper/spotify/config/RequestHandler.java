@@ -19,24 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package com.wrapper.spotify;
+package com.wrapper.spotify.config;
 
-import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 
-public interface BaseUrlConfig {
+import java.io.IOException;
 
-    String host();
+@FunctionalInterface
+public interface RequestHandler {
 
-    int port();
-
-    String scheme();
-
-    default HttpUrl url() {
-        return new HttpUrl.Builder()
-                .host(host())
-                .port(port())
-                .scheme(scheme())
-                .build();
-    }
+    Response handle(Request request) throws IOException;
 
 }

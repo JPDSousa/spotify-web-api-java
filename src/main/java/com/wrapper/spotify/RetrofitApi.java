@@ -21,6 +21,7 @@
  ******************************************************************************/
 package com.wrapper.spotify;
 
+import com.wrapper.spotify.config.RetrofitApiConfig;
 import retrofit2.Retrofit;
 
 public final class RetrofitApi implements Api {
